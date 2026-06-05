@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hypercube of Physics — Plancks Hexadekachor</title>
+  <meta name="description" content="Ein geometrisches Modell der sechzehn Bereiche der Physik, basierend auf Plancks vier Fundamentalkonstanten und dem Hexadekachor." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --off-white: #f8f6f1;
+      --ink: #1a1a18;
+      --ink-muted: #5a5a54;
+      --ink-faint: #a8a89e;
+      --accent: #2a2a78;
+      --accent-light: #e8e8f5;
+      --rule: rgba(26,26,24,0.12);
+      --serif: 'EB Garamond', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--off-white); color: var(--ink); font-size: 15px; line-height: 1.6; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--off-white);
+      border-bottom: 1px solid var(--rule);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem; height: 56px;
+    }
+    .nav-logo { font-family: var(--serif); font-size: 16px; letter-spacing: 0.04em; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); text-decoration: none; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+    .nav-toggle span { display: block; width: 22px; height: 1.5px; background: var(--ink); margin: 5px 0; transition: 0.2s; }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    .lang-switch { display: flex; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+    .lang-switch a { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.7rem; text-decoration: none; color: var(--ink-muted); border-right: 1px solid var(--rule); transition: background 0.15s, color 0.15s; }
+    .lang-switch a:last-child { border-right: none; }
+    .lang-switch a:hover { background: var(--accent-light); color: var(--ink); }
+    .lang-switch a.active { background: var(--ink); color: #fff; }
+
+    /* ── HERO ── */
+    .hero { padding: 8rem 3rem 6rem; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; max-width: 1100px; margin: 0 auto; }
+    .hero-left h1 { font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.01em; margin-bottom: 1.5rem; }
+    .hero-left h1 em { font-style: italic; }
+    .hero-left p { font-size: 14px; line-height: 1.8; color: var(--ink-muted); max-width: 38ch; }
+    .hero-left .hero-sub { margin-top: 1.5rem; font-size: 12px; color: var(--ink-faint); }
+    .hero-right { aspect-ratio: 1/1; background: var(--ink); border-radius: 2px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .hero-right svg { width: 80%; height: 80%; opacity: 0.9; }
+    .hero-badge { position: absolute; bottom: 1.2rem; left: 1.2rem; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+
+    /* ── SECTIONS ── */
+    .section { max-width: 1100px; margin: 0 auto; padding: 5rem 3rem; }
+    .section-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 3rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule); }
+    .section-border { border-bottom: 1px solid var(--rule); }
+
+    /* ── INTRO ── */
+    .intro-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; }
+    .intro-grid h2 { font-family: var(--serif); font-size: 2rem; font-weight: 400; line-height: 1.2; margin-bottom: 1rem; }
+    .intro-constants { display: flex; flex-direction: column; gap: 0; margin-top: 2rem; }
+    .constant-row { display: flex; align-items: baseline; gap: 1rem; font-size: 13px; color: var(--ink-muted); padding: 0.6rem 0; border-bottom: 1px solid var(--rule); }
+    .constant-sym { font-family: var(--serif); font-size: 18px; font-style: italic; color: var(--ink); min-width: 2.5rem; }
+    .intro-text p { font-size: 14px; line-height: 1.9; color: var(--ink-muted); margin-bottom: 1rem; }
+    .intro-text p:last-child { margin-bottom: 0; }
+
+    /* ── MODELS ── */
+    .models-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); }
+    .model-card { padding: 2.5rem 2rem; border-right: 1px solid var(--rule); transition: background 0.15s; }
+    .model-card:last-child { border-right: none; }
+    .model-card:hover { background: rgba(42,42,120,0.03); }
+    .model-num { font-family: var(--serif); font-size: 13px; color: var(--accent); margin-bottom: 1.5rem; }
+    .model-icon { width: 100%; aspect-ratio: 4/3; background: #eeeee8; border-radius: 1px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; }
+    .model-card h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; margin-bottom: 0.5rem; }
+    .model-card p { font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
+    .model-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 1.2rem; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); text-decoration: none; }
+    .model-link:hover { text-decoration: underline; }
+
+    /* ── THEORIES ── */
+    .theories-intro { display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; margin-bottom: 4rem; }
+    .theories-intro h2 { font-family: var(--serif); font-size: 2rem; font-weight: 400; }
+    .theories-intro p { font-size: 14px; line-height: 1.9; color: var(--ink-muted); }
+    .theories-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+    .theory-cell { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 1.5rem 1.2rem; transition: background 0.15s; }
+    .theory-cell:hover { background: rgba(42,42,120,0.04); }
+    .theory-cell.tore { background: var(--accent-light); }
+    .theory-coords { font-family: var(--serif); font-size: 11px; font-style: italic; color: var(--ink-faint); margin-bottom: 0.5rem; }
+    .theory-name { font-size: 13px; font-weight: 500; line-height: 1.3; color: var(--ink); }
+    .theory-thumb { width: 100%; aspect-ratio: 3/2; background: #eeeee8; border-radius: 1px; margin-top: 0.8rem; display: flex; align-items: center; justify-content: center; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); overflow: hidden; }
+    .theory-thumb.dark { background: var(--ink); color: rgba(255,255,255,0.25); }
+
+    /* ── PROJECTIONS ── */
+    .proj-section { background: var(--ink); padding: 5rem 3rem; }
+    .proj-inner { max-width: 1100px; margin: 0 auto; }
+    .proj-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 3rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .proj-head { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 4rem; }
+    .proj-head h2 { font-family: var(--serif); font-size: 2rem; font-weight: 400; color: #fff; }
+    .proj-head p { font-size: 14px; line-height: 1.9; color: rgba(255,255,255,0.5); }
+    .proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.08); }
+    .proj-card { background: var(--ink); padding: 2.5rem 2rem; }
+    .proj-card h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: #fff; margin-bottom: 0.75rem; }
+    .proj-card p { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.8; }
+    .proj-visual { width: 100%; aspect-ratio: 16/9; border: 1px solid rgba(255,255,255,0.08); border-radius: 1px; margin-top: 1.5rem; display: flex; align-items: center; justify-content: center; }
+    .proj-visual svg { width: 60%; height: 60%; opacity: 0.4; }
+
+    /* ── XR ── */
+    .xr-section { background: var(--accent-light); padding: 5rem 3rem; }
+    .xr-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .xr-text h2 { font-family: var(--serif); font-size: 2rem; font-weight: 400; margin-bottom: 1rem; }
+    .xr-text p { font-size: 14px; line-height: 1.9; color: var(--ink-muted); margin-bottom: 1rem; }
+    .xr-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(42,42,120,0.1); border: 1px solid rgba(42,42,120,0.2); padding: 0.4rem 0.9rem; border-radius: 2px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; }
+    .xr-device { aspect-ratio: 4/3; background: var(--ink); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.2); }
+
+    /* ── GAMES ── */
+    .games-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .game-card { border: 1px solid var(--rule); padding: 2rem; border-radius: 2px; transition: border-color 0.15s, background 0.15s; }
+    .game-card:hover { border-color: var(--accent); background: var(--accent-light); }
+    .game-card.placeholder { opacity: 0.5; }
+    .game-tag { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .game-card h3 { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; margin-bottom: 0.5rem; }
+    .game-card p { font-size: 13px; color: var(--ink-muted); line-height: 1.7; }
+    .game-visual { width: 100%; aspect-ratio: 16/9; margin-bottom: 1.5rem; border-radius: 1px; background: #0a0a18; position: relative; overflow: hidden; }
+    .star { position: absolute; background: #fff; border-radius: 50%; }
+
+    /* ── SURVEYS ── */
+    .survey-tabs { display: flex; gap: 0; border: 1px solid var(--rule); border-radius: 2px; width: fit-content; margin-bottom: 2.5rem; overflow: hidden; }
+    .survey-tab-btn { background: none; border: none; border-right: 1px solid var(--rule); padding: 0.6rem 1.4rem; font-family: var(--sans); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); cursor: pointer; transition: background 0.15s, color 0.15s; white-space: nowrap; }
+    .survey-tab-btn:last-child { border-right: none; }
+    .survey-tab-btn:hover { background: var(--accent-light); color: var(--ink); }
+    .survey-tab-btn.active { background: var(--ink); color: #fff; }
+    .survey-panel { display: none; }
+    .survey-panel.visible { display: block; }
+    .survey-intro { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid var(--rule); }
+    .survey-intro h3 { font-family: var(--serif); font-size: 1.6rem; font-weight: 400; line-height: 1.2; }
+    .survey-intro p { font-size: 14px; line-height: 1.9; color: var(--ink-muted); }
+    .survey-audience { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .survey-frame-wrap { width: 100%; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; background: #fff; }
+    .survey-frame-wrap iframe { width: 100%; display: block; border: none; }
+    .survey-lang-note { font-size: 12px; color: var(--ink-faint); font-style: italic; margin-bottom: 1rem; padding: 0.6rem 1rem; background: rgba(42,42,120,0.04); border-left: 2px solid var(--accent); border-radius: 1px; }
+    .survey-link-card { border: 1px solid var(--rule); border-radius: 2px; padding: 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; background: var(--accent-light); }
+    .survey-link-card h3 { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; margin-bottom: 0.4rem; }
+    .survey-link-card p { font-size: 13px; color: var(--ink-muted); line-height: 1.7; max-width: 50ch; }
+    .survey-link-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--ink); color: #fff; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 2px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; transition: opacity 0.15s; flex-shrink: 0; }
+    .survey-link-btn:hover { opacity: 0.8; }
+
+    /* ── FOOTER ── */
+    .footer-wrap { border-top: 1px solid var(--rule); background: var(--off-white); }
+    footer { max-width: 1100px; margin: 0 auto; padding: 3rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; }
+    footer p { font-size: 12px; color: var(--ink-faint); line-height: 1.8; }
+    footer h4 { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1rem; }
+    footer a { font-size: 12px; color: var(--ink-faint); display: block; text-decoration: none; margin-bottom: 0.4rem; }
+    footer a:hover { color: var(--ink); }
+    .footer-logo { font-family: var(--serif); font-size: 1rem; color: var(--ink); margin-bottom: 0.75rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { display: none; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: var(--off-white); border-bottom: 1px solid var(--rule); padding: 1.5rem; gap: 1.2rem; z-index: 99; }
+      .nav-toggle { display: block; }
+      .lang-switch { display: flex; }
+      .hero { grid-template-columns: 1fr; padding: 4rem 1.5rem 3rem; gap: 2rem; }
+      .section { padding: 3rem 1.5rem; }
+      .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .models-grid { grid-template-columns: 1fr; }
+      .model-card { border-right: none; border-bottom: 1px solid var(--rule); }
+      .model-card:last-child { border-bottom: none; }
+      .theories-intro { grid-template-columns: 1fr; gap: 1.5rem; }
+      .theories-grid { grid-template-columns: repeat(2, 1fr); }
+      .proj-head { grid-template-columns: 1fr; gap: 1.5rem; }
+      .proj-grid { grid-template-columns: 1fr; }
+      .proj-section { padding: 3rem 1.5rem; }
+      .xr-section { padding: 3rem 1.5rem; }
+      .xr-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .games-grid { grid-template-columns: 1fr; }
+      .survey-intro { grid-template-columns: 1fr; gap: 1rem; }
+      .survey-tabs { flex-wrap: wrap; width: 100%; }
+      .survey-tab-btn { flex: 1 1 auto; border-right: none; border-bottom: 1px solid var(--rule); }
+      .survey-tab-btn:last-child { border-bottom: none; }
+      .survey-link-card { flex-direction: column; align-items: flex-start; }
+      footer { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 1.5rem; }
+    }
+    @media (max-width: 560px) {
+      .theories-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="#">
+    <img src="images/logo.png" alt="Hypercube of Physics" style="height:40px;width:auto;vertical-align:middle;margin-right:10px;">
+    Hypercube of Physics
+  </a>
+  <div class="nav-links" id="nav-links">
+    <a href="#projekt">Projekt</a>
+    <a href="#theorien">Theorien</a>
+    <a href="#modelle">Modelle</a>
+    <a href="#projektionen">Projektionen</a>
+    <a href="#xr">XR</a>
+    <a href="#spiele">Bereiche</a>
+    <a href="#umfragen">Umfragen</a>
+    <a href="#kontakt">Kontakt</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <a href="index.html">EN</a>
+      <a href="index_de.html" class="active">DE</a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Navigation umschalten">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div style="border-bottom: 1px solid var(--rule);">
+  <div class="hero">
+    <div class="hero-left">
+      <h1>Physik abbilden<br><em>in vier<br>Dimensionen</em></h1>
+      <p>Ein geometrisches Modell der sechzehn Bereiche der Physik, basierend auf Plancks vier Fundamentalkonstanten und ihrem vierdimensionalen dualen Polytop: dem Hexadekachor.</p>
+      <p class="hero-sub">Exzellenzcluster Matters of Activity &middot;<br>Humboldt-Universit&auml;t zu Berlin</p>
+    </div>
+    <div class="hero-right">
+      <img src="images/hexadecachoron.gif" alt="Perspektivische Projektion von Plancks Hexadekachor"
+        style="width:90%;height:90%;object-fit:contain;">
+      <span class="hero-badge">Plancks Hexadekachor &mdash; 4D-Projektion</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── ÜBER DAS PROJEKT ── -->
+<div class="section-border" id="projekt">
+  <div class="section">
+    <p class="section-label">&Uuml;ber das Projekt</p>
+    <div class="intro-grid">
+      <div>
+        <h2>Vier Konstanten,<br>sechzehn Theorien</h2>
+        <div class="intro-constants">
+          <div class="constant-row"><span class="constant-sym">G</span><span>Newtonsche Gravitationskonstante</span></div>
+          <div class="constant-row"><span class="constant-sym">c&#x207B;&#xB9;</span><span>Inverse Lichtgeschwindigkeit</span></div>
+          <div class="constant-row"><span class="constant-sym">h</span><span>Plancksches Wirkungsquantum</span></div>
+          <div class="constant-row"><span class="constant-sym">k<sub>B</sub></span><span>Boltzmann-Konstante</span></div>
+        </div>
+      </div>
+      <div class="intro-text">
+        <p>Im Jahr 1899 identifizierte Max Planck vier Fundamentalkonstanten, die universelle Einheiten f&uuml;r L&auml;nge, Zeit, Masse und Temperatur definieren. Der <em>Hypercube of Physics</em> baut auf dieser Erkenntnis auf: Durch die Abbildung der 2&#x2074;&nbsp;=&nbsp;16 Kombinationen dieser Konstanten auf die Ecken eines vierdimensionalen Hyperwürfels entspricht jede Ecke einer eigenen physikalischen Theorie.</p>
+        <p>Um diese Struktur greifbar zu machen, arbeiten wir mit dem Hexadekachor &mdash; dem vierdimensionalen dualen Polytop des Hyperwürfels. Seine sechzehn tetraedrischen Flächen repr&auml;sentieren die sechzehn Theorien: von der Newtonschen Mechanik (0,&nbsp;0,&nbsp;0,&nbsp;0) im Zentrum bis zur bislang unentdeckten Theorie von wirklich allem (G,&nbsp;c&#x207B;&#xB9;,&nbsp;h,&nbsp;k<sub>B</sub>) an seiner &auml;u&szlig;ersten Schale.</p>
+        <p>Dieses Projekt entwickelt physische Modelle, Projektionen und interaktive XR-Erlebnisse, um diese Struktur f&uuml;r Sch&uuml;ler:innen, Lehrende und die &Ouml;ffentlichkeit zug&auml;nglich zu machen.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODELLE ── -->
+<div class="section-border" id="modelle">
+  <div class="section">
+    <p class="section-label">Physische Modelle</p>
+    <div class="models-grid">
+
+      <div class="model-card">
+        <p class="model-num">01 &mdash; 3D-Druck</p>
+        <div class="model-icon">
+          <img src="images/planckplay_3dpieces.png" alt="PlanckPlay 3D printed puzzle pieces" style="width:100%;height:100%;object-fit:cover;border-radius:1px;">
+        </div>
+        <h3>PlanckPlay-Puzzle</h3>
+        <p>15 modulare 3D-gedruckte Tetraeder, die zum 16. zusammengesetzt werden &mdash; der TORE. Entwickelt f&uuml;r den Heimdruck, Museumsnutzung und den Einsatz im Unterricht. Dateien auf Thingiverse verf&uuml;gbar.</p>
+        <a class="model-link" href="https://www.thingiverse.com/thing:7017525" target="_blank" rel="noopener">Auf Thingiverse ansehen &rarr;</a>
+      </div>
+
+      <div class="model-card">
+        <p class="model-num">02 &mdash; Lasergeschnittener Flachbausatz</p>
+        <div class="model-icon">
+          <img src="images/planckplay_lasercut.jpg" alt="PlanckPlay laser-cut flat pack model" style="width:100%;height:100%;object-fit:cover;border-radius:1px;">
+        </div>
+        <h3>Museumsedition</h3>
+        <p>Pr&auml;zisionsgefertigter Flachbausatz f&uuml;r den Museumsshop. Eingeritzte Falzlinien, steckbare Montage &mdash; kein Kleber erforderlich. Jede Fl&auml;che ist mit der zugeh&ouml;rigen Theorie beschriftet.</p>
+        <span class="model-link">Demnächst verfügbar &rarr;</span>
+      </div>
+
+      <div class="model-card">
+        <p class="model-num">03 &mdash; Papierbastelei</p>
+        <div class="model-icon">
+           <img src="images/planckplay_paper.jpg" alt="Pieces of the paper crafted PlanckPlay model" style="width:100%;height:100%;object-fit:cover;border-radius:1px;">
+        </div>
+        <h3>Bastelversion</h3>
+        <p>Druckbares Netz zum Ausschneiden und Zusammenkleben. Entwickelt f&uuml;r Schulklassen und Workshops &mdash; jede Fl&auml;che mit Physiktheorie und Koordinaten der Planckschen Konstanten beschriftet.</p>
+        <span class="model-link">PDF herunterladen &rarr;</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+          </svg>
+        </div>
+        <h3>Bastelversion</h3>
+        <p>Druckbares Netz zum Ausschneiden und Zusammenkleben. Entwickelt f&uuml;r Schulklassen und Workshops &mdash; jede Fl&auml;che mit Physiktheorie und Koordinaten der Planckschen Konstanten beschriftet.</p>
+        <span class="model-link">PDF herunterladen &rarr;</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── THEORIEN ── -->
+<div class="section-border" id="theorien">
+  <div class="section">
+    <p class="section-label">Die 16 Theorien</p>
+    <div class="theories-intro">
+      <div><h2>Eine Karte des physikalischen Wissens</h2></div>
+      <div><p>Jedes Tetraeder im Hexadekachor entspricht einer der sechzehn m&ouml;glichen Kombinationen von Plancks Konstanten. Acht sind etablierte physikalische Theorien. Sechs bleiben offene Probleme. Zwei &mdash; darunter die Theorie von wirklich allem &mdash; sind spekulative Grenzbereiche.</p></div>
+    </div>
+
+    <div class="theories-grid">
+      <div class="theory-cell">
+        <div class="theory-coords">(0, 0, 0, 0)</div>
+        <div class="theory-name">Newtonsche Mechanik</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(G, 0, 0, 0)</div>
+        <div class="theory-name">Newtonsche Gravitation</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(0, c&#x207B;&#xB9;, 0, 0)</div>
+        <div class="theory-name">Spezielle Relativit&auml;tstheorie</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(0, 0, h, 0)</div>
+        <div class="theory-name">Quantenmechanik</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(0, 0, 0, k<sub>B</sub>)</div>
+        <div class="theory-name">Klassische statistische Mechanik</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(G, c&#x207B;&#xB9;, 0, 0)</div>
+        <div class="theory-name">Allgemeine Relativit&auml;tstheorie</div>
+        <div class="theory-thumb dark">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(0, c&#x207B;&#xB9;, h, 0)</div>
+        <div class="theory-name">Quantenfeldtheorie</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(0, 0, h, k<sub>B</sub>)</div>
+        <div class="theory-name">Quantenstatistische Mechanik</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(0, c&#x207B;&#xB9;, 0, k<sub>B</sub>)</div>
+        <div class="theory-name">Relativistische Thermodynamik</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(G, 0, h, 0)</div>
+        <div class="theory-name">Nichtrelativistische Quantengravitation</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(G, 0, 0, k<sub>B</sub>)</div>
+        <div class="theory-name">Gravitations-Thermodynamik</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(0, c&#x207B;&#xB9;, h, k<sub>B</sub>)</div>
+        <div class="theory-name">Relativistische Quantenstatistik</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(G, c&#x207B;&#xB9;, h, 0)</div>
+        <div class="theory-name">Theorie von allem (TOE)</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(G, c&#x207B;&#xB9;, 0, k<sub>B</sub>)</div>
+        <div class="theory-name">Relativistische Gravitationsthermodynamik</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell">
+        <div class="theory-coords">(G, 0, h, k<sub>B</sub>)</div>
+        <div class="theory-name">Quantengravitations-Statistik</div>
+        <div class="theory-thumb">Bildplatzhalter</div>
+      </div>
+      <div class="theory-cell tore">
+        <div class="theory-coords">(G, c&#x207B;&#xB9;, h, k<sub>B</sub>)</div>
+        <div class="theory-name">Theorie von wirklich allem (TORE)</div>
+        <div class="theory-thumb dark">Bildplatzhalter</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROJEKTIONEN ── -->
+<div class="proj-section" id="projektionen">
+  <div class="proj-inner">
+    <p class="proj-label">Geometrie &mdash; Projektionen</p>
+    <div class="proj-head">
+      <h2>Von vier Dimensionen<br>nach drei</h2>
+      <p>Das Hexadekachor und der Tesserakt k&ouml;nnen nicht direkt wahrgenommen werden. Wir machen sie durch Projektionen sichtbar &mdash; Reduktionen auf niedrigerdimensionale Darstellungen, die die wesentlichen Strukturbeziehungen zwischen den Theorien erhalten.</p>
+    </div>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <h3>Hexadekachor-Projektionen</h3>
+        <p>Das duale Polytop des Tesserakts, begrenzt durch 16 Tetraeder. Verschiedene Projektionswinkel offenbaren die verschachtelte Tetraederstruktur, die Plancks Physikmodell zugrunde liegt.</p>
+        <div class="proj-visual">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g stroke="#fff" stroke-width="0.7" fill="none">
+              <polygon points="100,20 170,150 30,150"/>
+              <polygon points="100,50 145,135 55,135" opacity="0.7"/>
+              <polygon points="100,70 130,125 70,125" opacity="0.5"/>
+              <line x1="30" y1="150" x2="170" y2="150" opacity="0.3"/>
+              <line x1="100" y1="20" x2="100" y2="150" opacity="0.3"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="proj-card">
+        <h3>Tesserakt-Projektionen</h3>
+        <p>Der vierdimensionale Hyperwürfel, projiziert in 3D und 2D. Der Bronstein&ndash;Selmanov-W&uuml;rfel der Physik ist ein 3D-Schatten dieser Struktur, wenn die k<sub>B</sub>-Achse entfernt wird.</p>
+        <div class="proj-visual">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g stroke="#fff" stroke-width="0.7" fill="none">
+              <rect x="60" y="60" width="80" height="80"/>
+              <rect x="40" y="40" width="80" height="80" opacity="0.5"/>
+              <line x1="40" y1="40" x2="60" y2="60" opacity="0.4"/>
+              <line x1="120" y1="40" x2="140" y2="60" opacity="0.4"/>
+              <line x1="40" y1="120" x2="60" y2="140" opacity="0.4"/>
+              <line x1="120" y1="120" x2="140" y2="140" opacity="0.4"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── XR-APP ── -->
+<div class="xr-section" id="xr">
+  <div class="xr-inner">
+    <div class="xr-text">
+      <span class="xr-badge">&#9679; Demnächst</span>
+      <h2>In erweiterter Realit&auml;t erkunden</h2>
+      <p>Eine XR-Anwendung, mit der Sie das Hexadekachor im dreidimensionalen Raum navigieren k&ouml;nnen. Tauchen Sie in jede Theorie ein, verstehen Sie ihre physikalische Bedeutung und visualisieren Sie ihre Beziehung zu benachbarten Theorien.</p>
+      <p>Die App wird im Rahmen eines Lehrportfolios f&uuml;r den Physikunterricht an weiterf&uuml;hrenden Schulen entwickelt und &uuml;ber das ProValid-Programm der IBB Business Team Berlin validiert.</p>
+      <a class="model-link" href="mailto:contact@planckplay.de">F&uuml;r Vorabzugang registrieren &rarr;</a>
+    </div>
+    <div class="xr-device">XR-App-Vorschau</div>
+  </div>
+</div>
+
+<!-- ── INTERAKTIVE BEREICHE ── -->
+<div class="section-border" id="spiele">
+  <div class="section">
+    <p class="section-label">Interaktive Bereiche</p>
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:4rem;margin-bottom:3rem;">
+      <h2 style="font-family:var(--serif);font-size:2rem;font-weight:400;">Theorie im Spiel</h2>
+      <p style="font-size:14px;line-height:1.9;color:var(--ink-muted);">Jede interaktive Umgebung erkundet eine oder mehrere der sechzehn Theorien spielerisch. Navigieren Sie durch Ph&auml;nomene, die normalerweise unsichtbar sind &mdash; von der Quantensuperposition bis zur relativistischen Zeitdilatation &mdash; als r&auml;umliche, verk&ouml;rperte Erlebnisse.</p>
+    </div>
+    <div class="games-grid">
+
+      <div class="game-card">
+        <div class="game-visual">
+          <div class="star" style="width:2px;height:2px;top:20%;left:30%"></div>
+          <div class="star" style="width:1px;height:1px;top:40%;left:60%;opacity:.7"></div>
+          <div class="star" style="width:3px;height:3px;top:65%;left:20%;opacity:.9"></div>
+          <div class="star" style="width:1px;height:1px;top:25%;left:75%;opacity:.6"></div>
+          <div class="star" style="width:2px;height:2px;top:75%;left:55%;opacity:.8"></div>
+          <div class="star" style="width:1px;height:1px;top:50%;left:45%"></div>
+          <div class="star" style="width:2px;height:2px;top:15%;left:50%;opacity:.5"></div>
+          <div class="star" style="width:1px;height:1px;top:80%;left:80%;opacity:.7"></div>
+          <div class="star" style="width:1px;height:1px;top:35%;left:15%;opacity:.6"></div>
+          <div class="star" style="width:2px;height:2px;top:55%;left:88%;opacity:.5"></div>
+          <svg viewBox="0 0 320 180" width="100%" height="100%" style="position:absolute;top:0;left:0" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="160" cy="90" r="50" stroke="rgba(255,255,100,0.15)" stroke-width="0.5" fill="none"/>
+            <circle cx="160" cy="90" r="25" stroke="rgba(255,255,100,0.1)" stroke-width="0.5" fill="none"/>
+            <circle cx="160" cy="90" r="6" fill="rgba(255,240,100,0.6)"/>
+            <line x1="160" y1="90" x2="200" y2="55" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+            <circle cx="200" cy="55" r="2.5" fill="rgba(150,200,255,0.7)"/>
+          </svg>
+        </div>
+        <p class="game-tag">Astrophysik &middot; Newtonsche Gravitation &middot; Allgemeine Relativit&auml;tstheorie</p>
+        <h3>Finde deinen Stern</h3>
+        <p>Eine Sternenkarte des Nachthimmels. Interagieren Sie mit Sternbildern, Galaxien, Planeten und leuchtenden Objekten &mdash; und verfolgen Sie die Physik, die jedes einzelne davon beherrscht: von Newtonschen Umlaufbahnen bis zur relativistischen Lichtablenkung an massereichen K&ouml;rpern.</p>
+      </div>
+
+      <div class="game-card placeholder">
+        <div class="game-visual" style="background:#0a0a12;border:1px solid rgba(255,255,255,0.05)">
+          <svg viewBox="0 0 320 180" width="50%" height="50%" xmlns="http://www.w3.org/2000/svg" style="opacity:0.3" aria-hidden="true">
+            <rect x="80" y="40" width="160" height="100" stroke="#fff" stroke-width="0.5" fill="none"/>
+            <line x1="80" y1="40" x2="240" y2="140" stroke="#fff" stroke-width="0.3"/>
+            <line x1="240" y1="40" x2="80" y2="140" stroke="#fff" stroke-width="0.3"/>
+          </svg>
+        </div>
+        <p class="game-tag">Bereich &mdash; demnächst</p>
+        <h3>Platzhalter</h3>
+        <p>Eine zuk&uuml;nftige interaktive Umgebung, die eine oder mehrere Theorien des Hexadekachors erkundet. Vorschl&auml;ge und Kooperationen willkommen.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── UMFRAGEN ── -->
+<div class="section-border" id="umfragen">
+  <div class="section">
+    <p class="section-label">Forschungsumfragen</p>
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:4rem;margin-bottom:3rem;">
+      <h2 style="font-family:var(--serif);font-size:2rem;font-weight:400;line-height:1.2;">Mitmachen &amp;<br>uns helfen</h2>
+      <p style="font-size:14px;line-height:1.9;color:var(--ink-muted);">Wir erheben Daten zur Bewertung der bildungsbezogenen Wirkung von PlanckPlay und dem Hypercube of Physics. Ihr Feedback flie&szlig;t direkt in die Weiterentwicklung neuer Modelle, XR-Erlebnisse und Lehrmaterialien ein. Bitte w&auml;hlen Sie die Umfrage, die Ihrem Profil am besten entspricht.</p>
+    </div>
+
+    <div class="survey-tabs">
+      <button class="survey-tab-btn" onclick="showSurvey('enthusiasts')">Wissenschaftsbegeisterte</button>
+      <button class="survey-tab-btn" onclick="showSurvey('students')">Sch&uuml;ler:innen</button>
+      <button class="survey-tab-btn" onclick="showSurvey('teachers')">Lehrkr&auml;fte</button>
+      <button class="survey-tab-btn" onclick="showSurvey('kids')">Kinder</button>
+    </div>
+
+    <!-- Panel 1 -->
+    <div class="survey-panel" id="panel-enthusiasts">
+      <div class="survey-intro">
+        <div>
+          <p class="survey-audience">&#9679; F&uuml;r Erwachsene</p>
+          <h3>Wissenschaftsbegeisterte</h3>
+        </div>
+        <p>Diese Umfrage richtet sich an Besucher:innen, Museumsg&auml;ste und alle, die ein allgemeines Interesse an Physik haben und mit dem Hexadekachor-Modell oder PlanckPlay interagiert haben. Sie dauert ca. 5&ndash;8 Minuten.</p>
+      </div>
+      <p class="survey-lang-note">Hinweis: Diese Umfrage ist auf Englisch verf&uuml;gbar. / Note: This survey is available in English only.</p>
+      <div class="survey-frame-wrap">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdy7V--VRBaL5pmzamtaOss-EfA6qlO26pxttlc3jCAReSsTA/viewform?embedded=true" height="4433" frameborder="0" marginheight="0" marginwidth="0" title="Umfrage für Wissenschaftsbegeisterte">Wird geladen&hellip;</iframe>
+      </div>
+    </div>
+
+    <!-- Panel 2 -->
+    <div class="survey-panel" id="panel-students">
+      <div class="survey-intro">
+        <div>
+          <p class="survey-audience">&#9679; F&uuml;r Sch&uuml;ler:innen</p>
+          <h3>Sch&uuml;ler:innen</h3>
+        </div>
+        <p>Diese Umfrage richtet sich an Sch&uuml;ler:innen der Sekundarstufe und Studierende, die den Hypercube of Physics im Unterricht oder in einem Workshop kennengelernt haben. Sie dauert ca. 5&ndash;7 Minuten.</p>
+      </div>
+      <p class="survey-lang-note">Hinweis: Diese Umfrage ist auf Englisch verf&uuml;gbar. / Note: This survey is available in English only.</p>
+      <div class="survey-frame-wrap">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeE8oy3dVc3W-UAMGpwqHjyQPMVYyF976vCOXGp_43sFghshA/viewform?embedded=true" height="3937" frameborder="0" marginheight="0" marginwidth="0" title="Umfrage für Schülerinnen und Schüler">Wird geladen&hellip;</iframe>
+      </div>
+    </div>
+
+    <!-- Panel 3 -->
+    <div class="survey-panel" id="panel-teachers">
+      <div class="survey-intro">
+        <div>
+          <p class="survey-audience">&#9679; F&uuml;r Lehrkr&auml;fte</p>
+          <h3>Lehrkr&auml;fte &amp; P&auml;dagog:innen</h3>
+        </div>
+        <p>Diese Umfrage richtet sich an Physik- und Naturwissenschaftslehrkr&auml;fte, die PlanckPlay oder den Hypercube of Physics als Unterrichtsmittel genutzt oder bewertet haben. Ihre fachliche Perspektive ist besonders wertvoll f&uuml;r unsere F&ouml;rderberichte. Sie dauert ca. 5&ndash;7 Minuten.</p>
+      </div>
+      <p class="survey-lang-note">Hinweis: Diese Umfrage ist auf Englisch verf&uuml;gbar. / Note: This survey is available in English only.</p>
+      <div class="survey-frame-wrap">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfIEiBE8qJxCDEi-ZnBpycaB0UiWxPd4WPBTBq74LITFWXvCQ/viewform?embedded=true" height="3690" frameborder="0" marginheight="0" marginwidth="0" title="Umfrage für Lehrkräfte">Wird geladen&hellip;</iframe>
+      </div>
+    </div>
+
+    <!-- Panel 4: Kinder -->
+    <div class="survey-panel" id="panel-kids">
+      <div class="survey-intro">
+        <div>
+          <p class="survey-audience">&#9679; F&uuml;r Kinder</p>
+          <h3>Kinderbefragung</h3>
+        </div>
+        <p>Eine kurze, spielerische Befragung f&uuml;r Kinder zwischen 6 und 12 Jahren, die das PlanckPlay-Puzzle oder den Papier-Hexadekachor ausprobiert haben. Mit Bildkn&ouml;pfen und Gesichter-Skalen gestaltet &mdash; Eltern d&uuml;rfen gerne helfen. Auf Deutsch und Englisch verf&uuml;gbar.</p>
+      </div>
+      <div class="survey-link-card">
+        <div>
+          <h3>PlanckPlay &mdash; Kinderbefragung / Children&rsquo;s Survey</h3>
+          <p>&Ouml;ffnet als eigenst&auml;ndige Seite. Funktioniert auf Tablets und Smartphones. Antworten werden lokal gespeichert und k&ouml;nnen von der Veranstaltungsleitung exportiert werden.</p>
+        </div>
+        <a class="survey-link-btn" href="planckplay_kinder_survey.html" target="_blank">Umfrage &ouml;ffnen &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer-wrap" id="kontakt">
+  <footer>
+    <div>
+      <p class="footer-logo">Hypercube of Physics</p>
+      <p>Ein Forschungs- und Bildungsprojekt im Rahmen des Exzellenzclusters Matters of Activity &middot; Humboldt-Universit&auml;t zu Berlin &middot; Institut f&uuml;r Physik</p>
+      <p style="margin-top:1rem;">Konzept &amp; Inhalt: Prof. Dr. Christian Kassung &middot; Prof. Dr. J&uuml;rgen P. Rabe &middot;<br>Prof. Dr. Matthias Staudacher &middot; Dr. Jos&eacute; D. Cojal Gonz&aacute;lez</p>
+    </div>
+    <div>
+      <h4>Projekt</h4>
+      <a href="#projekt">&Uuml;ber uns</a>
+      <a href="#modelle">Modelle</a>
+      <a href="#theorien">Theorien</a>
+      <a href="#projektionen">Projektionen</a>
+      <a href="#xr">XR-Anwendung</a>
+      <a href="#spiele">Interaktive Bereiche</a>
+      <a href="#umfragen">Umfragen</a>
+    </div>
+    <div>
+      <h4>Links</h4>
+      <a href="https://www.matters-of-activity.de/de/" target="_blank" rel="noopener">Matters of Activity</a>
+      <a href="https://cube-of-physics.org" target="_blank" rel="noopener">Cube of Physics</a>
+      <a href="https://www.thingiverse.com/thing:7017525" target="_blank" rel="noopener">Thingiverse</a>
+      <a href="mailto:contact@planckplay.de">Kontakt</a>
+      <a href="impressum.html">Impressum / Imprint</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const links = document.getElementById('nav-links');
+  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  function showSurvey(tab) {
+    document.querySelectorAll('.survey-panel').forEach(p => p.classList.remove('visible'));
+    document.querySelectorAll('.survey-tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('visible');
+    event.currentTarget.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

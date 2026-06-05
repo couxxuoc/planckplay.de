@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>PlanckPlay Survey – Kinder / Children</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple: #6C5CE7;
+  --purple-light: #EEEDFe;
+  --teal: #00B894;
+  --teal-light: #E1F5EE;
+  --coral: #E17055;
+  --coral-light: #FAECE7;
+  --amber: #FDCB6E;
+  --blue: #0984E3;
+  --bg: #F7F6FF;
+  --card: #FFFFFF;
+  --text: #2D3436;
+  --muted: #636E72;
+  --radius: 20px;
+  --shadow: 0 4px 24px rgba(108,92,231,0.10);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  color: var(--text);
+}
+.screen { display: none; width: 100%; max-width: 680px; min-height: 100vh; flex-direction: column; padding: 32px 24px 40px; }
+.screen.active { display: flex; }
+.logo-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+.logo-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--purple); }
+.logo-dot:nth-child(2) { background: var(--teal); }
+.logo-dot:nth-child(3) { background: var(--coral); }
+.logo-text { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 18px; color: var(--purple); letter-spacing: -0.5px; }
+.bilingual { display: flex; flex-direction: column; gap: 2px; }
+.de { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 26px; color: var(--text); line-height: 1.2; }
+.en { font-family: 'Nunito Sans', sans-serif; font-weight: 400; font-size: 15px; color: var(--muted); }
+.question-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+  flex: 1;
+}
+.q-num { font-size: 12px; font-weight: 600; color: var(--purple); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 12px; }
+.progress-bar { width: 100%; height: 6px; background: #EEEDFE; border-radius: 99px; margin-bottom: 28px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--purple); border-radius: 99px; transition: width .4s ease; }
+
+/* Big picture buttons for gateway */
+.path-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 20px; }
+.path-btn {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--bg); border: 2.5px solid transparent;
+  border-radius: 16px; padding: 18px 20px; cursor: pointer;
+  transition: all .15s ease; text-align: left;
+}
+.path-btn:active { transform: scale(0.97); }
+.path-btn.selected { border-color: var(--purple); background: var(--purple-light); }
+.path-icon { font-size: 44px; flex-shrink: 0; }
+.path-label .de { font-size: 18px; }
+.path-label .en { font-size: 13px; }
+
+/* Face scale */
+.face-row { display: flex; justify-content: space-between; gap: 8px; margin-top: 24px; }
+.face-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  background: var(--bg); border: 2.5px solid transparent;
+  border-radius: 16px; padding: 16px 8px; cursor: pointer;
+  transition: all .15s ease;
+}
+.face-btn:active { transform: scale(0.94); }
+.face-btn.selected { border-color: var(--purple); background: var(--purple-light); }
+.face-emoji { font-size: 40px; line-height: 1; }
+.face-label { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.3; }
+
+/* Binary buttons */
+.binary-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+.bin-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  background: var(--bg); border: 2.5px solid transparent;
+  border-radius: 16px; padding: 22px 12px; cursor: pointer;
+  transition: all .15s ease; font-family: 'Nunito', sans-serif;
+}
+.bin-btn:active { transform: scale(0.96); }
+.bin-btn.selected.yes { border-color: var(--teal); background: var(--teal-light); }
+.bin-btn.selected.no { border-color: var(--coral); background: var(--coral-light); }
+.bin-emoji { font-size: 40px; }
+.bin-de { font-size: 17px; font-weight: 800; color: var(--text); }
+.bin-en { font-size: 12px; color: var(--muted); }
+
+/* Scale buttons (1-5) */
+.scale-row { display: flex; justify-content: space-between; gap: 8px; margin-top: 24px; }
+.scale-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  background: var(--bg); border: 2.5px solid transparent;
+  border-radius: 14px; padding: 14px 6px; cursor: pointer;
+  transition: all .15s ease;
+}
+.scale-btn:active { transform: scale(0.94); }
+.scale-btn.selected { border-color: var(--blue); background: #E6F1FB; }
+.scale-num { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; color: var(--text); }
+.scale-label-row { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: var(--muted); }
+
+/* Nav buttons */
+.nav-row { display: flex; gap: 12px; margin-top: 20px; }
+.btn-next {
+  flex: 1; background: var(--purple); color: #fff;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 18px;
+  border: none; border-radius: 14px; padding: 18px;
+  cursor: pointer; transition: opacity .15s;
+}
+.btn-next:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-next:not(:disabled):active { opacity: 0.85; }
+.btn-back {
+  background: var(--bg); border: 2px solid #DDD;
+  font-family: 'Nunito Sans', sans-serif; font-weight: 600; font-size: 16px;
+  color: var(--muted); border-radius: 14px; padding: 18px 20px;
+  cursor: pointer;
+}
+
+/* Parent section */
+.parent-header {
+  background: var(--purple); color: #fff;
+  border-radius: 14px; padding: 16px 20px; margin-bottom: 20px;
+  font-family: 'Nunito', sans-serif;
+}
+.parent-header .de { color: #fff; font-size: 20px; }
+.parent-header .en { color: rgba(255,255,255,0.75); font-size: 13px; }
+
+/* MC buttons for parent */
+.mc-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.mc-btn {
+  background: var(--bg); border: 2px solid transparent;
+  border-radius: 12px; padding: 14px 18px; cursor: pointer;
+  text-align: left; transition: all .15s ease;
+  font-family: 'Nunito Sans', sans-serif; font-size: 15px; color: var(--text);
+}
+.mc-btn:active { transform: scale(0.98); }
+.mc-btn.selected { border-color: var(--purple); background: var(--purple-light); font-weight: 600; }
+
+/* Thank you / export screen */
+.thankyou-icon { font-size: 72px; text-align: center; margin: 16px 0; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+.stat-card { background: var(--card); border-radius: 14px; padding: 16px; box-shadow: var(--shadow); text-align: center; }
+.stat-num { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 32px; color: var(--purple); }
+.stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.btn-export {
+  width: 100%; background: var(--teal); color: #fff;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 17px;
+  border: none; border-radius: 14px; padding: 18px;
+  cursor: pointer; margin-top: 8px; transition: opacity .15s;
+}
+.btn-export:active { opacity: 0.85; }
+.btn-reset {
+  width: 100%; background: transparent; color: var(--muted);
+  border: 2px solid #DDD; border-radius: 14px; padding: 14px;
+  font-family: 'Nunito Sans', sans-serif; font-size: 15px;
+  cursor: pointer; margin-top: 10px;
+}
+.kpi-tag {
+  display: inline-block; font-size: 10px; padding: 2px 8px;
+  border-radius: 99px; background: var(--purple-light);
+  color: var(--purple); font-weight: 600; margin-left: 6px; vertical-align: middle;
+}
+.section-divider { height: 1px; background: #EEE; margin: 20px 0; }
+
+/* Custom modal */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5); z-index: 100;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--card); border-radius: 20px;
+  padding: 28px 24px; max-width: 340px; width: 90%;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+}
+.modal-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 20px; margin-bottom: 8px; }
+.modal-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+.modal-input {
+  width: 100%; border: 2px solid #DDD; border-radius: 12px;
+  padding: 14px 16px; font-size: 22px; text-align: center;
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  letter-spacing: 8px; margin-bottom: 16px; outline: none;
+}
+.modal-input:focus { border-color: var(--purple); }
+.modal-input.error { border-color: var(--coral); animation: shake .3s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+.modal-row { display: flex; gap: 10px; }
+.modal-cancel {
+  flex: 1; background: var(--bg); border: 2px solid #DDD;
+  border-radius: 12px; padding: 14px; font-size: 15px;
+  font-family: 'Nunito Sans', sans-serif; cursor: pointer; color: var(--muted);
+}
+.modal-confirm {
+  flex: 1; background: var(--coral); border: none;
+  border-radius: 12px; padding: 14px; font-size: 15px;
+  font-family: 'Nunito', sans-serif; font-weight: 800;
+  color: #fff; cursor: pointer;
+}
+.path-img { width: 56px; height: 56px; object-fit: contain; flex-shrink: 0; border-radius: 8px; }
+</style>
+
+<!-- Delete confirmation modal -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal-box">
+    <div class="modal-title">🗑 Daten löschen?</div>
+    <div class="modal-sub">
+      Gib den Code <strong>****</strong> ein, um alle Daten zu löschen.<br>
+      <em style="font-size:12px;">Enter code **** to delete all data.</em>
+    </div>
+    <input class="modal-input" id="delete-code" type="number" maxlength="4" placeholder="····" oninput="checkDeleteCode()">
+    <div class="modal-row">
+      <button class="modal-cancel" onclick="closeDeleteModal()">Abbrechen · Cancel</button>
+      <button class="modal-confirm" id="btn-confirm-delete" disabled onclick="confirmDelete()">Ok</button>
+    </div>
+  </div>
+</div>
+</head>
+<body>
+
+<!-- SCREEN 0: Welcome -->
+<div class="screen active" id="s-welcome">
+  <div class="logo-bar">
+    <div class="logo-dot"></div><div class="logo-dot"></div><div class="logo-dot"></div>
+    <span class="logo-text">PlanckPlay</span>
+  </div>
+  <div class="question-card" style="justify-content:center;display:flex;flex-direction:column;gap:16px;">
+    <div style="text-align:center;"><img src="../images/planckplay_puzzle.jpg" alt="PlanckPlay puzzle" style="width:200px;height:200px;object-fit:contain;" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🔷',style:'font-size:56px'}))"></div>
+    <div class="bilingual" style="text-align:center;">
+      <div class="de">Wie war's?</div>
+      <div class="en">How was it?</div>
+    </div>
+    <p style="color:var(--muted);font-size:18px;text-align:center;line-height:1.6;">
+      Nur 3 Fragen! · Just 3 questions!<br>
+      <span style="font-size:15px;">Eltern helfen beim letzten Teil · Parents help with the last part</span>
+    </p>
+    <button class="btn-next" onclick="showScreen('s-q0')" style="margin-top:8px;">
+      Los geht's! · Let's go!
+    </button>
+  </div>
+</div>
+
+<!-- SCREEN Q0: Gateway — what did you do? -->
+<div class="screen" id="s-q0">
+  <div class="logo-bar">
+    <div class="logo-dot"></div><div class="logo-dot"></div><div class="logo-dot"></div>
+    <span class="logo-text">PlanckPlay</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" style="width:10%"></div></div>
+  <div class="question-card">
+    <div class="q-num">Frage 0 · Question 0</div>
+    <div class="bilingual">
+      <div class="de">Was hast du heute gemacht?</div>
+      <div class="en">What did you do today?</div>
+    </div>
+    <div class="path-grid" id="q0-options">
+      <button class="path-btn" data-val="puzzle" onclick="selectPath(this,'puzzle')">
+        <img src="../images/planckplay_puzzle.jpg" alt="Puzzle" class="path-img" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🔷',className:'path-icon'}))">
+        <div class="path-label bilingual">
+          <div class="de">Ich habe mit dem Puzzle gespielt</div>
+          <div class="en">I played with the puzzle</div>
+        </div>
+      </button>
+      <button class="path-btn" data-val="paper" onclick="selectPath(this,'paper')">
+        <img src="../images/planckplay_paper.jpg" alt="Paper model" class="path-img" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'📄',className:'path-icon'}))">
+        <div class="path-label bilingual">
+          <div class="de">Ich habe das Modell gebaut</div>
+          <div class="en">I built the paper model</div>
+        </div>
+      </button>
+      <button class="path-btn" data-val="both" onclick="selectPath(this,'both')">
+        <span style="display:flex;gap:4px;flex-shrink:0;">
+          <img src="../images/planckplay_puzzle.jpg" alt="Puzzle" class="path-img" style="width:40px;height:40px;" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🔷',className:'path-icon'}))">
+          <img src="../images/planckplay_paper.jpg" alt="Paper" class="path-img" style="width:40px;height:40px;" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'📄',className:'path-icon'}))">
+        </span>
+        <div class="path-label bilingual">
+          <div class="de">Beides! Puzzle &amp; Modell</div>
+          <div class="en">Both! Puzzle &amp; model</div>
+        </div>
+      </button>
+    </div>
+  </div>
+  <div class="nav-row">
+    <button class="btn-back" onclick="showScreen('s-welcome')">←</button>
+    <button class="btn-next" id="btn-q0-next" disabled onclick="goQ1()">Weiter · Next →</button>
+  </div>
+</div>
+
+<!-- SCREEN Q1: Face scale (dynamic label) -->
+<div class="screen" id="s-q1">
+  <div class="logo-bar">
+    <div class="logo-dot"></div><div class="logo-dot"></div><div class="logo-dot"></div>
+    <span class="logo-text">PlanckPlay</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div>
+  <div class="question-card">
+    <div class="q-num">Frage 1 · Question 1 <span class="kpi-tag">KPI 4 · 8</span></div>
+    <div class="bilingual" id="q1-text">
+      <div class="de">Wie hat dir das Puzzle gefallen?</div>
+      <div class="en">How did the puzzle make you feel?</div>
+    </div>
+    <div class="face-row">
+      <button class="face-btn" data-val="1" onclick="selectFace(this,'q1')">
+        <span class="face-emoji">😟</span>
+        <span class="face-label">Nicht gut<br>Not good</span>
+      </button>
+      <button class="face-btn" data-val="2" onclick="selectFace(this,'q1')">
+        <span class="face-emoji">😕</span>
+        <span class="face-label">Na ja<br>Okay</span>
+      </button>
+      <button class="face-btn" data-val="3" onclick="selectFace(this,'q1')">
+        <span class="face-emoji">🙂</span>
+        <span class="face-label">Gut<br>Good</span>
+      </button>
+      <button class="face-btn" data-val="4" onclick="selectFace(this,'q1')">
+        <span class="face-emoji">😄</span>
+        <span class="face-label">Toll<br>Great</span>
+      </button>
+      <button class="face-btn" data-val="5" onclick="selectFace(this,'q1')">
+        <span class="face-emoji">🤩</span>
+        <span class="face-label">Super!<br>Amazing!</span>
+      </button>
+    </div>
+  </div>
+  <div class="nav-row">
+    <button class="btn-back" onclick="showScreen('s-q0')">←</button>
+    <button class="btn-next" id="btn-q1-next" disabled onclick="goQ2()">Weiter · Next →</button>
+  </div>
+</div>
+
+<!-- SCREEN Q2: Hard/Easy binary (dynamic) -->
+<div class="screen" id="s-q2">
+  <div class="logo-bar">
+    <div class="logo-dot"></div><div class="logo-dot"></div><div class="logo-dot"></div>
+    <span class="logo-text">PlanckPlay</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div>
+  <div class="question-card">
+    <div class="q-num">Frage 2 · Question 2 <span class="kpi-tag">KPI 3</span></div>
+    <div class="bilingual" id="q2-text">
+      <div class="de">War es schwer oder leicht?</div>
+      <div class="en">Was it hard or easy?</div>
+    </div>
+    <div class="binary-row">
+      <button class="bin-btn yes" data-val="easy" onclick="selectBin(this,'q2')">
+        <span class="bin-emoji">✅</span>
+        <span class="bin-de">Leicht!</span>
+        <span class="bin-en">Easy!</span>
+      </button>
+      <button class="bin-btn no" data-val="hard" onclick="selectBin(this,'q2')">
+        <span class="bin-emoji">🤔</span>
+        <span class="bin-de">Schwer</span>
+        <span class="bin-en">Hard</span>
+      </button>
+    </div>
+  </div>
+  <div class="nav-row">
+    <button class="btn-back" onclick="showScreen('s-q1')">←</button>
+    <button class="btn-next" id="btn-q2-next" disabled onclick="goQ3()">Weiter · Next →</button>
+  </div>
+</div>
+
+<!-- SCREEN Q3: Pride / keep / play again (dynamic) -->
+<div class="screen" id="s-q3">
+  <div class="logo-bar">
+    <div class="logo-dot"></div><div class="logo-dot"></div><div class="logo-dot"></div>
+    <span class="logo-text">PlanckPlay</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" style="width:72%"></div></div>
+  <div class="question-card">
+    <div class="q-num">Frage 3 · Question 3 <span class="kpi-tag">KPI 5 · 7 · 8</span></div>
+    <div class="bilingual" id="q3-text">
+      <div class="de">Möchtest du dein Modell behalten?</div>
+      <div class="en">Would you like to keep your model?</div>
+    </div>
+    <div class="binary-row">
+      <button class="bin-btn yes" data-val="yes" onclick="selectBin(this,'q3')">
+        <span class="bin-emoji">👍</span>
+        <span class="bin-de">Ja!</span>
+        <span class="bin-en">Yes!</span>
+      </button>
+      <button class="bin-btn no" data-val="no" onclick="selectBin(this,'q3')">
+        <span class="bin-emoji">👎</span>
+        <span class="bin-de">Nein</span>
+        <span class="bin-en">Not really</span>
+      </button>
+    </div>
+    <!-- Pride question: only shown for paper/both -->
+    <div id="q3-pride-block" style="display:none;">
+      <div class="section-divider"></div>
+      <div class="bilingual" style="margin-bottom:12px;">
+        <div class="de" style="font-size:18px;">Bist du stolz auf dein Modell?</div>
+        <div class="en">Are you proud of what you made?</div>
+      </div>
+      <div class="binary-row">
+        <button class="bin-btn yes" data-val="yes" onclick="selectBin(this,'q3b')">
+          <span class="bin-emoji">⭐</span>
+          <span class="bin-de">Ja!</span>
+          <span class="bin-en">Yes!</span>
+        </button>
+        <button class="bin-btn no" data-val="no" onclick="selectBin(this,'q3b')">
+          <span class="bin-emoji">😐</span>
+          <span class="bin-de">Nein</span>
+          <span class="bin-en">Not really</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="nav-row">
+    <button class="btn-back" onclick="showScreen('s-q2')">←</button>
+    <button class="btn-next" id="btn-q3-next" disabled onclick="showScreen('s-parent')">Weiter · Next →</button>
+  </div>
+</div>
+
+<!-- SCREEN PARENT -->
+<div class="screen" id="s-parent">
+  <div class="logo-bar">
+    <div class="logo-dot"></div><div class="logo-dot"></div><div class="logo-dot"></div>
+    <span class="logo-text">PlanckPlay</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" style="width:85%"></div></div>
+  <div class="parent-header bilingual">
+    <div class="de">Jetzt die Eltern! 👋</div>
+    <div class="en">Now for the parents!</div>
+  </div>
+
+  <div class="question-card" style="flex:none;margin-bottom:16px;">
+    <div class="q-num">P1 — Eltern · Parents <span class="kpi-tag">KPI 4 · 5</span></div>
+    <div class="bilingual">
+      <div class="de">Wie engagiert war Ihr Kind?</div>
+      <div class="en">How engaged was your child?</div>
+    </div>
+    <div class="mc-list" id="p1-opts">
+      <button class="mc-btn" data-val="kaum_loszureissen" onclick="selectMC(this,'p1')">😍 Kaum loszureißen · Hard to pull away</button>
+      <button class="mc-btn" data-val="sehr_engagiert" onclick="selectMC(this,'p1')">🙂 Sehr engagiert · Quite engaged</button>
+      <button class="mc-btn" data-val="kurz_interessiert" onclick="selectMC(this,'p1')">😐 Kurz interessiert · Briefly interested</button>
+      <button class="mc-btn" data-val="wenig_engagiert" onclick="selectMC(this,'p1')">😕 Wenig engagiert · Not very engaged</button>
+    </div>
+  </div>
+
+  <div class="question-card" style="flex:none;margin-bottom:16px;">
+    <div class="q-num">P2 — Eltern · Parents <span class="kpi-tag">KPI 6 · 8</span></div>
+    <div class="bilingual">
+      <div class="de">Hat Ihr Kind Fragen gestellt?</div>
+      <div class="en">Did your child ask questions or want to know more?</div>
+    </div>
+    <div class="mc-list" id="p2-opts">
+      <button class="mc-btn" data-val="viele_fragen" onclick="selectMC(this,'p2')">🙋 Viele Fragen · Many questions</button>
+      <button class="mc-btn" data-val="einige_fragen" onclick="selectMC(this,'p2')">💬 Einige Fragen · A few questions</button>
+      <button class="mc-btn" data-val="kaum_fragen" onclick="selectMC(this,'p2')">🤐 Kaum Fragen · Not really</button>
+    </div>
+  </div>
+
+  <div class="question-card" style="flex:none;margin-bottom:16px;">
+    <div class="q-num">P3 — Eltern · Parents <span class="kpi-tag">KPI 7</span></div>
+    <div class="bilingual">
+      <div class="de">Wäre eine interaktive App dazu nützlich?</div>
+      <div class="en">Would an interactive VR/AR app be useful for your child?</div>
+    </div>
+    <div class="mc-list" id="p3-opts">
+      <button class="mc-btn" data-val="ja_definitiv" onclick="selectMC(this,'p3')">✅ Ja, definitiv · Yes, definitely</button>
+      <button class="mc-btn" data-val="vielleicht" onclick="selectMC(this,'p3')">🤔 Vielleicht · Maybe</button>
+      <button class="mc-btn" data-val="wahrscheinlich_nicht" onclick="selectMC(this,'p3')">❌ Wahrscheinlich nicht · Probably not</button>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-back" onclick="showScreen('s-q3')">←</button>
+    <button class="btn-next" id="btn-parent-next" disabled onclick="submitResponse()">Absenden · Submit ✓</button>
+  </div>
+</div>
+
+<!-- SCREEN THANKYOU -->
+<div class="screen" id="s-thankyou">
+  <div class="logo-bar">
+    <div class="logo-dot"></div><div class="logo-dot"></div><div class="logo-dot"></div>
+    <span class="logo-text">PlanckPlay</span>
+  </div>
+  <div class="question-card" style="text-align:center;flex:none;">
+    <div class="thankyou-icon">🎉</div>
+    <div class="bilingual" style="text-align:center;margin-bottom:12px;">
+      <div class="de">Danke schön!</div>
+      <div class="en">Thank you so much!</div>
+    </div>
+    <p style="color:var(--muted);font-size:14px;line-height:1.6;">
+      Deine Antworten helfen uns, Physik für alle zugänglicher zu machen.<br>
+      <em>Your answers help make physics accessible for everyone.</em>
+    </p>
+  </div>
+
+  <div class="stats-grid" id="stats-grid"></div>
+
+  <button class="btn-next" onclick="showScreen('s-welcome');resetSurvey();" style="margin-top:8px;">
+    Nächstes Kind · Next child →
+  </button>
+  <div class="section-divider"></div>
+  <button class="btn-export" onclick="exportCSV()">
+    📊 CSV exportieren · Export CSV
+  </button>
+  <button class="btn-reset" onclick="openDeleteModal()">
+    🗑 Alle Daten löschen · Clear all data
+  </button>
+  <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:16px;line-height:1.6;" id="response-count"></p>
+  <p style="font-size:11px;color:var(--muted);text-align:center;line-height:1.6;">
+    💡 CSV wird in deinen Browser-Download-Ordner gespeichert.<br>
+    <em>CSV saves to your browser's download folder. To keep it next to this file, move it after export.</em>
+  </p>
+</div>
+
+<script>
+const state = {
+  path: null,
+  q1: null, q2: null, q3: null, q3b: null,
+  p1: null, p2: null, p3: null
+};
+
+const STORAGE_KEY = 'planckplay_responses';
+
+function getResponses() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveResponses(arr) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function selectPath(el, val) {
+  document.querySelectorAll('#q0-options .path-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  state.path = val;
+  document.getElementById('btn-q0-next').disabled = false;
+}
+
+function selectFace(el, qkey) {
+  el.closest('.face-row').querySelectorAll('.face-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  state[qkey] = el.dataset.val;
+  document.getElementById('btn-'+qkey+'-next').disabled = false;
+}
+
+function selectBin(el, qkey) {
+  el.closest('.binary-row').querySelectorAll('.bin-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  state[qkey] = el.dataset.val;
+  checkQ3Next();
+  if(qkey==='q2') document.getElementById('btn-q2-next').disabled = false;
+}
+
+function checkQ3Next() {
+  const needsPride = (state.path === 'paper' || state.path === 'both');
+  const q3ok = state.q3 !== null;
+  const q3bok = !needsPride || state.q3b !== null;
+  document.getElementById('btn-q3-next').disabled = !(q3ok && q3bok);
+}
+
+function selectMC(el, qkey) {
+  el.closest('.mc-list').querySelectorAll('.mc-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  state[qkey] = el.dataset.val;
+  checkParentNext();
+}
+
+function checkParentNext() {
+  document.getElementById('btn-parent-next').disabled = !(state.p1 && state.p2 && state.p3);
+}
+
+function goQ1() {
+  // Set Q1 label based on path
+  const labels = {
+    puzzle: {de:'Wie hat dir das Puzzle gefallen?', en:'How did the puzzle make you feel?'},
+    paper:  {de:'Wie hat dir das Bauen gefallen?', en:'How did building the model make you feel?'},
+    both:   {de:'Wie hat dir das Puzzle und Bauen gefallen?', en:'How did the puzzle and building feel?'}
+  };
+  const l = labels[state.path];
+  document.querySelector('#q1-text .de').textContent = l.de;
+  document.querySelector('#q1-text .en').textContent = l.en;
+  showScreen('s-q1');
+}
+
+function goQ2() {
+  const labels = {
+    puzzle: {de:'War das Puzzle schwer oder leicht?', en:'Was the puzzle hard or easy?'},
+    paper:  {de:'War das Bauen schwer oder leicht?', en:'Was building hard or easy?'},
+    both:   {de:'War das alles schwer oder leicht?', en:'Was it all hard or easy?'}
+  };
+  const l = labels[state.path];
+  document.querySelector('#q2-text .de').textContent = l.de;
+  document.querySelector('#q2-text .en').textContent = l.en;
+  showScreen('s-q2');
+}
+
+function goQ3() {
+  const needsPride = (state.path === 'paper' || state.path === 'both');
+  // Set Q3 label
+  if (state.path === 'puzzle') {
+    document.querySelector('#q3-text .de').textContent = 'Möchtest du nochmal mit dem Puzzle spielen?';
+    document.querySelector('#q3-text .en').textContent = 'Would you like to play with the puzzle again?';
+  } else if (state.path === 'paper') {
+    document.querySelector('#q3-text .de').textContent = 'Möchtest du dein Modell mit nach Hause nehmen?';
+    document.querySelector('#q3-text .en').textContent = 'Would you like to take your model home?';
+  } else {
+    document.querySelector('#q3-text .de').textContent = 'Möchtest du dein Modell behalten?';
+    document.querySelector('#q3-text .en').textContent = 'Would you like to keep your model?';
+  }
+  document.getElementById('q3-pride-block').style.display = needsPride ? 'block' : 'none';
+  showScreen('s-q3');
+}
+
+function submitResponse() {
+  const responses = getResponses();
+  const entry = {
+    timestamp: new Date().toISOString(),
+    path: state.path,
+    q1_feeling: state.q1,
+    q2_difficulty: state.q2,
+    q3_keepplay: state.q3,
+    q3b_proud: state.q3b || 'n/a',
+    p1_engagement: state.p1,
+    p2_curiosity: state.p2,
+    p3_xr_interest: state.p3
+  };
+  responses.push(entry);
+  saveResponses(responses);
+  updateStats();
+  showScreen('s-thankyou');
+}
+
+function updateStats() {
+  const responses = getResponses();
+  const n = responses.length;
+  document.getElementById('response-count').textContent = `${n} Antwort${n!==1?'en':''} gespeichert · ${n} response${n!==1?'s':''} saved`;
+
+  const positiveFeeling = responses.filter(r => parseInt(r.q1_feeling) >= 4).length;
+  const wantMore = responses.filter(r => r.q3_keepplay === 'yes').length;
+  const xrYes = responses.filter(r => r.p3_xr_interest === 'ja_definitiv' || r.p3_xr_interest === 'vielleicht').length;
+  const highEngagement = responses.filter(r => r.p1_engagement === 'kaum_loszureissen' || r.p1_engagement === 'sehr_engagiert').length;
+
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${n}</div><div class="stat-label">Antworten · Responses</div></div>
+    <div class="stat-card"><div class="stat-num">${n>0?Math.round(positiveFeeling/n*100):0}%</div><div class="stat-label">Begeistert · Excited (★★★★+)</div></div>
+    <div class="stat-card"><div class="stat-num">${n>0?Math.round(wantMore/n*100):0}%</div><div class="stat-label">Möchten mehr · Want more</div></div>
+    <div class="stat-card"><div class="stat-num">${n>0?Math.round(xrYes/n*100):0}%</div><div class="stat-label">XR-Interesse · XR interest</div></div>
+  `;
+}
+
+function resetSurvey() {
+  state.path = null; state.q1 = null; state.q2 = null;
+  state.q3 = null; state.q3b = null;
+  state.p1 = null; state.p2 = null; state.p3 = null;
+  document.querySelectorAll('.path-btn,.face-btn,.bin-btn,.mc-btn').forEach(b => b.classList.remove('selected'));
+  // Only disable flow buttons — NOT the welcome screen start button
+  ['btn-q0-next','btn-q1-next','btn-q2-next','btn-q3-next','btn-parent-next'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = true;
+  });
+}
+
+function exportCSV() {
+  const responses = getResponses();
+  if (responses.length === 0) { alert('Keine Daten · No data yet'); return; }
+  const headers = ['Timestamp','Activity_Path','Q1_Feeling_1to5','Q2_Difficulty','Q3_KeepPlay','Q3b_Proud_PaperOnly','P1_Engagement','P2_Curiosity','P3_XR_Interest','KPI4_Positive_Feeling','KPI5_WantsMore','KPI7_XR_Positive'];
+  const rows = responses.map(r => [
+    r.timestamp, r.path, r.q1_feeling, r.q2_difficulty, r.q3_keepplay,
+    r.q3b_proud, r.p1_engagement, r.p2_curiosity, r.p3_xr_interest,
+    parseInt(r.q1_feeling) >= 4 ? 'yes' : 'no',
+    r.q3_keepplay === 'yes' ? 'yes' : 'no',
+    (r.p3_xr_interest === 'ja_definitiv' || r.p3_xr_interest === 'vielleicht') ? 'yes' : 'no'
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `planckplay_kinder_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function openDeleteModal() {
+  document.getElementById('delete-code').value = '';
+  document.getElementById('btn-confirm-delete').disabled = true;
+  document.getElementById('delete-code').classList.remove('error');
+  document.getElementById('delete-modal').classList.add('open');
+  setTimeout(() => document.getElementById('delete-code').focus(), 150);
+}
+function closeDeleteModal() {
+  document.getElementById('delete-modal').classList.remove('open');
+}
+function checkDeleteCode() {
+  const val = document.getElementById('delete-code').value;
+  document.getElementById('btn-confirm-delete').disabled = (val !== '1234');
+}
+function confirmDelete() {
+  localStorage.removeItem(STORAGE_KEY);
+  closeDeleteModal();
+  updateStats();
+}
+
+// Close modal on overlay click
+document.getElementById('delete-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeDeleteModal();
+});
+
+// Init
+updateStats();
+</script>
+</body>
+</html>
