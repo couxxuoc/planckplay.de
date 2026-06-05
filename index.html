@@ -490,7 +490,49 @@
       .games-grid { grid-template-columns: 1fr; }
       footer { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 1.5rem; }
     }
-
+    /* ── THEORY CARD CONTENT ── */
+    .theory-blurb {
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--ink-muted);
+      margin-top: 0.75rem;
+    }
+    .theory-toggle {
+      background: none;
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      padding: 0.25rem 0.6rem;
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      cursor: pointer;
+      margin-top: 0.75rem;
+      transition: background 0.15s, color 0.15s;
+      display: block;
+    }
+    .theory-toggle:hover { background: var(--accent-light); }
+    .theory-toggle.open { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .theory-detail {
+      display: none;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--rule);
+    }
+    .theory-detail.visible { display: block; }
+    .theory-detail p {
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+    }
+    .theory-detail p:last-child { margin-bottom: 0; }
+    .theory-visual-note {
+      font-size: 11px !important;
+      font-style: italic;
+      color: var(--ink-faint) !important;
+    }
     @media (max-width: 560px) {
       .theories-grid { grid-template-columns: 1fr; }
     }
@@ -618,7 +660,7 @@
   <div class="hero">
     <div class="hero-left">
       <h1>Mapping Physics<br><em>in Four<br>Dimensions</em></h1>
-      <p>A geometric model of the sixteen areas of physics, based on Planck's four fundamental constants and their four-dimensional dual polytope: the hexadecachoron.</p>
+      <p>A geometric model of the sixteen theories of physics, based on Planck's four fundamental constants and represented as a four-dimensional polytope: the hexadecachoron.</p>
       <p class="hero-sub">Cluster of Excellence Matters of Activity &middot;<br>Humboldt-Universit&auml;t zu Berlin</p>
     </div>
     <div class="hero-right">
@@ -709,95 +751,252 @@
   <div class="section">
     <p class="section-label">The 16 theories</p>
     <div class="theories-intro">
-      <div>
-        <h2>A map of<br>physical knowledge</h2>
-      </div>
-      <div>
-        <p>Each tetrahedron in the hexadecachoron corresponds to one of sixteen possible combinations of Planck's constants. Eight are well-established physical theories. Six remain open problems. Two &mdash; including the Theory of Really Everything &mdash; are speculative frontiers.</p>
-      </div>
+      <div><h2>A map of<br>physical knowledge</h2></div>
+      <div><p>Each tetrahedron in the hexadecachoron corresponds to one of sixteen possible combinations of Planck's constants. Eight are well-established physical theories. Six remain open problems. Two &mdash; including the Theory of Really Everything &mdash; are speculative frontiers.</p></div>
     </div>
 
     <div class="theories-grid">
+
+      <!-- 01 -->
       <div class="theory-cell">
         <div class="theory-coords">(0, 0, 0, 0)</div>
-        <div class="theory-name">Newtonian mechanics</div>
-        <div class="theory-thumb">image placeholder</div>
+        <div class="theory-name">Newtonian Mechanics</div>
+        <div class="theory-thumb">
+          <img src="images/01-newtonian-mechanics.png" alt="Newtonian Mechanics" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">No gravity. No light-speed limit. No quantum effects. No temperature. The motion of objects under forces — <em>F = ma</em> — where modern science began.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>Everything else in this puzzle is a correction to this starting point. It still works perfectly for everyday speeds and scales.</p>
+          <p class="theory-visual-note">Visual: The innermost tetrahedron — the origin of the whole map.</p>
+        </div>
       </div>
-      <div class="theory-cell">
-        <div class="theory-coords">(G, 0, 0, 0)</div>
-        <div class="theory-name">Newtonian gravity</div>
-        <div class="theory-thumb">image placeholder</div>
-      </div>
-      <div class="theory-cell">
-        <div class="theory-coords">(0, c&#x207B;&#xB9;, 0, 0)</div>
-        <div class="theory-name">Special relativity</div>
-        <div class="theory-thumb">image placeholder</div>
-      </div>
-      <div class="theory-cell">
-        <div class="theory-coords">(0, 0, h, 0)</div>
-        <div class="theory-name">Quantum mechanics</div>
-        <div class="theory-thumb">image placeholder</div>
-      </div>
+
+      <!-- 02 -->
       <div class="theory-cell">
         <div class="theory-coords">(0, 0, 0, k<sub>B</sub>)</div>
-        <div class="theory-name">Classical statistical mechanics</div>
-        <div class="theory-thumb">image placeholder</div>
+        <div class="theory-name">Classical Statistical Mechanics</div>
+        <div class="theory-thumb">
+          <img src="images/02-classical-statistical-mechanics.png" alt="Classical Statistical Mechanics" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">A gas is trillions of colliding particles. Boltzmann's constant <em>k<sub>B</sub></em> connects a particle's average energy to the temperature of the whole gas.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>With it, heat, entropy, and pressure emerge from statistics. Boltzmann's tombstone in Vienna reads simply: <em>S = k<sub>B</sub> log W</em>.</p>
+          <p class="theory-visual-note">Visual: A spiky tetrahedron pointing toward the thermodynamic corner.</p>
+        </div>
       </div>
+
+      <!-- 03 -->
       <div class="theory-cell">
-        <div class="theory-coords">(G, c&#x207B;&#xB9;, 0, 0)</div>
-        <div class="theory-name">General relativity</div>
-        <div class="theory-thumb dark">image placeholder</div>
+        <div class="theory-coords">(G, 0, 0, 0)</div>
+        <div class="theory-name">Newtonian Gravity</div>
+        <div class="theory-thumb">
+          <img src="images/03-newtonian-gravity.png" alt="Newtonian Gravity" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Every mass in the universe pulls on every other. Newton's constant <em>G</em> governs falling apples and orbiting planets with the same equation.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p><em>G</em> is the only one of Planck's four constants still not measured to full precision — experiments to nail it down are ongoing today.</p>
+          <p class="theory-visual-note">Visual: A spiky tetrahedron pointing toward the gravitational corner.</p>
+        </div>
       </div>
-      <div class="theory-cell">
-        <div class="theory-coords">(0, c&#x207B;&#xB9;, h, 0)</div>
-        <div class="theory-name">Quantum field theory</div>
-        <div class="theory-thumb">image placeholder</div>
-      </div>
-      <div class="theory-cell">
-        <div class="theory-coords">(0, 0, h, k<sub>B</sub>)</div>
-        <div class="theory-name">Quantum statistical mechanics</div>
-        <div class="theory-thumb">image placeholder</div>
-      </div>
-      <div class="theory-cell">
-        <div class="theory-coords">(0, c&#x207B;&#xB9;, 0, k<sub>B</sub>)</div>
-        <div class="theory-name">Relativistic thermodynamics</div>
-        <div class="theory-thumb">image placeholder</div>
-      </div>
-      <div class="theory-cell">
-        <div class="theory-coords">(G, 0, h, 0)</div>
-        <div class="theory-name">Non-relativistic quantum gravity</div>
-        <div class="theory-thumb">image placeholder</div>
-      </div>
+
+      <!-- 04 -->
       <div class="theory-cell">
         <div class="theory-coords">(G, 0, 0, k<sub>B</sub>)</div>
-        <div class="theory-name">Gravitational thermodynamics</div>
-        <div class="theory-thumb">image placeholder</div>
+        <div class="theory-name">Statistical Mechanics &amp; Newtonian Gravity</div>
+        <div class="theory-thumb">
+          <img src="images/04-statistical-mechanics-newtonian-gravity.png" alt="Statistical Mechanics and Newtonian Gravity" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">When gravity and thermodynamics meet, stars are born. A gas cloud collapses when gravitational energy outweighs thermal pressure — the Jeans mass.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>No relativity, no quantum mechanics needed. The universe builds stars with just <em>G</em> and <em>k<sub>B</sub></em>.</p>
+          <p class="theory-visual-note">Visual: Star formation — simplest astrophysics.</p>
+        </div>
       </div>
+
+      <!-- 05 -->
       <div class="theory-cell">
-        <div class="theory-coords">(0, c&#x207B;&#xB9;, h, k<sub>B</sub>)</div>
-        <div class="theory-name">Relativistic quantum stat. mech.</div>
-        <div class="theory-thumb">image placeholder</div>
+        <div class="theory-coords">(0, c&#x207B;&#xB9;, 0, 0)</div>
+        <div class="theory-name">Special Relativity &amp; Electrodynamics</div>
+        <div class="theory-thumb">
+          <img src="images/05-special-relativity-electrodynamics.png" alt="Special Relativity and Electrodynamics" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Nothing travels faster than light. Einstein's 1905 theory derived <em>E = mc²</em>, time dilation, and unified electricity and magnetism.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>The constant that matters is <em>c⁻¹</em> — as <em>c → ∞</em>, special relativity collapses back to Newton. Maxwell's equations live here too.</p>
+          <p class="theory-visual-note">Visual: A spiky tetrahedron pointing toward the relativistic corner.</p>
+        </div>
       </div>
+
+      <!-- 06 -->
       <div class="theory-cell">
-        <div class="theory-coords">(G, c&#x207B;&#xB9;, h, 0)</div>
-        <div class="theory-name">Theory of everything (TOE)</div>
-        <div class="theory-thumb">image placeholder</div>
+        <div class="theory-coords">(0, c&#x207B;&#xB9;, 0, k<sub>B</sub>)</div>
+        <div class="theory-name">Special Relativity &amp; Statistical Mechanics</div>
+        <div class="theory-thumb">
+          <img src="images/06-special-relativity-statistical-mechanics.png" alt="Special Relativity and Statistical Mechanics" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">What temperature does a moving body have? This question has been debated since 1907 and remains unresolved.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>Planck, Einstein, and others proposed different answers — and all may be correct, depending on how you define temperature for a moving system. A rare case of a theory that is more puzzle than solution.</p>
+          <p class="theory-visual-note">Visual: A two-constant piece with an open question at its heart.</p>
+        </div>
       </div>
+
+      <!-- 07 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(0, 0, h, 0)</div>
+        <div class="theory-name">Quantum Mechanics</div>
+        <div class="theory-thumb">
+          <img src="images/07-quantum-mechanics.png" alt="Quantum Mechanics" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Particles don't have definite positions until measured. Energy comes in discrete packets. Planck's constant <em>h</em> sets the scale at which this strangeness kicks in.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>The 1920s formulations of Schrödinger and Heisenberg transformed physics. Einstein protested: "God does not play dice." The dice disagree.</p>
+          <p class="theory-visual-note">Visual: A spiky tetrahedron pointing toward the quantum corner.</p>
+        </div>
+      </div>
+
+      <!-- 08 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(0, 0, h, k<sub>B</sub>)</div>
+        <div class="theory-name">Quantum Statistical Mechanics</div>
+        <div class="theory-thumb">
+          <img src="images/08-quantum-statistical-mechanics.png" alt="Quantum Statistical Mechanics" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Truly identical particles can all pile into the same state (bosons) or refuse to share one (fermions). This gives us superconductors and Bose–Einstein condensates.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>Planck's 1900 black-body law — the first quantum formula — lives here too.</p>
+          <p class="theory-visual-note">Visual: Where quantum strangeness meets thermodynamics.</p>
+        </div>
+      </div>
+
+      <!-- 09 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(G, c&#x207B;&#xB9;, 0, 0)</div>
+        <div class="theory-name">General Relativity</div>
+        <div class="theory-thumb">
+          <img src="images/09-general-relativity.png" alt="General Relativity" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Mass curves spacetime. Objects follow that curvature — gravity is not a force, but geometry. Einstein's 1915 equations predicted black holes, gravitational waves, and the expanding universe.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>All later confirmed. The image shows space curved by a massive body — not a force pulling things down, but a shape guiding them.</p>
+          <p class="theory-visual-note">Visual: A larger piece — two constants, two revolutionised concepts of space and time.</p>
+        </div>
+      </div>
+
+      <!-- 10 -->
       <div class="theory-cell">
         <div class="theory-coords">(G, c&#x207B;&#xB9;, 0, k<sub>B</sub>)</div>
-        <div class="theory-name">Relativistic gravitational thermo.</div>
-        <div class="theory-thumb">image placeholder</div>
+        <div class="theory-name">General Relativity &amp; Statistical Mechanics</div>
+        <div class="theory-thumb">
+          <img src="images/10-general-relativity-statistical-mechanics.png" alt="General Relativity and Statistical Mechanics" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">The Big Bang started hot. The universe has been cooling for 13.8 billion years. Today the cosmic microwave background reaches us at just 2.7 K.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>Cosmology lives at this intersection of curved spacetime and thermodynamics, though quantum effects are never truly absent.</p>
+          <p class="theory-visual-note">Visual: The expanding universe, measured in degrees.</p>
+        </div>
       </div>
+
+      <!-- 11 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(0, c&#x207B;&#xB9;, h, 0)</div>
+        <div class="theory-name">Quantum Field Theory</div>
+        <div class="theory-thumb">
+          <img src="images/11-quantum-field-theory.png" alt="Quantum Field Theory" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">The Standard Model of particle physics. Every particle is an excitation of a field. QFT predicts the electron's magnetic moment to twelve decimal places.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>The most precisely tested theory in science. Gravity is stubbornly absent: including <em>G</em> turns this into the elusive Theory of Everything.</p>
+          <p class="theory-visual-note">Visual: Feynman diagrams — particles as excitations of quantum fields.</p>
+        </div>
+      </div>
+
+      <!-- 12 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(0, c&#x207B;&#xB9;, h, k<sub>B</sub>)</div>
+        <div class="theory-name">Quantum Field Theory &amp; Temperature</div>
+        <div class="theory-thumb">
+          <img src="images/12-qft-temperature.png" alt="Quantum Field Theory and Temperature" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Planck's 1900 black-body formula was the first equation to combine <em>c⁻¹</em>, <em>h</em>, and <em>k<sub>B</sub></em> — it launched quantum physics.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>The Unruh effect predicts that an accelerating detector in empty space will measure a nonzero temperature. Hot vacuum: still unconfirmed experimentally, but theoretically compelling.</p>
+          <p class="theory-visual-note">Visual: Three constants, the first quantum formula, and a glowing vacuum.</p>
+        </div>
+      </div>
+
+      <!-- 13 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(G, 0, h, 0)</div>
+        <div class="theory-name">Non-Relativistic Quantum Gravity</div>
+        <div class="theory-thumb">
+          <img src="images/13-nonrelativistic-quantum-gravity.png" alt="Non-Relativistic Quantum Gravity" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">In 1975, the COW experiment showed that a neutron beam splits and recombines with a measurable phase shift caused purely by Earth's gravity.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>Quantum and gravitational effects, no relativity needed. A quiet but profound confirmation that <em>h</em> and <em>G</em> do overlap.</p>
+          <p class="theory-visual-note">Visual: Neutron interferometer in Earth's gravitational field.</p>
+        </div>
+      </div>
+
+      <!-- 14 -->
       <div class="theory-cell">
         <div class="theory-coords">(G, 0, h, k<sub>B</sub>)</div>
-        <div class="theory-name">Quantum gravitational stat. mech.</div>
-        <div class="theory-thumb">image placeholder</div>
+        <div class="theory-name">Non-Relativistic Quantum Gravity &amp; Temperature</div>
+        <div class="theory-thumb">
+          <img src="images/14-nonrelativistic-quantum-gravity-temperature.png" alt="Non-Relativistic Quantum Gravity and Temperature" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Ultracold neutrons bounce off surfaces like billiard balls and occupy discrete quantum states in Earth's gravity. Their measured lifetime gives two different answers depending on method.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>The ~9-second discrepancy between "bottle" and "beam" experiments remains an open puzzle in physics today.</p>
+          <p class="theory-visual-note">Visual: Quantum states in a gravitational bottle.</p>
+        </div>
       </div>
-      <div class="theory-cell tore">
+
+      <!-- 15 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(G, c&#x207B;&#xB9;, h, 0)</div>
+        <div class="theory-name">Theory of Everything (TOE)</div>
+        <div class="theory-thumb">
+          <img src="images/15-theory-of-everything.png" alt="Theory of Everything" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">The holy grail: a single theory uniting quantum field theory and general relativity. Superstring theory and loop quantum gravity are the leading candidates.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>Neither has been experimentally confirmed. The Planck length (~10⁻³⁵ m), where quantum gravity must matter, is 10²⁰ times smaller than a proton. Progress is slow, but the question is real.</p>
+          <p class="theory-visual-note">Visual: M-theory — one vision of the Theory of Everything.</p>
+        </div>
+      </div>
+
+      <!-- 16 -->
+      <div class="theory-cell">
         <div class="theory-coords">(G, c&#x207B;&#xB9;, h, k<sub>B</sub>)</div>
-        <div class="theory-name">Theory of really everything (TORE)</div>
-        <div class="theory-thumb dark">image placeholder</div>
+        <div class="theory-name">Theory of Really Everything (TORE)</div>
+        <div class="theory-thumb">
+          <img src="images/16-theory-of-really-everything.png" alt="Theory of Really Everything" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Black holes radiate. Hawking's 1974 discovery that black holes emit thermal radiation is the clearest hint that all four constants must eventually unite.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
+        <div class="theory-detail">
+          <p>The Bekenstein–Hawking entropy links the thermodynamics of a black hole to the area of its horizon. TORE is not yet found, but black holes are already pointing the way.</p>
+          <p class="theory-visual-note">Visual: This outermost piece contains all others. The assembled puzzle is TORE.</p>
+        </div>
       </div>
+
     </div>
   </div>
 </div>
@@ -1032,6 +1231,15 @@
     document.querySelectorAll('.survey-tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('panel-' + tab).classList.add('visible');
     event.currentTarget.classList.add('active');
+  }
+  function toggleTheory(btn) {
+    const detail = btn.nextElementSibling;
+    const isOpen = detail.classList.contains('visible');
+    detail.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+    btn.textContent = isOpen
+      ? (btn.getAttribute('data-more') || 'More ↓')
+      : (btn.getAttribute('data-less') || 'Less ↑');
   }
 </script>
 

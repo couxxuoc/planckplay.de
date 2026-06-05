@@ -187,6 +187,49 @@
       .survey-link-card { flex-direction: column; align-items: flex-start; }
       footer { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 1.5rem; }
     }
+    /* ── THEORY CARD CONTENT ── */
+    .theory-blurb {
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--ink-muted);
+      margin-top: 0.75rem;
+    }
+    .theory-toggle {
+      background: none;
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      padding: 0.25rem 0.6rem;
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      cursor: pointer;
+      margin-top: 0.75rem;
+      transition: background 0.15s, color 0.15s;
+      display: block;
+    }
+    .theory-toggle:hover { background: var(--accent-light); }
+    .theory-toggle.open { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .theory-detail {
+      display: none;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--rule);
+    }
+    .theory-detail.visible { display: block; }
+    .theory-detail p {
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+    }
+    .theory-detail p:last-child { margin-bottom: 0; }
+    .theory-visual-note {
+      font-size: 11px !important;
+      font-style: italic;
+      color: var(--ink-faint) !important;
+    }
     @media (max-width: 560px) {
       .theories-grid { grid-template-columns: 1fr; }
     }
@@ -226,7 +269,7 @@
   <div class="hero">
     <div class="hero-left">
       <h1>Physik abbilden<br><em>in vier<br>Dimensionen</em></h1>
-      <p>Ein geometrisches Modell der sechzehn Bereiche der Physik, basierend auf Plancks vier Fundamentalkonstanten und ihrem vierdimensionalen dualen Polytop: dem Hexadekachor.</p>
+      <p>Ein geometrisches Modell der sechzehn Theorien der Physik, das auf Plancks vier Fundamentalkonstanten basiert und als vierdimensionalen Polytop dargestellt wird: dem Hexadekachor.</p>
       <p class="hero-sub">Exzellenzcluster Matters of Activity &middot;<br>Humboldt-Universit&auml;t zu Berlin</p>
     </div>
     <div class="hero-right">
@@ -316,90 +359,251 @@
     <p class="section-label">Die 16 Theorien</p>
     <div class="theories-intro">
       <div><h2>Eine Karte des physikalischen Wissens</h2></div>
-      <div><p>Jedes Tetraeder im Hexadekachor entspricht einer der sechzehn m&ouml;glichen Kombinationen von Plancks Konstanten. Acht sind etablierte physikalische Theorien. Sechs bleiben offene Probleme. Zwei &mdash; darunter die Theorie von wirklich allem &mdash; sind spekulative Grenzbereiche.</p></div>
+      <div><p>Jedes Tetraeder im Hexadekachor entspricht einer der sechzehn möglichen Kombinationen von Plancks Konstanten. Acht sind etablierte physikalische Theorien. Sechs bleiben offene Probleme. Zwei &mdash; darunter die Theorie von wirklich allem &mdash; sind spekulative Grenzbereiche.</p></div>
     </div>
 
     <div class="theories-grid">
+
+      <!-- 01 -->
       <div class="theory-cell">
         <div class="theory-coords">(0, 0, 0, 0)</div>
         <div class="theory-name">Newtonsche Mechanik</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
+        <div class="theory-thumb">
+          <img src="images/01-newtonian-mechanics.png" alt="Newtonsche Mechanik" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Keine Gravitation. Keine Lichtgeschwindigkeitsgrenze. Keine Quanteneffekte. Keine Temperatur. Die Bewegung von Körpern unter Kräften — <em>F = ma</em> — wo die moderne Wissenschaft begann.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Alles andere in diesem Puzzle ist eine Korrektur dieses Ausgangspunkts. Für alltägliche Geschwindigkeiten und Größenordnungen funktioniert sie nach wie vor perfekt.</p>
+          <p class="theory-visual-note">Bild: Das innerste Tetraeder — der Ursprung der gesamten Karte.</p>
+        </div>
       </div>
-      <div class="theory-cell">
-        <div class="theory-coords">(G, 0, 0, 0)</div>
-        <div class="theory-name">Newtonsche Gravitation</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
-      </div>
-      <div class="theory-cell">
-        <div class="theory-coords">(0, c&#x207B;&#xB9;, 0, 0)</div>
-        <div class="theory-name">Spezielle Relativit&auml;tstheorie</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
-      </div>
-      <div class="theory-cell">
-        <div class="theory-coords">(0, 0, h, 0)</div>
-        <div class="theory-name">Quantenmechanik</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
-      </div>
+
+      <!-- 02 -->
       <div class="theory-cell">
         <div class="theory-coords">(0, 0, 0, k<sub>B</sub>)</div>
         <div class="theory-name">Klassische statistische Mechanik</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
+        <div class="theory-thumb">
+          <img src="images/02-classical-statistical-mechanics.png" alt="Klassische statistische Mechanik" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Ein Gas besteht aus Billionen kollidierender Teilchen. Boltzmanns Konstante <em>k<sub>B</sub></em> verbindet die mittlere Energie eines Teilchens mit der Temperatur des gesamten Gases.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Damit entstehen Wärme, Entropie und Druck aus der Statistik. Boltzmanns Grabstein in Wien trägt nur: <em>S = k<sub>B</sub> log W</em>.</p>
+          <p class="theory-visual-note">Bild: Ein spitzes Tetraeder, das zur thermodynamischen Ecke zeigt.</p>
+        </div>
       </div>
+
+      <!-- 03 -->
       <div class="theory-cell">
-        <div class="theory-coords">(G, c&#x207B;&#xB9;, 0, 0)</div>
-        <div class="theory-name">Allgemeine Relativit&auml;tstheorie</div>
-        <div class="theory-thumb dark">Bildplatzhalter</div>
+        <div class="theory-coords">(G, 0, 0, 0)</div>
+        <div class="theory-name">Newtonsche Gravitation</div>
+        <div class="theory-thumb">
+          <img src="images/03-newtonian-gravity.png" alt="Newtonsche Gravitation" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Jede Masse im Universum zieht jede andere an. Newtons Konstante <em>G</em> beschreibt fallende Äpfel und umlaufende Planeten mit derselben Gleichung.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p><em>G</em> ist die einzige von Plancks vier Konstanten, die noch nicht mit voller Präzision gemessen wurde — Experimente dazu laufen bis heute.</p>
+          <p class="theory-visual-note">Bild: Ein spitzes Tetraeder, das zur Gravitationsecke zeigt.</p>
+        </div>
       </div>
+
+      <!-- 04 -->
       <div class="theory-cell">
-        <div class="theory-coords">(0, c&#x207B;&#xB9;, h, 0)</div>
-        <div class="theory-name">Quantenfeldtheorie</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
+        <div class="theory-coords">(G, 0, 0, k<sub>B</sub>)</div>
+        <div class="theory-name">Statistische Mechanik &amp; Newtonsche Gravitation</div>
+        <div class="theory-thumb">
+          <img src="images/04-statistical-mechanics-newtonian-gravity.png" alt="Statistische Mechanik und Newtonsche Gravitation" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Wenn Gravitation und Thermodynamik aufeinandertreffen, entstehen Sterne. Eine Gaswolke kollabiert, wenn die Gravitationsenergie den thermischen Druck überwiegt — die Jeans-Masse.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Keine Relativitätstheorie, keine Quantenmechanik nötig. Das Universum baut Sterne mit nur <em>G</em> und <em>k<sub>B</sub></em>.</p>
+          <p class="theory-visual-note">Bild: Sternentstehung — einfachste Astrophysik.</p>
+        </div>
       </div>
+
+      <!-- 05 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(0, c&#x207B;&#xB9;, 0, 0)</div>
+        <div class="theory-name">Spezielle Relativitätstheorie &amp; Elektrodynamik</div>
+        <div class="theory-thumb">
+          <img src="images/05-special-relativity-electrodynamics.png" alt="Spezielle Relativitätstheorie und Elektrodynamik" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Nichts bewegt sich schneller als Licht. Einsteins Theorie von 1905 leitete <em>E = mc²</em>, Zeitdilatation und die Vereinigung von Elektrizität und Magnetismus ab.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Die entscheidende Konstante ist <em>c⁻¹</em> — für <em>c → ∞</em> geht die spezielle Relativitätstheorie in Newtons Mechanik über. Maxwells Gleichungen leben hier ebenfalls.</p>
+          <p class="theory-visual-note">Bild: Ein spitzes Tetraeder, das zur relativistischen Ecke zeigt.</p>
+        </div>
+      </div>
+
+      <!-- 06 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(0, c&#x207B;&#xB9;, 0, k<sub>B</sub>)</div>
+        <div class="theory-name">Spezielle Relativitätstheorie &amp; Statistische Mechanik</div>
+        <div class="theory-thumb">
+          <img src="images/06-special-relativity-statistical-mechanics.png" alt="Spezielle Relativitätstheorie und Statistische Mechanik" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Welche Temperatur hat ein bewegter Körper? Diese Frage wird seit 1907 diskutiert und ist bis heute ungeklärt.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Planck, Einstein und andere schlugen verschiedene Antworten vor — und alle könnten richtig sein, je nachdem, wie man Temperatur für ein bewegtes System definiert. Ein seltener Fall einer Theorie, die mehr Rätsel als Lösung ist.</p>
+          <p class="theory-visual-note">Bild: Ein Zwei-Konstanten-Stück mit einer offenen Frage in seinem Kern.</p>
+        </div>
+      </div>
+
+      <!-- 07 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(0, 0, h, 0)</div>
+        <div class="theory-name">Quantenmechanik</div>
+        <div class="theory-thumb">
+          <img src="images/07-quantum-mechanics.png" alt="Quantenmechanik" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Teilchen haben keine bestimmten Positionen, bis sie gemessen werden. Energie kommt in diskreten Paketen. Plancks Konstante <em>h</em> setzt die Skala dieser Seltsamkeit.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Die Formulierungen von Schrödinger und Heisenberg in den 1920er Jahren veränderten die Physik grundlegend. Einstein protestierte: „Gott würfelt nicht." Die Würfel widersprachen.</p>
+          <p class="theory-visual-note">Bild: Ein spitzes Tetraeder, das zur Quantenecke zeigt.</p>
+        </div>
+      </div>
+
+      <!-- 08 -->
       <div class="theory-cell">
         <div class="theory-coords">(0, 0, h, k<sub>B</sub>)</div>
         <div class="theory-name">Quantenstatistische Mechanik</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
+        <div class="theory-thumb">
+          <img src="images/08-quantum-statistical-mechanics.png" alt="Quantenstatistische Mechanik" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Wirklich identische Teilchen können alle denselben Zustand besetzen (Bosonen) oder sich weigern, ihn zu teilen (Fermionen). So entstehen Supraleiter und Bose-Einstein-Kondensate.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Plancks Schwarzkörpergesetz von 1900 — die erste Quantenformel — lebt ebenfalls hier.</p>
+          <p class="theory-visual-note">Bild: Wo Quantenseltsamkeit auf Thermodynamik trifft.</p>
+        </div>
       </div>
+
+      <!-- 09 -->
       <div class="theory-cell">
-        <div class="theory-coords">(0, c&#x207B;&#xB9;, 0, k<sub>B</sub>)</div>
-        <div class="theory-name">Relativistische Thermodynamik</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
+        <div class="theory-coords">(G, c&#x207B;&#xB9;, 0, 0)</div>
+        <div class="theory-name">Allgemeine Relativitätstheorie</div>
+        <div class="theory-thumb">
+          <img src="images/09-general-relativity.png" alt="Allgemeine Relativitätstheorie" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Masse krümmt die Raumzeit. Objekte folgen dieser Krümmung — Gravitation ist keine Kraft, sondern Geometrie. Einsteins Feldgleichungen von 1915 sagten Schwarze Löcher und Gravitationswellen voraus.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Alles später bestätigt. Das Bild zeigt durch eine massive Masse gekrümmten Raum — keine Kraft zieht nach unten, sondern eine Form leitet die Bewegung.</p>
+          <p class="theory-visual-note">Bild: Ein größeres Stück — zwei Konstanten, zwei revolutionierte Konzepte von Raum und Zeit.</p>
+        </div>
       </div>
+
+      <!-- 10 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(G, c&#x207B;&#xB9;, 0, k<sub>B</sub>)</div>
+        <div class="theory-name">Allgemeine Relativitätstheorie &amp; Statistische Mechanik</div>
+        <div class="theory-thumb">
+          <img src="images/10-general-relativity-statistical-mechanics.png" alt="Allgemeine Relativitätstheorie und Statistische Mechanik" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Der Urknall war heiß. Das Universum kühlt seit 13,8 Milliarden Jahren ab. Der kosmische Mikrowellenhintergrund erreicht uns heute bei nur 2,7 K.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Die Kosmologie lebt an dieser Schnittstelle von gekrümmter Raumzeit und Thermodynamik, obwohl Quanteneffekte nie wirklich absent sind.</p>
+          <p class="theory-visual-note">Bild: Das expandierende Universum, gemessen in Kelvin.</p>
+        </div>
+      </div>
+
+      <!-- 11 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(0, c&#x207B;&#xB9;, h, 0)</div>
+        <div class="theory-name">Quantenfeldtheorie</div>
+        <div class="theory-thumb">
+          <img src="images/11-quantum-field-theory.png" alt="Quantenfeldtheorie" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Das Standardmodell der Teilchenphysik. Jedes Teilchen ist eine Anregung eines Feldes. Die QFT sagt das magnetische Moment des Elektrons auf zwölf Dezimalstellen voraus.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Die am präzisesten getestete Theorie der Wissenschaft. Die Gravitation fehlt hartnäckig: Das Hinzufügen von <em>G</em> macht daraus die schwer fassbare Theorie von allem.</p>
+          <p class="theory-visual-note">Bild: Feynman-Diagramme — Teilchen als Anregungen quantisierter Felder.</p>
+        </div>
+      </div>
+
+      <!-- 12 -->
+      <div class="theory-cell">
+        <div class="theory-coords">(0, c&#x207B;&#xB9;, h, k<sub>B</sub>)</div>
+        <div class="theory-name">Quantenfeldtheorie &amp; Temperatur</div>
+        <div class="theory-thumb">
+          <img src="images/12-qft-temperature.png" alt="Quantenfeldtheorie und Temperatur" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Plancks Schwarzkörperformel von 1900 war die erste Gleichung, die <em>c⁻¹</em>, <em>h</em> und <em>k<sub>B</sub></em> verband — sie läutete die Quantenphysik ein.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Der Unruh-Effekt sagt voraus, dass ein beschleunigter Detektor im leeren Raum eine von Null verschiedene Temperatur messen wird. Heißes Vakuum: experimentell noch unbestätigt, theoretisch überzeugend.</p>
+          <p class="theory-visual-note">Bild: Drei Konstanten, die erste Quantenformel und ein glühendes Vakuum.</p>
+        </div>
+      </div>
+
+      <!-- 13 -->
       <div class="theory-cell">
         <div class="theory-coords">(G, 0, h, 0)</div>
         <div class="theory-name">Nichtrelativistische Quantengravitation</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
+        <div class="theory-thumb">
+          <img src="images/13-nonrelativistic-quantum-gravity.png" alt="Nichtrelativistische Quantengravitation" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">1975 zeigte das COW-Experiment, dass ein Neutronenstrahl sich aufteilt und wieder vereint, wobei eine messbare Phasenverschiebung allein durch die Erdgravitation entsteht.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Quanten- und Gravitationseffekte, keine Relativitätstheorie nötig. Eine stille, aber tiefgreifende Bestätigung, dass <em>h</em> und <em>G</em> sich tatsächlich überschneiden.</p>
+          <p class="theory-visual-note">Bild: Neutroneninterferometer im Erdgravitationsfeld.</p>
+        </div>
       </div>
+
+      <!-- 14 -->
       <div class="theory-cell">
-        <div class="theory-coords">(G, 0, 0, k<sub>B</sub>)</div>
-        <div class="theory-name">Gravitations-Thermodynamik</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
+        <div class="theory-coords">(G, 0, h, k<sub>B</sub>)</div>
+        <div class="theory-name">Nichtrelativistische Quantengravitation &amp; Temperatur</div>
+        <div class="theory-thumb">
+          <img src="images/14-nonrelativistic-quantum-gravity-temperature.png" alt="Nichtrelativistische Quantengravitation und Temperatur" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Ultrakalte Neutronen springen von Oberflächen ab wie Billardkugeln und besetzen diskrete Quantenzustände in der Erdgravitation. Ihre gemessene Lebensdauer liefert je nach Methode unterschiedliche Werte.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Die ~9-Sekunden-Diskrepanz zwischen „Flasche"- und „Strahl"-Experimenten ist bis heute ein offenes Rätsel der Physik.</p>
+          <p class="theory-visual-note">Bild: Quantenzustände in einer Gravitationsflasche.</p>
+        </div>
       </div>
-      <div class="theory-cell">
-        <div class="theory-coords">(0, c&#x207B;&#xB9;, h, k<sub>B</sub>)</div>
-        <div class="theory-name">Relativistische Quantenstatistik</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
-      </div>
+
+      <!-- 15 -->
       <div class="theory-cell">
         <div class="theory-coords">(G, c&#x207B;&#xB9;, h, 0)</div>
         <div class="theory-name">Theorie von allem (TOE)</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
+        <div class="theory-thumb">
+          <img src="images/15-theory-of-everything.png" alt="Theorie von allem" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Der heilige Gral: eine einzige Theorie, die Quantenfeldtheorie und allgemeine Relativitätstheorie vereint. Superstringtheorie und Schleifenquantengravitation sind die führenden Kandidaten.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Keine wurde experimentell bestätigt. Die Planck-Länge (~10⁻³⁵ m), wo Quantengravitation bedeutsam werden muss, ist 10²⁰ mal kleiner als ein Proton. Der Fortschritt ist langsam, aber die Frage ist real.</p>
+          <p class="theory-visual-note">Bild: M-Theorie — eine Vision der Theorie von allem.</p>
+        </div>
       </div>
+
+      <!-- 16 -->
       <div class="theory-cell">
-        <div class="theory-coords">(G, c&#x207B;&#xB9;, 0, k<sub>B</sub>)</div>
-        <div class="theory-name">Relativistische Gravitationsthermodynamik</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
-      </div>
-      <div class="theory-cell">
-        <div class="theory-coords">(G, 0, h, k<sub>B</sub>)</div>
-        <div class="theory-name">Quantengravitations-Statistik</div>
-        <div class="theory-thumb">Bildplatzhalter</div>
-      </div>
-      <div class="theory-cell tore">
         <div class="theory-coords">(G, c&#x207B;&#xB9;, h, k<sub>B</sub>)</div>
         <div class="theory-name">Theorie von wirklich allem (TORE)</div>
-        <div class="theory-thumb dark">Bildplatzhalter</div>
+        <div class="theory-thumb">
+          <img src="images/16-theory-of-really-everything.png" alt="Theorie von wirklich allem" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <p class="theory-blurb">Schwarze Löcher strahlen. Hawkings Entdeckung von 1974, dass Schwarze Löcher Wärmestrahlung aussenden, ist der deutlichste Hinweis, dass alle vier Konstanten sich vereinen müssen.</p>
+        <button class="theory-toggle" onclick="toggleTheory(this)">Mehr &darr;</button>
+        <div class="theory-detail">
+          <p>Die Bekenstein-Hawking-Entropie verknüpft die Thermodynamik eines Schwarzen Lochs mit der Fläche seines Ereignishorizonts. TORE ist noch nicht gefunden, aber Schwarze Löcher zeigen bereits den Weg.</p>
+          <p class="theory-visual-note">Bild: Dieses äußerste Stück enthält alle anderen. Das zusammengesetzte Puzzle ist TORE.</p>
+        </div>
       </div>
+
     </div>
   </div>
 </div>
@@ -636,6 +840,15 @@
     document.querySelectorAll('.survey-tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('panel-' + tab).classList.add('visible');
     event.currentTarget.classList.add('active');
+  }
+  function toggleTheory(btn) {
+    const detail = btn.nextElementSibling;
+    const isOpen = detail.classList.contains('visible');
+    detail.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+    btn.textContent = isOpen
+      ? (btn.getAttribute('data-more') || 'More ↓')
+      : (btn.getAttribute('data-less') || 'Less ↑');
   }
 </script>
 
