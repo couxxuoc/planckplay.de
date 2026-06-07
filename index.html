@@ -630,6 +630,51 @@
       .survey-tab-btn:last-child { border-bottom: none; }
       .survey-link-card { flex-direction: column; align-items: flex-start; }
     }
+
+    /* ── MEDIA ── */
+    .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+    .media-link-card {
+      display: block; text-decoration: none;
+      border: 1px solid var(--rule); border-radius: 2px;
+      overflow: hidden; transition: border-color 0.15s;
+    }
+    .media-link-card:hover { border-color: rgba(42,42,120,0.4); }
+    .media-thumb {
+      aspect-ratio: 16/9; background: #0a0a12;
+      position: relative; overflow: hidden;
+    }
+    .media-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.85; }
+    .media-play {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 52px; height: 52px;
+      background: rgba(200,0,0,0.9); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .media-info { padding: 1.2rem 1.4rem; }
+    .media-tag { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+    .media-info h3 { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; color: var(--ink); margin-bottom: 0.3rem; }
+    .media-info p { font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
+    @media (max-width: 900px) { .media-grid { grid-template-columns: 1fr; } }
+
+    /* ── COMING SOON (XR + GAMES MERGED) ── */
+    .coming-soon-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; border-top: 1px solid var(--rule);
+    }
+    .coming-soon-card {
+      padding: 2.5rem 2rem;
+      border-right: 1px solid var(--rule);
+    }
+    .coming-soon-card:last-child { border-right: none; }
+    .coming-soon-card h3 { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; margin-bottom: 0.75rem; }
+    .coming-soon-card p { font-size: 13px; color: var(--ink-muted); line-height: 1.8; margin-bottom: 0.75rem; }
+    .coming-soon-card p:last-child { margin-bottom: 0; }
+    @media (max-width: 900px) {
+      .coming-soon-grid { grid-template-columns: 1fr; }
+      .coming-soon-card { border-right: none; border-bottom: 1px solid var(--rule); }
+      .coming-soon-card:last-child { border-bottom: none; }
+    }
   </style>
 </head>
 <body>
@@ -645,8 +690,8 @@
     <a href="#theories">Theories</a>
     <a href="#models">Models</a>
     <a href="#projections">Projections</a>
-    <a href="#xr">XR</a>
-    <a href="#games">Games</a>
+    <a href="#media">Media</a>
+    <a href="#xr">XR &amp; Play</a>
     <a href="#surveys">Surveys</a>
     <a href="#contact">Contact</a>
   </div>
@@ -1045,66 +1090,71 @@
   </div>
 </div>
 
-<!-- ── XR APP ── -->
-<div class="xr-section" id="xr">
-  <div class="xr-inner">
-    <div class="xr-text">
-      <span class="xr-badge">&#9679; Coming soon</span>
-      <h2>Explore in extended reality</h2>
-      <p>An XR application that lets you navigate the hexadecachoron in three-dimensional space. Enter each theory, understand its physical significance, and visualise its relationship to neighbouring theories through interactive environments.</p>
-      <p>The app is being developed as part of a Teaching Portfolio for secondary school physics education.</p>
-      <a class="model-link" href="mailto:contact@planckplay.de">Register for early access &rarr;</a>
+<!-- ── PRESS & MEDIA ── -->
+<div class="section-border" id="media">
+  <div class="section">
+    <p class="section-label">Press &amp; Media</p>
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:4rem;margin-bottom:3rem;">
+      <h2 style="font-family:var(--serif);font-size:2rem;font-weight:400;line-height:1.2;">In the<br>public eye</h2>
+      <p style="font-size:14px;line-height:1.9;color:var(--ink-muted);">From science communication contests to public outreach events, PlanckPlay has been present where physics meets people.</p>
     </div>
-    <div class="xr-device">XR app preview</div>
+    <div class="media-grid">
+
+      <!-- YouTube -->
+      <a class="media-link-card" href="https://www.youtube.com/watch?v=ixfZEG2eGrc" target="_blank" rel="noopener">
+        <div class="media-thumb">
+          <img src="https://img.youtube.com/vi/ixfZEG2eGrc/hqdefault.jpg" alt="Berlin Science Week 2026">
+          <div class="media-play">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="white"><polygon points="9,7 9,17 18,12"/></svg>
+          </div>
+        </div>
+        <div class="media-info">
+          <p class="media-tag">Berlin Science Week 2026 &middot; YouTube</p>
+          <h3>Physics, design &amp; education</h3>
+          <p>A short film about my work featuring PlanckPlay, submitted to the Berlin Science Week &times; LNdW call for early-career researchers.</p>
+        </div>
+      </a>
+
+      <!-- Instagram -->
+      <a class="media-link-card" href="https://www.instagram.com/reel/DZBTqdcIHpy/" target="_blank" rel="noopener">
+        <div class="media-thumb">
+          <img src="images/lndw-reel-thumb.png" alt="Lange Nacht der Wissenschaften 2026">
+        </div>
+        <div class="media-info">
+          <p class="media-tag">Lange Nacht der Wissenschaften 2026 &middot; Instagram</p>
+          <h3>Ludicity in physics</h3>
+          <p>A short reel documenting PlanckPlay in action &mdash; physics as something you can touch, build, and play with.</p>
+        </div>
+      </a>
+
+    </div>
   </div>
 </div>
 
-<!-- ── INTERACTIVE ENVIRONMENTS ── -->
-<div class="section-border" id="games">
+<!-- ── XR & INTERACTIVE ENVIRONMENTS ── -->
+<div class="section-border" id="xr">
   <div class="section">
-    <p class="section-label">Interactive environments</p>
-    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; margin-bottom: 3rem;">
-      <h2 style="font-family: var(--serif); font-size: 2rem; font-weight: 400;">Theory in play</h2>
-      <p style="font-size: 14px; line-height: 1.9; color: var(--ink-muted);">Each interactive environment explores one or more of the sixteen theories through play. Navigate phenomena that are normally invisible &mdash; from quantum superposition to relativistic time dilation &mdash; as spatial, embodied experiences.</p>
+    <p class="section-label">Coming soon</p>
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:4rem;margin-bottom:3rem;">
+      <h2 style="font-family:var(--serif);font-size:2rem;font-weight:400;line-height:1.2;">What&rsquo;s<br>next</h2>
+      <p style="font-size:14px;line-height:1.9;color:var(--ink-muted);">Two complementary experiences are in development: an extended reality application for navigating the hexadecachoron in space, and a series of interactive environments where the sixteen theories become playable.</p>
     </div>
-    <div class="games-grid">
+    <div class="coming-soon-grid">
 
-      <div class="game-card">
-        <div class="game-visual">
-          <div class="star" style="width:2px;height:2px;top:20%;left:30%"></div>
-          <div class="star" style="width:1px;height:1px;top:40%;left:60%;opacity:.7"></div>
-          <div class="star" style="width:3px;height:3px;top:65%;left:20%;opacity:.9"></div>
-          <div class="star" style="width:1px;height:1px;top:25%;left:75%;opacity:.6"></div>
-          <div class="star" style="width:2px;height:2px;top:75%;left:55%;opacity:.8"></div>
-          <div class="star" style="width:1px;height:1px;top:50%;left:45%"></div>
-          <div class="star" style="width:2px;height:2px;top:15%;left:50%;opacity:.5"></div>
-          <div class="star" style="width:1px;height:1px;top:80%;left:80%;opacity:.7"></div>
-          <div class="star" style="width:1px;height:1px;top:35%;left:15%;opacity:.6"></div>
-          <div class="star" style="width:2px;height:2px;top:55%;left:88%;opacity:.5"></div>
-          <svg viewBox="0 0 320 180" width="100%" height="100%" style="position:absolute;top:0;left:0" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="160" cy="90" r="50" stroke="rgba(255,255,100,0.15)" stroke-width="0.5" fill="none"/>
-            <circle cx="160" cy="90" r="25" stroke="rgba(255,255,100,0.1)" stroke-width="0.5" fill="none"/>
-            <circle cx="160" cy="90" r="6" fill="rgba(255,240,100,0.6)"/>
-            <line x1="160" y1="90" x2="200" y2="55" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
-            <circle cx="200" cy="55" r="2.5" fill="rgba(150,200,255,0.7)"/>
-          </svg>
-        </div>
-        <p class="game-tag">Astrophysics &middot; Newtonian gravity &middot; General relativity</p>
-        <h3>Finding your star</h3>
-        <p>A stellar map of the night sky. Interact with constellations, galaxies, planets, and luminous objects &mdash; tracing the physics that governs each one, from Newtonian orbits to relativistic light-bending around massive bodies.</p>
+      <div class="coming-soon-card">
+        <span class="xr-badge" style="margin-bottom:1.2rem;display:inline-flex;">&#9679; In development</span>
+        <h3>XR application</h3>
+        <p>Navigate the hexadecachoron in three-dimensional space. Enter each theory, understand its physical significance, and visualise its relationship to neighbouring theories through immersive environments.</p>
+        <p>Being developed as part of a Teaching Portfolio for secondary school physics education, validated through the ProValid programme at IBB Business Team Berlin.</p>
+        <a class="model-link" href="mailto:contact@planckplay.de">Register for early access &rarr;</a>
       </div>
 
-      <div class="game-card placeholder">
-        <div class="game-visual" style="background:#0a0a12;border:1px solid rgba(255,255,255,0.05)">
-          <svg viewBox="0 0 320 180" width="50%" height="50%" xmlns="http://www.w3.org/2000/svg" style="opacity:0.3" aria-hidden="true">
-            <rect x="80" y="40" width="160" height="100" stroke="#fff" stroke-width="0.5" fill="none"/>
-            <line x1="80" y1="40" x2="240" y2="140" stroke="#fff" stroke-width="0.3"/>
-            <line x1="240" y1="40" x2="80" y2="140" stroke="#fff" stroke-width="0.3"/>
-          </svg>
-        </div>
-        <p class="game-tag">Environment &mdash; coming soon</p>
-        <h3>Placeholder</h3>
-        <p>A future interactive environment exploring one or more theories of the hexadecachoron. Proposals and collaborations welcome.</p>
+      <div class="coming-soon-card">
+        <span class="xr-badge" style="margin-bottom:1.2rem;display:inline-flex;">&#9679; In development</span>
+        <h3>Interactive environments</h3>
+        <p>Each environment explores one or more of the sixteen theories through play. Navigate phenomena normally invisible &mdash; from quantum superposition to relativistic time dilation &mdash; as spatial, embodied experiences.</p>
+        <p><strong style="font-size:13px;color:var(--ink);">Finding your star</strong> &mdash; a stellar map of the night sky. Interact with constellations, galaxies, and planets, tracing the physics that governs each from Newtonian orbits to relativistic light-bending.</p>
+        <span class="model-link" style="color:var(--ink-faint);cursor:default;">More environments to follow &rarr;</span>
       </div>
 
     </div>
@@ -1205,8 +1255,8 @@
       <a href="#models">Models</a>
       <a href="#theories">Theories</a>
       <a href="#projections">Projections</a>
-      <a href="#xr">XR application</a>
-      <a href="#games">Interactive Environments</a>
+      <a href="#media">Press &amp; Media</a>
+      <a href="#xr">XR &amp; Interactive</a>
       <a href="#surveys">Surveys</a>
     </div>
     <div>
