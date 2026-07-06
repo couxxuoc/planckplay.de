@@ -710,7 +710,7 @@
   const titleMain = document.getElementById('title-main');
   const titleSub = document.getElementById('title-sub');
 
-  const FIT_SCALE = 0.80; // shrink the projected scene so it sits comfortably inside the canvas
+  const FIT_SCALE = 0.8; // shrink the projected scene so it sits comfortably inside the canvas
   function worldToScreen(sx, sy, lim){
     const scale = ((VB/2 - 46) / lim) * FIT_SCALE;
     return { px: VB/2 + sx*scale, py: VB/2 - sy*scale };
