@@ -9,6 +9,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
+    @font-face{
+      font-family:'DejaVu Serif';
+      src: url('https://cdn.jsdelivr.net/npm/dejavu-fonts-ttf@2.37.3/ttf/DejaVuSerif.ttf') format('truetype');
+      font-weight:normal; font-style:normal; font-display:swap;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -320,7 +325,15 @@
       gap: 1px;
       background: rgba(255,255,255,0.08);
     }
-    .proj-card { background: var(--ink); padding: 2.5rem 2rem; }
+    .proj-card {
+      background: var(--ink);
+      padding: 2.5rem 2rem;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s ease;
+    }
+    .proj-card:hover { background: #232320; }
     .proj-card h3 {
       font-family: var(--serif);
       font-size: 1.3rem;
@@ -338,8 +351,37 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: #1a1a18;
     }
     .proj-visual svg { width: 60%; height: 60%; opacity: 0.4; }
+    .proj-visual svg.static-render {
+      width: 82%;
+      height: 82%;
+      opacity: 1;
+    }
+    .vlabel-static {
+      font-family: 'DejaVu Serif', 'EB Garamond', serif;
+      font-style: italic;
+      fill: #f2efe9;
+      font-size: 20px;
+      paint-order: stroke;
+      stroke: #1a1a18;
+      stroke-width: 3px;
+      stroke-linejoin: round;
+    }
+    .proj-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 1.2rem;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+    .proj-card:hover .proj-link { color: #fff; }
 
     /* ── XR ── */
     .xr-section { background: var(--accent-light); padding: 5rem 3rem; }
@@ -1055,37 +1097,22 @@
       <p>The hexadecachoron and the tesseract cannot be perceived directly. We make them visible through projections &mdash; reductions to lower-dimensional representations that preserve the key structural relationships between theories.</p>
     </div>
     <div class="proj-grid">
-      <div class="proj-card">
+      <a class="proj-card" href="hexadecachoron_explorer.html">
         <h3>Hexadecachoron projections</h3>
         <p>The dual polytope of the tesseract, bounded by 16 tetrahedra. Different projection angles reveal the nested tetrahedral structure underlying Planck's model of physics.</p>
         <div class="proj-visual">
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <g stroke="#fff" stroke-width="0.7" fill="none">
-              <polygon points="100,20 170,150 30,150"/>
-              <polygon points="100,50 145,135 55,135" opacity="0.7"/>
-              <polygon points="100,70 130,125 70,125" opacity="0.5"/>
-              <line x1="30" y1="150" x2="170" y2="150" opacity="0.3"/>
-              <line x1="100" y1="20" x2="100" y2="150" opacity="0.3"/>
-            </g>
-          </svg>
+          <svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Static hexadecachoron projection" class="static-render"><defs><filter id="hxglow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><line x1="259.59" y1="370.44" x2="320.00" y2="244.49" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="259.59" y1="370.44" x2="396.60" y2="357.21" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="259.59" y1="370.44" x2="303.81" y2="307.86" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="259.59" y1="370.44" x2="376.65" y2="362.49" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="259.59" y1="370.44" x2="51.91" y2="189.75" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="259.59" y1="370.44" x2="320.00" y2="584.30" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="320.00" y1="244.49" x2="396.60" y2="357.21" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="320.00" y1="244.49" x2="303.81" y2="307.86" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="320.00" y1="244.49" x2="376.65" y2="362.49" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="320.00" y1="244.49" x2="51.91" y2="189.75" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="320.00" y1="244.49" x2="531.44" y2="143.46" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="396.60" y1="357.21" x2="303.81" y2="307.86" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="396.60" y1="357.21" x2="376.65" y2="362.49" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="396.60" y1="357.21" x2="320.00" y2="584.30" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="396.60" y1="357.21" x2="531.44" y2="143.46" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="303.81" y1="307.86" x2="51.91" y2="189.75" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="303.81" y1="307.86" x2="320.00" y2="584.30" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="303.81" y1="307.86" x2="531.44" y2="143.46" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="376.65" y1="362.49" x2="51.91" y2="189.75" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="376.65" y1="362.49" x2="320.00" y2="584.30" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="376.65" y1="362.49" x2="531.44" y2="143.46" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="51.91" y1="189.75" x2="320.00" y2="584.30" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="51.91" y1="189.75" x2="531.44" y2="143.46" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="320.00" y1="584.30" x2="531.44" y2="143.46" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><circle cx="259.59" cy="370.44" r="3.77" fill="#f2efe9" fill-opacity="0.82" filter="url(#hxglow)"/><circle cx="320.00" cy="244.49" r="3.76" fill="#f2efe9" fill-opacity="0.81" filter="url(#hxglow)"/><circle cx="396.60" cy="357.21" r="3.79" fill="#f2efe9" fill-opacity="0.84" filter="url(#hxglow)"/><circle cx="303.81" cy="307.86" r="3.89" fill="#f2efe9" fill-opacity="0.94" filter="url(#hxglow)"/><circle cx="376.65" cy="362.49" r="3.50" fill="#f2efe9" fill-opacity="0.55" filter="url(#hxglow)"/><circle cx="51.91" cy="189.75" r="3.84" fill="#f2efe9" fill-opacity="0.89" filter="url(#hxglow)"/><circle cx="320.00" cy="584.30" r="3.95" fill="#f2efe9" fill-opacity="1.00" filter="url(#hxglow)"/><circle cx="531.44" cy="143.46" r="3.93" fill="#f2efe9" fill-opacity="0.98" filter="url(#hxglow)"/></svg>
         </div>
-      </div>
-      <div class="proj-card">
+        <span class="proj-link">Open the explorer &rarr;</span>
+      </a>
+      <a class="proj-card" href="tesseract_explorer.html">
         <h3>Tesseract projections</h3>
         <p>The four-dimensional hypercube, projected onto 3D and 2D. The Bronstein&ndash;Zelmanov cube of physics is a 3D shadow of this structure when the k<sub>B</sub> axis is removed.</p>
         <div class="proj-visual">
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <g stroke="#fff" stroke-width="0.7" fill="none">
-              <rect x="60" y="60" width="80" height="80"/>
-              <rect x="40" y="40" width="80" height="80" opacity="0.5"/>
-              <line x1="40" y1="40" x2="60" y2="60" opacity="0.4"/>
-              <line x1="120" y1="40" x2="140" y2="60" opacity="0.4"/>
-              <line x1="40" y1="120" x2="60" y2="140" opacity="0.4"/>
-              <line x1="120" y1="120" x2="140" y2="140" opacity="0.4"/>
-            </g>
-          </svg>
+          <svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Static tesseract projection" class="static-render"><defs><filter id="tsglow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><line x1="338.10" y1="396.59" x2="338.10" y2="310.95" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="338.10" y1="396.59" x2="252.46" y2="371.87" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="338.10" y1="396.59" x2="387.54" y2="353.77" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="338.10" y1="396.59" x2="383.34" y2="588.07" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="338.10" y1="310.95" x2="252.46" y2="286.23" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="338.10" y1="310.95" x2="387.54" y2="268.13" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="338.10" y1="310.95" x2="383.34" y2="288.33" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="252.46" y1="371.87" x2="252.46" y2="286.23" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="252.46" y1="371.87" x2="301.90" y2="329.05" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="252.46" y1="371.87" x2="83.61" y2="501.54" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="252.46" y1="286.23" x2="301.90" y2="243.41" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="252.46" y1="286.23" x2="83.61" y2="201.80" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="387.54" y1="353.77" x2="387.54" y2="268.13" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="387.54" y1="353.77" x2="301.90" y2="329.05" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="387.54" y1="353.77" x2="556.39" y2="438.20" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="387.54" y1="268.13" x2="301.90" y2="243.41" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="387.54" y1="268.13" x2="556.39" y2="138.46" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="301.90" y1="329.05" x2="301.90" y2="243.41" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="301.90" y1="329.05" x2="256.66" y2="351.67" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="301.90" y1="243.41" x2="256.66" y2="51.93" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="383.34" y1="588.07" x2="383.34" y2="288.33" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="383.34" y1="588.07" x2="83.61" y2="501.54" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="383.34" y1="588.07" x2="556.39" y2="438.20" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="383.34" y1="288.33" x2="83.61" y2="201.80" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="383.34" y1="288.33" x2="556.39" y2="138.46" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="83.61" y1="501.54" x2="83.61" y2="201.80" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="83.61" y1="501.54" x2="256.66" y2="351.67" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="83.61" y1="201.80" x2="256.66" y2="51.93" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="556.39" y1="438.20" x2="556.39" y2="138.46" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="556.39" y1="438.20" x2="256.66" y2="351.67" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="556.39" y1="138.46" x2="256.66" y2="51.93" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="256.66" y1="351.67" x2="256.66" y2="51.93" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><circle cx="338.10" cy="396.59" r="3.70" fill="#f2efe9" fill-opacity="0.75" filter="url(#tsglow)"/><circle cx="338.10" cy="310.95" r="3.66" fill="#f2efe9" fill-opacity="0.71" filter="url(#tsglow)"/><circle cx="252.46" cy="371.87" r="3.73" fill="#f2efe9" fill-opacity="0.78" filter="url(#tsglow)"/><circle cx="252.46" cy="286.23" r="3.69" fill="#f2efe9" fill-opacity="0.74" filter="url(#tsglow)"/><circle cx="387.54" cy="353.77" r="3.76" fill="#f2efe9" fill-opacity="0.81" filter="url(#tsglow)"/><circle cx="387.54" cy="268.13" r="3.72" fill="#f2efe9" fill-opacity="0.77" filter="url(#tsglow)"/><circle cx="301.90" cy="329.05" r="3.79" fill="#f2efe9" fill-opacity="0.84" filter="url(#tsglow)"/><circle cx="301.90" cy="243.41" r="3.75" fill="#f2efe9" fill-opacity="0.80" filter="url(#tsglow)"/><circle cx="383.34" cy="588.07" r="3.63" fill="#f2efe9" fill-opacity="0.68" filter="url(#tsglow)"/><circle cx="383.34" cy="288.33" r="3.50" fill="#f2efe9" fill-opacity="0.55" filter="url(#tsglow)"/><circle cx="83.61" cy="501.54" r="3.75" fill="#f2efe9" fill-opacity="0.80" filter="url(#tsglow)"/><circle cx="83.61" cy="201.80" r="3.62" fill="#f2efe9" fill-opacity="0.67" filter="url(#tsglow)"/><circle cx="556.39" cy="438.20" r="3.83" fill="#f2efe9" fill-opacity="0.88" filter="url(#tsglow)"/><circle cx="556.39" cy="138.46" r="3.70" fill="#f2efe9" fill-opacity="0.75" filter="url(#tsglow)"/><circle cx="256.66" cy="351.67" r="3.95" fill="#f2efe9" fill-opacity="1.00" filter="url(#tsglow)"/><circle cx="256.66" cy="51.93" r="3.82" fill="#f2efe9" fill-opacity="0.87" filter="url(#tsglow)"/></svg>
         </div>
-      </div>
+        <span class="proj-link">Open the explorer &rarr;</span>
+      </a>
     </div>
   </div>
 </div>
