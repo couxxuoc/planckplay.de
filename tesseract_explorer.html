@@ -48,7 +48,7 @@
     flex-direction:row-reverse; /* canvas left, controls right — closer to reference layout mirrored for RTL feel; flip via CSS below */
   }
   @media (max-width: 860px){
-    .app{ flex-direction:column; }
+    .app{ flex-direction:column-reverse; }
   }
 
   /* ---------- Sidebar ---------- */
@@ -378,9 +378,8 @@
     <div class="section">
       <h2><span class="num">01</span> View</h2>
       <div class="segmented" id="mode-seg">
-        <button data-mode="static" class="active">Static</button>
         <button data-mode="viewpoint">Viewpoint</button>
-        <button data-mode="rotation">Rotation</button>
+        <button data-mode="rotation" class="active">Rotation</button>
       </div>
 
       <div id="axis-picker" style="display:none;">
@@ -393,7 +392,7 @@
         </div>
       </div>
 
-      <div id="plane-picker" style="display:none;">
+      <div id="plane-picker" style="display:block;">
         <div class="hint">Rotate the tesseract in a chosen 4D plane at fixed viewpoint <b>Q = (0,0,0,6.0)</b>. XY/XZ/YZ look like ordinary 3D spin; XW/YW/ZW turn through the fourth dimension.</div>
         <div class="grid-btns planes" id="plane-btns">
           <div class="chip active" data-plane="XY">XY</div>
@@ -406,7 +405,7 @@
       </div>
     </div>
 
-    <div class="playback" id="playback">
+    <div class="playback visible" id="playback">
       <div class="section" style="margin-top:0; padding-top:0; border-top:none;">
         <h2><span class="num">02</span> Playback</h2>
         <div class="transport">
@@ -547,7 +546,7 @@
   const LABELS_VIEWPOINT = RAW_LABELS_VIEWPOINT.map(parseLabel);
   const LABELS_ROTATION = RAW_LABELS_ROTATION.map(parseLabel);
   function labelSetForMode(mode){
-    return mode === 'rotation' ? LABELS_ROTATION : LABELS_VIEWPOINT; // static uses the viewpoint cell's labels
+    return mode === 'rotation' ? LABELS_ROTATION : LABELS_VIEWPOINT;
   }
 
   // ---------------------------------------------------------------------
@@ -617,8 +616,7 @@
   }
 
   const N_POINTS = 100;
-  const STATIC_T2 = 6.0;       // landing-page still frame (script's start_t_value)
-  const VIEWPOINT_START = 6.0; // Viewpoint mode starting t2 (script's start_t_value)
+  const VIEWPOINT_START = 6.0; // Viewpoint mode starting t2
   const X_VALS = linspace(0, N_POINTS, N_POINTS);
   const A_V = N_POINTS/2;
   const K_V = -1*VIEWPOINT_START*A_V;
@@ -727,10 +725,8 @@
       vertsFor3D = VERT4D.map(v => applyRotation(v, R));
       t2 = ROTATION_T2; axis = 'W'; lim = LIM_ROTATION;
       thetaDeg = ANGLES[state.frame];
-    } else if(mode === 'viewpoint'){
-      t2 = T_VALUES[state.frame]; axis = state.axis; lim = LIM_VIEWPOINT;
     } else {
-      t2 = STATIC_T2; axis = state.axis; lim = LIM_VIEWPOINT;
+      t2 = T_VALUES[state.frame]; axis = state.axis; lim = LIM_VIEWPOINT;
     }
 
     const proj3 = vertsFor3D.map(v => project4Dto3D(v, t2, axis));
@@ -767,7 +763,7 @@
       titleSub.textContent = `Viewpoint = (0, 0, 0, ${t2.toFixed(1)})`;
     } else {
       titleMain.textContent = `Viewpoint distance = ${t2.toFixed(2)}  (Q along ${axis})`;
-      titleSub.textContent = mode === 'static' ? 'Landing view — press Viewpoint or Rotation to animate' : '';
+      titleSub.textContent = '';
     }
   }
 
@@ -775,7 +771,7 @@
   // 6. STATE + CONTROLS
   // ---------------------------------------------------------------------
   const state = {
-    mode: 'static',
+    mode: 'rotation',
     axis: 'W',
     plane: 'XY',
     frame: 0,
@@ -799,7 +795,6 @@
   }
 
   function startPlayback(){
-    if(state.mode === 'static') return;
     state.playing = true;
     document.getElementById('play-label').textContent = 'Pause';
     document.getElementById('play-icon').innerHTML = '<rect x="3" y="2" width="4" height="12"/><rect x="9" y="2" width="4" height="12"/>';
@@ -836,11 +831,11 @@
     document.querySelectorAll('#mode-seg button').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
     document.getElementById('axis-picker').style.display = mode === 'viewpoint' ? 'block' : 'none';
     document.getElementById('plane-picker').style.display = mode === 'rotation' ? 'block' : 'none';
-    document.getElementById('playback').classList.toggle('visible', mode !== 'static');
 
     applyLabelSet(mode);
     syncScrubber();
     render();
+    startPlayback(); // motion starts immediately on entering either mode
   }
 
   document.getElementById('mode-seg').addEventListener('click', e => {
@@ -863,10 +858,10 @@
     document.querySelectorAll('#plane-btns .chip').forEach(c => c.classList.remove('active'));
     chip.classList.add('active');
     state.plane = chip.dataset.plane;
-    stopPlayback();
     state.frame = 0;
     syncScrubber();
     render();
+    startPlayback();
   });
 
   document.getElementById('btn-play').addEventListener('click', togglePlay);
@@ -900,10 +895,11 @@
     render();
   });
 
-  // init
+  // init — land directly in Rotation/XY, already animating
   applyLabelSet(state.mode);
   syncScrubber();
   render();
+  startPlayback();
 
 })();
 </script>
