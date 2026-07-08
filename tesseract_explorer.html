@@ -544,9 +544,9 @@
 
   <main class="stage">
     <div class="brand">
-      <a class="eyebrow" href="index.html#projections" title="Back to Projections">&#9664; PlanckPlay · Hypercube of Physics</a>
+      <a class="eyebrow" href="./#projections" title="Back to Projections" id="back-link">&#9664; PlanckPlay · Hypercube of Physics</a>
       <h1>Tesseract Projections</h1>
-      <p>8‑cell polytope — each vertex is one of the 16 on/off combinations of G, c&#x207B;&#xB9;, h and k<sub style="font-size:.7em">B</sub>.</p>
+      <p>8‑cell polytope — click on any vertex to explore one of the 16 on/off combinations of G, c&#x207B;&#xB9;, h and k<sub style="font-size:.7em">B</sub>.</p>
     </div>
     <div class="canvas-wrap">
       <svg id="stage-svg" viewBox="0 0 640 640"></svg>
@@ -1172,6 +1172,13 @@
   document.getElementById('labels-toggle').addEventListener('change', e => {
     state.showLabels = e.target.checked;
     render();
+  });
+
+  document.getElementById('back-link').addEventListener('click', function(e){
+  if (document.referrer && document.referrer.includes(location.hostname)) {
+    e.preventDefault();
+    history.back();
+  }
   });
 
   // init — land directly in Rotation/XY, already animating
