@@ -57,7 +57,7 @@
     flex:0 0 320px;
     background:var(--bg-panel);
     border-left:1px solid var(--line);
-    padding:28px 24px 32px;
+    padding:10px 24px 24px;
     overflow-y:auto;
   }
   @media (max-width: 860px){
@@ -74,13 +74,29 @@
     padding: 16px 20px 50px;
     margin: -16px -20px 0;
   }
-  .brand .eyebrow{
-    font-family:'DM Mono', monospace;
-    font-size:11px;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    color:var(--accent);
+  .eyebrow{
+  font-family:'DM Mono', monospace;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--accent);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
+  cursor:pointer;
+  padding:5px 10px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  transition:background .15s ease, border-color .15s ease, color .15s ease;
   }
+  .eyebrow:hover{
+    color:#fff;
+    background:rgba(255,255,255,0.12);
+    border-color:var(--accent);
+  }
+
   .brand h1{
     font-family:'EB Garamond', serif;
     font-weight:600;
@@ -318,6 +334,7 @@
     max-width:100%;
     aspect-ratio:1/1;
     position:relative;
+    cursor:pointer;
   }
   #stage-svg{
     width:100%; height:100%; display:block;
@@ -344,8 +361,10 @@
   }
 
   @media (max-width: 860px){
-    .brand{ position:static; margin-bottom:16px; text-align:center; }
-    .stage{ padding:24px 16px; }
+    .brand{ position:static; margin-bottom:12px; text-align:center; padding:0; margin:0 0 12px; background:none; }
+    .stage{ padding:16px 12px; justify-content:flex-start; min-height:0; }
+    .grid-btns.planes{ grid-template-columns:repeat(6, 1fr); gap:5px; }
+    .grid-btns.planes .chip{ padding:7px 2px; font-size:11px; }
   }
 
   .vlabel{
@@ -375,17 +394,16 @@
       </div>
 
       <div id="axis-picker" style="display:none;">
-        <div class="hint">Move the viewpoint <b>Q</b> along one axis toward the hyperplane. The 16‑cell swells and turns inside‑out as Q passes through it.</div>
         <div class="grid-btns" id="axis-btns">
           <div class="chip" data-axis="X">X</div>
           <div class="chip" data-axis="Y">Y</div>
           <div class="chip" data-axis="Z">Z</div>
           <div class="chip active" data-axis="W">W</div>
         </div>
+        <div class="hint">Move the viewpoint <b>Q</b> along one axis toward the hyperplane. The 16‑cell swells and turns inside‑out as Q passes through it.</div>
       </div>
 
       <div id="plane-picker" style="display:block;">
-        <div class="hint">Rotate the 16‑cell in a chosen 4D plane at fixed viewpoint <b>Q = (0,0,0,6.0)</b>. XY/XZ/YZ look like ordinary 3D spin; XW/YW/ZW turn through the fourth dimension.</div>
         <div class="grid-btns planes" id="plane-btns">
           <div class="chip active" data-plane="XY">XY</div>
           <div class="chip" data-plane="XZ">XZ</div>
@@ -394,6 +412,7 @@
           <div class="chip" data-plane="YW">YW</div>
           <div class="chip" data-plane="ZW">ZW</div>
         </div>
+        <div class="hint">Rotate the 16‑cell in a chosen 4D plane at fixed viewpoint <b>Q = (0,0,0,6.0)</b>. XY/XZ/YZ look like ordinary 3D spin; XW/YW/ZW turn through the fourth dimension.</div>
       </div>
     </div>
 
@@ -445,7 +464,7 @@
 
   <main class="stage">
     <div class="brand">
-      <div class="eyebrow">PlanckPlay · Hypercube of Physics</div>
+      <a class="eyebrow" href="index.html#projections" title="Back to Projections">&#9664; PlanckPlay · Hypercube of Physics</a>
       <h1>Hexadecachoron Projections</h1>
       <p>16‑cell polytope, dual of the tesseract — each tetrahedra is one of the 16 on/off combinations of G, c&#x207B;&#xB9;, h and k<sub style="font-size:.7em">B</sub>.</p>
     </div>
@@ -737,7 +756,7 @@
 
     if(mode === 'rotation'){
       titleMain.textContent = `Rotation around ${plane}, θ = ${thetaDeg.toFixed(1)}°`;
-      titleSub.textContent = `Viewpoint = (0, 0, 0, ${t2.toFixed(1)})`;
+      //titleSub.textContent = `Viewpoint = (0, 0, 0, ${t2.toFixed(1)})`;
     } else {
       titleMain.textContent = `Viewpoint distance = ${t2.toFixed(2)}  (Q along ${axis})`;
       titleSub.textContent = '';
@@ -842,6 +861,11 @@
   });
 
   document.getElementById('btn-play').addEventListener('click', togglePlay);
+
+  // Tap/click anywhere on the canvas toggles play/pause — works the same
+  // for touch (tap) and desktop (mouse click), since browsers fire a
+  // click event for both.
+  document.querySelector('.canvas-wrap').addEventListener('click', togglePlay);
 
   document.getElementById('btn-prev').addEventListener('click', () => {
     stopPlayback();

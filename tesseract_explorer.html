@@ -57,7 +57,7 @@
     flex:0 0 320px;
     background:var(--bg-panel);
     border-left:1px solid var(--line);
-    padding:28px 24px 32px;
+    padding:10px 24px 24px;
     overflow-y:auto;
   }
   @media (max-width: 860px){
@@ -74,13 +74,29 @@
     padding: 16px 20px 50px;
     margin: -16px -20px 0;
   }
-  .brand .eyebrow{
-    font-family:'DM Mono', monospace;
-    font-size:11px;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    color:var(--accent);
+  .eyebrow{
+  font-family:'DM Mono', monospace;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--accent);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
+  cursor:pointer;
+  padding:5px 10px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  transition:background .15s ease, border-color .15s ease, color .15s ease;
   }
+  .eyebrow:hover{
+    color:#fff;
+    background:rgba(255,255,255,0.12);
+    border-color:var(--accent);
+  }
+
   .brand h1{
     font-family:'EB Garamond', serif;
     font-weight:600;
@@ -318,7 +334,9 @@
     max-width:100%;
     aspect-ratio:1/1;
     position:relative;
+    cursor:pointer;
   }
+  .vertex-hit{ cursor:pointer; }
   #stage-svg{
     width:100%; height:100%; display:block;
     filter:drop-shadow(0 0 26px rgba(155,48,176,0.06));
@@ -344,8 +362,10 @@
   }
 
   @media (max-width: 860px){
-    .brand{ position:static; margin-bottom:16px; text-align:center; }
-    .stage{ padding:24px 16px; }
+    .brand{ position:static; margin-bottom:12px; text-align:center; padding:0; margin:0 0 12px; background:none; }
+    .stage{ padding:16px 12px; justify-content:flex-start; min-height:0; }
+    .grid-btns.planes{ grid-template-columns:repeat(6, 1fr); gap:5px; }
+    .grid-btns.planes .chip{ padding:7px 2px; font-size:11px; }
   }
 
   .vlabel{
@@ -360,6 +380,85 @@
   }
 
   ::selection{ background:var(--accent); color:#1a1408; }
+
+  /* ---------- Theory modal ---------- */
+  .theory-overlay{
+    position:fixed; inset:0;
+    background:rgba(10,10,9,0.82);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    z-index:50;
+  }
+  .theory-overlay.open{ display:flex; }
+  .theory-modal{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    width:min(560px, 100%);
+    max-height:min(88vh, 720px);
+    overflow-y:auto;
+    position:relative;
+    box-shadow:0 30px 80px rgba(0,0,0,0.5);
+  }
+  .theory-close{
+    position:absolute;
+    top:14px; right:14px;
+    width:32px; height:32px;
+    border-radius:50%;
+    background:var(--bg-panel-2);
+    border:1px solid var(--line);
+    color:var(--text);
+    font-size:18px;
+    line-height:1;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    z-index:2;
+    transition:border-color .15s ease;
+  }
+  .theory-close:hover{ border-color:var(--accent); }
+  .theory-thumb-wrap{
+    width:100%; aspect-ratio:3/2;
+    background:#eeeee8;
+    overflow:hidden;
+  }
+  .theory-thumb-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .theory-body{ padding:22px 26px 28px; }
+  .theory-coords{
+    font-family:'DejaVu Serif', 'EB Garamond', serif;
+    font-style:italic;
+    font-size:12.5px;
+    color:var(--accent);
+    margin-bottom:6px;
+  }
+  .theory-name{
+    font-family:'EB Garamond', serif;
+    font-weight:600;
+    font-size:22px;
+    line-height:1.2;
+    margin-bottom:14px;
+  }
+  .theory-blurb, .theory-detail p{
+    font-size:13.5px;
+    line-height:1.7;
+    color:var(--text-dim);
+    margin-bottom:12px;
+  }
+  .theory-detail{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+  .theory-visual-note{
+    font-size:11.5px;
+    font-style:italic;
+    color:rgba(242,239,233,0.4);
+  }
+  @media (max-width:560px){
+    .theory-body{ padding:18px 18px 22px; }
+    .theory-name{ font-size:19px; }
+  }
 </style>
 </head>
 <body>
@@ -374,18 +473,17 @@
         <button data-mode="rotation" class="active">Rotation</button>
       </div>
 
-      <div id="axis-picker" style="display:none;">
-        <div class="hint">Move the viewpoint <b>Q</b> along one axis toward the hyperplane. The tesseract swells and turns inside‑out as Q passes through it.</div>
+      <div id="axis-picker" style="display:none;"> 
         <div class="grid-btns" id="axis-btns">
           <div class="chip" data-axis="X">X</div>
           <div class="chip" data-axis="Y">Y</div>
           <div class="chip" data-axis="Z">Z</div>
           <div class="chip active" data-axis="W">W</div>
         </div>
+        <div class="hint">Move the viewpoint <b>Q</b> along one axis toward the hyperplane. The tesseract swells and turns inside‑out as Q passes through it.</div>
       </div>
 
       <div id="plane-picker" style="display:block;">
-        <div class="hint">Rotate the tesseract in a chosen 4D plane at fixed viewpoint <b>Q = (0,0,0,6.0)</b>. XY/XZ/YZ look like ordinary 3D spin; XW/YW/ZW turn through the fourth dimension.</div>
         <div class="grid-btns planes" id="plane-btns">
           <div class="chip active" data-plane="XY">XY</div>
           <div class="chip" data-plane="XZ">XZ</div>
@@ -394,6 +492,7 @@
           <div class="chip" data-plane="YW">YW</div>
           <div class="chip" data-plane="ZW">ZW</div>
         </div>
+        <div class="hint">Rotate the tesseract in a chosen 4D plane at fixed viewpoint <b>Q = (0,0,0,6.0)</b>. XY/XZ/YZ look like ordinary 3D spin; XW/YW/ZW turn through the fourth dimension.</div>
       </div>
     </div>
 
@@ -445,7 +544,7 @@
 
   <main class="stage">
     <div class="brand">
-      <div class="eyebrow">PlanckPlay · Hypercube of Physics</div>
+      <a class="eyebrow" href="index.html#projections" title="Back to Projections">&#9664; PlanckPlay · Hypercube of Physics</a>
       <h1>Tesseract Projections</h1>
       <p>8‑cell polytope — each vertex is one of the 16 on/off combinations of G, c&#x207B;&#xB9;, h and k<sub style="font-size:.7em">B</sub>.</p>
     </div>
@@ -458,6 +557,22 @@
     </div>
   </main>
 
+</div>
+
+<div class="theory-overlay" id="theory-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="theory-modal">
+    <button class="theory-close" id="theory-close" aria-label="Close">&times;</button>
+    <div class="theory-thumb-wrap"><img id="theory-img" src="" alt=""></div>
+    <div class="theory-body">
+      <div class="theory-coords" id="theory-coords"></div>
+      <div class="theory-name" id="theory-name"></div>
+      <p class="theory-blurb" id="theory-blurb"></p>
+      <div class="theory-detail">
+        <p id="theory-detail-p"></p>
+        <p class="theory-visual-note" id="theory-visual-note"></p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -506,23 +621,21 @@
   const EDGE_CSS = { orange:'#ffa500', purple:'#9b30b0', gray:'#808080' };
 
   // Labels: each vertex's raw (0/1,0/1,0/1,0/1) tuple read as
-  // (G, c^-1, h, k_B) present/absent, exactly as in the notebook's two
-  // label lists. "TOE" = G+c^-1+h without k_B; "TORE" = all four.
-  const RAW_LABELS_VIEWPOINT = [
-    "(G000)", "", "(0000)", "(00h0)", 
-    "", "TOE", "", "(0c^{-1}h0)",
-    "(G00k_B)", "", "(000k_B)", "(00hk_B)",
-    "", "TORE", "", "(0c^{-1}hk_B)",
-  //  "(G000)", "(G0h0)", "(0000)", "(00h0)", 
-  //  "(Gc^{-1}00)", "TOE", "(0c^{-1}00)", "(0c^{-1}h0)",
-  //  "(G00k_B)", "(G0hk_B)", "(000k_B)", "(00hk_B)",
-  //  "(Gc^{-1}0k_B)", "TORE", "(0c^{-1}0k_B)", "(0c^{-1}hk_B)",
-  ];
-  const RAW_LABELS_ROTATION = [
-    "(G000)", "", "(0000)", "(00h0)", 
-    "", "TOE", "", "(0c^{-1}h0)",
-    "(G00k_B)", "", "(000k_B)", "(00hk_B)",
-    "", "TORE", "", "(0c^{-1}hk_B)",
+  // (G, c^-1, h, k_B) present/absent. "TOE" = G+c^-1+h without k_B;
+  // "TORE" = all four.
+  // NOTE: this order was explicitly specified by the user and kept as-is,
+  // even though it differs from the order used in the two label cells of
+  // tesseract_rotations_pointofview.py (which both read
+  // (0000),(00h0),(0c^-100),(0c^-1h0),(G000)... — see chat for the
+  // discrepancy flagged here). THEORIES below is ordered to match THIS
+  // array position-for-position, so whichever theory pops up on click
+  // always matches the label shown at that vertex, regardless of which
+  // ordering is "geometrically" correct.
+  const RAW_LABELS = [
+    "(G000)", "(G0h0)", "(0000)", "(00h0)",
+    "(Gc^{-1}00)", "TOE", "(0c^{-1}00)", "(0c^{-1}h0)",
+    "(G00k_B)", "(G0hk_B)", "(000k_B)", "(00hk_B)",
+    "(Gc^{-1}0k_B)", "TORE", "(0c^{-1}0k_B)", "(0c^{-1}hk_B)",
   ];
 
   // Parses "c^{-1}" and "k_B" into superscript/subscript tokens; the rest
@@ -539,10 +652,81 @@
     return tokens;
   }
 
-  const LABELS_VIEWPOINT = RAW_LABELS_VIEWPOINT.map(parseLabel);
-  const LABELS_ROTATION = RAW_LABELS_ROTATION.map(parseLabel);
+  const LABELS = RAW_LABELS.map(parseLabel);
+
+  // The 16 theories, index-aligned with RAW_LABELS above (not with
+  // coordsOrdered — see the note on RAW_LABELS). Content matches the
+  // Theories section of index.html / index_de.html (English copy used
+  // here regardless of browser language, since this file has no German
+  // counterpart).
+  const THEORIES = [
+    { coords:"(G, 0, 0, 0)", name:"Newtonian Gravity", img:"03-newtonian-gravity.png",
+      blurb:"Every mass in the universe pulls on every other. Newton's constant G governs falling apples and orbiting planets with the same equation.",
+      detail:"G is the only one of Planck's four constants still not measured to full precision — experiments to nail it down are ongoing today.",
+      visual:"Mercury, Venus, Earth (with moon) and Mars elipses around the Sun." },
+    { coords:"(G, 0, h, 0)", name:"Non-Relativistic Quantum Gravity", img:"13-nonrelativistic-quantum-gravity.png",
+      blurb:"In 1975, the COW experiment showed that a neutron beam splits and recombines with a measurable phase shift caused purely by Earth's gravity.",
+      detail:"Quantum and gravitational effects, no relativity needed. A quiet but profound confirmation that h and G do overlap.",
+      visual:"Neutron interferometer in Earth's gravitational field." },
+    { coords:"(0, 0, 0, 0)", name:"Newtonian Mechanics", img:"01-newtonian-mechanics.png",
+      blurb:"No gravity. No light-speed limit. No quantum effects. No temperature. The motion of objects under forces — F = ma — where modern science began.",
+      detail:"Everything else in this puzzle is a correction to this starting point. It still works perfectly for everyday speeds and scales.",
+      visual:"The complex equilibrium of forces of a surfer." },
+    { coords:"(0, 0, h, 0)", name:"Quantum Mechanics", img:"07-quantum-mechanics.png",
+      blurb:"Particles don't have definite positions until measured. Energy comes in discrete packets. Planck's constant h sets the scale at which this strangeness kicks in.",
+      detail:"The 1920s formulations of Schrödinger and Heisenberg transformed physics. Einstein protested: \u201CGod does not play dice.\u201D The dice disagree.",
+      visual:"Entanglement of particles — their state cannot be described independently anymore." },
+    { coords:"(G, c\u207B\u00B9, 0, 0)", name:"General Relativity", img:"09-general-relativity.png",
+      blurb:"Mass curves spacetime. Objects follow that curvature — gravity is not a force, but geometry. Einstein's 1915 equations predicted black holes, gravitational waves, and the expanding universe.",
+      detail:"All later confirmed. The image shows space curved by a massive body — not a force pulling things down, but a shape guiding them.",
+      visual:"Space-time geometry is curved due to the mass." },
+    { coords:"(G, c\u207B\u00B9, h, 0)", name:"Theory of Everything (TOE)", img:"15-theory-of-everything.png",
+      blurb:"The holy grail: a single theory uniting quantum field theory and general relativity. Superstring theory and loop quantum gravity are the leading candidates.",
+      detail:"Neither has been experimentally confirmed. The Planck length (~10\u207B\u00B3\u2075 m), where quantum gravity must matter, is 10\u00B2\u2070 times smaller than a proton. Progress is slow, but the question is real.",
+      visual:"String theory — one vision of the Theory of Everything." },
+    { coords:"(0, c\u207B\u00B9, 0, 0)", name:"Special Relativity & Electrodynamics", img:"05-special-relativity-electrodynamics.png",
+      blurb:"Nothing travels faster than light. Einstein's 1905 theory derived E = mc\u00B2, time dilation, and unified electricity and magnetism.",
+      detail:"The constant that matters is c\u207B\u00B9 — as c \u2192 \u221E, special relativity collapses back to Newton. Maxwell's equations live here too.",
+      visual:"The twin paradox — a classic thought experiment in special relativity." },
+    { coords:"(0, c\u207B\u00B9, h, 0)", name:"Quantum Field Theory", img:"11-quantum-field-theory.png",
+      blurb:"The Standard Model of particle physics. Every particle is an excitation of a field. QFT predicts the electron's magnetic moment to twelve decimal places.",
+      detail:"The most precisely tested theory in science. Gravity is stubbornly absent: including G turns this into the elusive Theory of Everything.",
+      visual:"Feynman diagrams — particles as excitations of quantum fields." },
+    { coords:"(G, 0, 0, k_B)", name:"Statistical Mechanics & Newtonian Gravity", img:"04-statistical-mechanics-newtonian-gravity.png",
+      blurb:"When gravity and thermodynamics meet, stars are born. A gas cloud collapses when gravitational energy outweighs thermal pressure — the Jeans mass.",
+      detail:"No relativity, no quantum mechanics needed. The universe builds stars with just G and k_B.",
+      visual:"Star formation — simplest astrophysics." },
+    { coords:"(G, 0, h, k_B)", name:"Non-Relativistic Quantum Gravity & Temperature", img:"14-nonrelativistic-quantum-gravity-temperature.png",
+      blurb:"Ultracold neutrons bounce off surfaces like billiard balls and occupy discrete quantum states in Earth's gravity. Their measured lifetime gives two different answers depending on method.",
+      detail:"The ~9-second discrepancy between \u201Cbottle\u201D and \u201Cbeam\u201D experiments remains an open puzzle in physics today.",
+      visual:"Quantum states in a gravitational bottle." },
+    { coords:"(0, 0, 0, k_B)", name:"Classical Statistical Mechanics", img:"02-classical-statistical-mechanics.png",
+      blurb:"A gas is trillions of colliding particles. Boltzmann's constant k_B connects a particle's average energy to the temperature of the whole gas.",
+      detail:"With it, heat, entropy, and pressure emerge from statistics. Boltzmann's tombstone in Vienna reads simply: S = k_B log W.",
+      visual:"Terms such as \u201Chot\u201D and \u201Ccold\u201D depend on the activation energy." },
+    { coords:"(0, 0, h, k_B)", name:"Quantum Statistical Mechanics", img:"08-quantum-statistical-mechanics.png",
+      blurb:"Truly identical particles can all pile into the same state (bosons) or refuse to share one (fermions). This gives us superconductors and Bose\u2013Einstein condensates.",
+      detail:"Planck's 1900 black-body law — the first quantum formula — lives here too.",
+      visual:"A noisy qubit — the environment \u201Cleaks\u201D information out of the qubit system." },
+    { coords:"(G, c\u207B\u00B9, 0, k_B)", name:"General Relativity & Statistical Mechanics", img:"10-general-relativity-statistical-mechanics.png",
+      blurb:"The Big Bang started hot. The universe has been cooling for 13.8 billion years. Today the cosmic microwave background reaches us at just 2.7 K.",
+      detail:"Cosmology lives at this intersection of curved spacetime and thermodynamics, though quantum effects are never truly absent.",
+      visual:"Cosmic microwave background radiation. The expanding universe is cooling down." },
+    { coords:"(G, c\u207B\u00B9, h, k_B)", name:"Theory of Really Everything (TORE)", img:"16-theory-of-really-everything.png",
+      blurb:"Black holes radiate. Hawking's 1974 discovery that black holes emit thermal radiation is the clearest hint that all four constants must eventually unite.",
+      detail:"The Bekenstein\u2013Hawking entropy links the thermodynamics of a black hole to the area of its horizon. TORE is not yet found, but black holes are already pointing the way.",
+      visual:"This outermost piece contains all others. The assembled puzzle is TORE." },
+    { coords:"(0, c\u207B\u00B9, 0, k_B)", name:"Special Relativity & Statistical Mechanics", img:"06-special-relativity-statistical-mechanics.png",
+      blurb:"What temperature does a moving body have? This question has been debated since 1907 and remains unresolved.",
+      detail:"Planck, Einstein, and others proposed different answers — and all may be correct, depending on how you define temperature for a moving system. A rare case of a theory that is more puzzle than solution.",
+      visual:"What is the temperature of a moving body?" },
+    { coords:"(0, c\u207B\u00B9, h, k_B)", name:"Quantum Field Theory & Temperature", img:"12-qft-temperature.png",
+      blurb:"Planck's 1900 black-body formula was the first equation to combine c\u207B\u00B9, h, and k_B — it launched quantum physics.",
+      detail:"The Unruh effect predicts that an accelerating detector in empty space will measure a nonzero temperature. Hot vacuum: still unconfirmed experimentally, but theoretically compelling.",
+      visual:"Three constants, the first quantum formula, and a glowing black-body." },
+  ];
   function labelSetForMode(mode){
-    return mode === 'rotation' ? LABELS_ROTATION : LABELS_VIEWPOINT;
+    return LABELS; // both modes now show the same full set; depth dimming (below) handles crowding
   }
 
   // ---------------------------------------------------------------------
@@ -583,21 +767,36 @@
     return out;
   }
 
-  // Fixed camera (approximates matplotlib's default mplot3d view: elev=30, azim=-60).
-  // No extra alignment rotation here (unlike the hexadecachoron file) —
-  // there's no equivalent "point this vertex down" request yet for the tesseract.
-  const ELEV = 30 * Math.PI/180;
-  const AZIM = -60 * Math.PI/180;
-  function camera3Dto2D(p){
+  // Exact matplotlib mplot3d projection, captured directly from the
+  // notebook's own axes via ax.get_proj() (box_aspect=[1,1,1], axis limits
+  // matching each mode: lim=7 for rotation, lim=9.5 for viewpoint/static),
+  // and applied exactly as mpl_toolkits.mplot3d.proj3d.proj_transform does:
+  // homogeneous multiply by M, then perspective-divide by the resulting w.
+  // This replaces an earlier hand-built elev/azim approximation that,
+  // despite some sign patches, never actually matched matplotlib's real
+  // projection (confirmed by comparing against real notebook screenshots
+  // at theta=0 and theta=60° XY rotation — this version reproduces both).
+  const MPL_M_ROTATION = [
+    [0.0680604194, 0.0392947014, 0, 0],
+    [-0.0196473507, 0.0340302097, 0.0680604194, 0],
+    [0, 0, 0, -10],
+    [-0.0340302097, 0.0589420522, -0.0392947014, 10],
+  ];
+  const MPL_M_VIEWPOINT = [
+    [0.0501497827, 0.0289539905, 0, 0],
+    [-0.0144769953, 0.0250748913, 0.0501497827, 0],
+    [0, 0, 0, -10],
+    [-0.0250748913, 0.0434309858, -0.0289539905, 10],
+  ];
+  function camera3Dto2D(p, M){
     const [x,y,z] = p;
-    // rotate around Z (vertical) by azim
-    const x1 =  x*Math.cos(AZIM) + y*Math.sin(AZIM);
-    const y1 = -x*Math.sin(AZIM) + y*Math.cos(AZIM);
-    const z1 =  z;
-    // tilt by elev around the new X axis
-    const y2 = y1*Math.cos(ELEV) - z1*Math.sin(ELEV);
-    const z2 = y1*Math.sin(ELEV) + z1*Math.cos(ELEV);
-    return { sx:x1, sy:z2, depth:y2 };
+    const vw0 = M[0][0]*x + M[0][1]*y + M[0][2]*z + M[0][3];
+    const vw1 = M[1][0]*x + M[1][1]*y + M[1][2]*z + M[1][3];
+    const vw3 = M[3][0]*x + M[3][1]*y + M[3][2]*z + M[3][3]; // homogeneous w
+    // Smaller w = nearer to the viewer (verified against the notebook);
+    // negate so higher `depth` still means "nearer", matching the point
+    // size/opacity and label-dimming code below.
+    return { sx: vw0/vw3, sy: vw1/vw3, depth: -vw3 };
   }
 
   // ---------------------------------------------------------------------
@@ -621,8 +820,6 @@
   const ANGLES = linspace(0, 360, 37); // rotation frames, degrees
 
   const ROTATION_T2 = 6.0; // fixed viewpoint used for rotation mode (script default)
-  const LIM_VIEWPOINT = 9.5;
-  const LIM_ROTATION = 9.5;
 
   // ---------------------------------------------------------------------
   // 4. SVG SCENE SETUP
@@ -662,6 +859,28 @@
     c.setAttribute('fill', '#f2efe9');
     c.setAttribute('filter','url(#glow)');
     gPoints.appendChild(c);
+    return c;
+  });
+
+  // Generous invisible hit targets, one per vertex, layered above
+  // everything else — this is what's actually clicked/tapped to open the
+  // theory modal, independent of the visible point's (small, depth-scaled)
+  // radius or whether its label is currently shown.
+  const gHits = document.createElementNS(svgNS,'g');
+  svg.appendChild(gHits);
+  const hitEls = VERT4D.map((v, i) => {
+    const c = document.createElementNS(svgNS,'circle');
+    c.setAttribute('r', 16);
+    c.setAttribute('fill', 'transparent');
+    c.setAttribute('class', 'vertex-hit');
+    c.addEventListener('click', (e) => {
+      if(!state.playing){
+        e.stopPropagation();
+        openTheoryModal(i);
+      }
+      // while playing, let the click bubble up to canvas-wrap -> pause
+    });
+    gHits.appendChild(c);
     return c;
   });
 
@@ -705,29 +924,33 @@
   const titleSub = document.getElementById('title-sub');
 
   const FIT_SCALE = 0.8; // shrink the projected scene so it sits comfortably inside the canvas
-  function worldToScreen(sx, sy, lim){
-    const scale = ((VB/2 - 46) / lim) * FIT_SCALE;
+  // The exact M matrices output tiny "matplotlib display units" (~0.01-0.09
+  // at a typical frame), not pixels — SCREEN_SCALE converts those into our
+  // SVG viewBox, calibrated once against a representative frame.
+  const SCREEN_SCALE = 3600;
+  function worldToScreen(sx, sy){
+    const scale = SCREEN_SCALE * FIT_SCALE;
     return { px: VB/2 + sx*scale, py: VB/2 - sy*scale };
   }
 
   function render(){
     const mode = state.mode;
     let vertsFor3D = VERT4D;
-    let t2, axis, lim, thetaDeg=0, plane=state.plane;
+    let t2, axis, thetaDeg=0, plane=state.plane, M;
 
     if(mode === 'rotation'){
       const theta = ANGLES[state.frame] * Math.PI/180;
       const R = rotation4D(theta, plane);
       vertsFor3D = VERT4D.map(v => applyRotation(v, R));
-      t2 = ROTATION_T2; axis = 'W'; lim = LIM_ROTATION;
+      t2 = ROTATION_T2; axis = 'W'; M = MPL_M_ROTATION;
       thetaDeg = ANGLES[state.frame];
     } else {
-      t2 = T_VALUES[state.frame]; axis = state.axis; lim = LIM_VIEWPOINT;
+      t2 = T_VALUES[state.frame]; axis = state.axis; M = MPL_M_VIEWPOINT;
     }
 
     const proj3 = vertsFor3D.map(v => project4Dto3D(v, t2, axis));
-    const cam = proj3.map(camera3Dto2D);
-    const screen = cam.map(p => worldToScreen(p.sx, p.sy, lim));
+    const cam = proj3.map(p => camera3Dto2D(p, M));
+    const screen = cam.map(p => worldToScreen(p.sx, p.sy));
 
     EDGES.forEach((e,k) => {
       const [i,j] = e;
@@ -748,15 +971,26 @@
       pointEls[i].setAttribute('r', 3.5 + t*0.45);
       pointEls[i].setAttribute('fill-opacity', 0.55 + t*0.45);
 
+      hitEls[i].setAttribute('cx', s.px);
+      hitEls[i].setAttribute('cy', s.py);
+
       const off = 12;
       labelEls[i].setAttribute('x', s.px + off);
       labelEls[i].setAttribute('y', s.py - off*0.5);
-      labelEls[i].style.display = (labelHasContent[i] && state.showLabels) ? '' : 'none';
+      if(labelHasContent[i] && state.showLabels){
+        labelEls[i].style.display = '';
+        // depth-based dimming: labels toward the back fade out instead of
+        // all 16 competing for attention at once
+        const labelOpacity = Math.max(0, (t - 0.15) / 0.85);
+        labelEls[i].style.opacity = labelOpacity.toFixed(2);
+      } else {
+        labelEls[i].style.display = 'none';
+      }
     });
 
     if(mode === 'rotation'){
       titleMain.textContent = `Rotation around ${plane}, θ = ${thetaDeg.toFixed(1)}°`;
-      titleSub.textContent = `Viewpoint = (0, 0, 0, ${t2.toFixed(1)})`;
+      //titleSub.textContent = `Viewpoint = (0, 0, 0, ${t2.toFixed(1)})`;
     } else {
       titleMain.textContent = `Viewpoint distance = ${t2.toFixed(2)}  (Q along ${axis})`;
       titleSub.textContent = '';
@@ -861,6 +1095,55 @@
   });
 
   document.getElementById('btn-play').addEventListener('click', togglePlay);
+
+  // Tap/click anywhere on the canvas toggles play/pause — works the same
+  // for touch (tap) and desktop (mouse click). Vertex hit targets
+  // stopPropagation when paused (see gHits above) so a click on a vertex
+  // opens the theory modal instead of resuming playback.
+  document.querySelector('.canvas-wrap').addEventListener('click', togglePlay);
+
+  // ---------------------------------------------------------------------
+  // Theory modal
+  // ---------------------------------------------------------------------
+  const theoryOverlay = document.getElementById('theory-overlay');
+  const theoryImg = document.getElementById('theory-img');
+  const theoryCoords = document.getElementById('theory-coords');
+  const theoryName = document.getElementById('theory-name');
+  const theoryBlurb = document.getElementById('theory-blurb');
+  const theoryDetailP = document.getElementById('theory-detail-p');
+  const theoryVisualNote = document.getElementById('theory-visual-note');
+
+  // Renders "k_B" as a true subscript; c⁻¹ is already stored as literal
+  // unicode superscript characters in the content strings, so it needs no
+  // conversion here.
+  function formatSubscripts(str){
+    return str.replace(/k_B/g, 'k<sub>B</sub>');
+  }
+
+  function openTheoryModal(i){
+    const t = THEORIES[i];
+    if(!t) return;
+    theoryImg.src = `images/${t.img}`;
+    theoryImg.alt = t.name;
+    theoryCoords.innerHTML = formatSubscripts(t.coords);
+    theoryName.innerHTML = formatSubscripts(t.name);
+    theoryBlurb.innerHTML = formatSubscripts(t.blurb);
+    theoryDetailP.innerHTML = formatSubscripts(t.detail);
+    theoryVisualNote.innerHTML = `Visual: ${formatSubscripts(t.visual)}`;
+    theoryOverlay.classList.add('open');
+    theoryOverlay.setAttribute('aria-hidden', 'false');
+  }
+  function closeTheoryModal(){
+    theoryOverlay.classList.remove('open');
+    theoryOverlay.setAttribute('aria-hidden', 'true');
+  }
+  document.getElementById('theory-close').addEventListener('click', closeTheoryModal);
+  theoryOverlay.addEventListener('click', e => {
+    if(e.target === theoryOverlay) closeTheoryModal(); // click on backdrop, not the card itself
+  });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && theoryOverlay.classList.contains('open')) closeTheoryModal();
+  });
 
   document.getElementById('btn-prev').addEventListener('click', () => {
     stopPlayback();
