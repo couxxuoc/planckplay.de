@@ -61,7 +61,7 @@
     overflow-y:auto;
   }
   @media (max-width: 860px){
-    .sidebar{ width:100%; flex:none; border-left:none; border-top:1px solid var(--line); }
+    .sidebar{ width:100%; flex:none; border-left:none; border-top:1px solid var(--line); padding-top:0px; }
   }
 
   .brand{
@@ -96,7 +96,7 @@
     background:rgba(255,255,255,0.12);
     border-color:var(--accent);
   }
-
+  
   .brand h1{
     font-family:'EB Garamond', serif;
     font-weight:600;
@@ -336,35 +336,51 @@
     position:relative;
     cursor:pointer;
   }
+  .vertex-hit{ cursor:pointer; }
   #stage-svg{
     width:100%; height:100%; display:block;
     filter:drop-shadow(0 0 26px rgba(155,48,176,0.06));
   }
-  .title-block{
-    text-align:center;
-    margin-top:18px;
+  .cell-toggles{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:8px;
+  }
+  .cell-toggle-btn{
     font-family:'DejaVu Serif', 'EB Garamond', serif;
     font-style:italic;
+    font-size:17px;
     color:var(--text-dim);
-    font-size:13px;
-    letter-spacing:.02em;
-    min-height:36px;
+    background:var(--bg-panel-2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:8px 18px 0px;
+    cursor:pointer;
+    transition:all .15s ease;
+    min-width:44px;
   }
-  .title-block .main{
-    color:var(--text);
-    font-size:14.5px;
+  .cell-toggle-btn sup, .cell-toggle-btn sub{ font-size:65%; }
+  .cell-toggle-btn:hover{ border-color:var(--focus); color:var(--text); }
+  .cell-toggle-btn.active{
+    background:rgba(232,185,106,0.15);
+    border-color:var(--focus);
+    color:var(--focus);
   }
-  .title-block .sub{
-    font-size:11.5px;
-    margin-top:3px;
+  .cell-theory-name{
+    text-align:center;
+    margin-top:10px;
+    font-family:'DejaVu Serif', 'EB Garamond', serif;
+    font-style:italic;
+    font-size:14px;
     color:var(--text-dim);
+    min-height:18px;
   }
 
   @media (max-width: 860px){
     .brand{ position:static; margin-bottom:12px; text-align:center; padding:0; margin:0 0 12px; background:none; }
     .stage{ padding:16px 12px; justify-content:flex-start; min-height:0; }
-    .grid-btns.planes{ grid-template-columns:repeat(6, 1fr); gap:5px; }
-    .grid-btns.planes .chip{ padding:7px 2px; font-size:11px; }
+    .cell-toggle-btn{ padding:7px 12px; font-size:15px; min-width:36px; }
   }
 
   .vlabel{
@@ -379,6 +395,85 @@
   }
 
   ::selection{ background:var(--accent); color:#1a1408; }
+
+  /* ---------- Theory modal ---------- */
+  .theory-overlay{
+    position:fixed; inset:0;
+    background:rgba(10,10,9,0.82);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    z-index:50;
+  }
+  .theory-overlay.open{ display:flex; }
+  .theory-modal{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    width:min(560px, 100%);
+    max-height:min(88vh, 720px);
+    overflow-y:auto;
+    position:relative;
+    box-shadow:0 30px 80px rgba(0,0,0,0.5);
+  }
+  .theory-close{
+    position:absolute;
+    top:14px; right:14px;
+    width:32px; height:32px;
+    border-radius:50%;
+    background:var(--bg-panel-2);
+    border:1px solid var(--line);
+    color:var(--text);
+    font-size:18px;
+    line-height:1;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    z-index:2;
+    transition:border-color .15s ease;
+  }
+  .theory-close:hover{ border-color:var(--accent); }
+  .theory-thumb-wrap{
+    width:100%; aspect-ratio:3/2;
+    background:#eeeee8;
+    overflow:hidden;
+  }
+  .theory-thumb-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .theory-body{ padding:22px 26px 28px; }
+  .theory-coords{
+    font-family:'DejaVu Serif', 'EB Garamond', serif;
+    font-style:italic;
+    font-size:12.5px;
+    color:var(--accent);
+    margin-bottom:6px;
+  }
+  .theory-name{
+    font-family:'EB Garamond', serif;
+    font-weight:600;
+    font-size:22px;
+    line-height:1.2;
+    margin-bottom:14px;
+  }
+  .theory-blurb, .theory-detail p{
+    font-size:13.5px;
+    line-height:1.7;
+    color:var(--text-dim);
+    margin-bottom:12px;
+  }
+  .theory-detail{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+  .theory-visual-note{
+    font-size:11.5px;
+    font-style:italic;
+    color:rgba(242,239,233,0.4);
+  }
+  @media (max-width:560px){
+    .theory-body{ padding:18px 18px 22px; }
+    .theory-name{ font-size:19px; }
+  }
 </style>
 </head>
 <body>
@@ -400,7 +495,7 @@
           <div class="chip" data-axis="Z">Z</div>
           <div class="chip active" data-axis="W">W</div>
         </div>
-        <div class="hint">Move the viewpoint <b>Q</b> along one axis toward the hyperplane. The 16‑cell swells and turns inside‑out as Q passes through it.</div>
+        <div class="hint">Move the viewpoint along one axis toward the hyperplane. The 16‑cell swells and turns inside‑out as the viewer passes through it.</div>
       </div>
 
       <div id="plane-picker" style="display:block;">
@@ -412,7 +507,7 @@
           <div class="chip" data-plane="YW">YW</div>
           <div class="chip" data-plane="ZW">ZW</div>
         </div>
-        <div class="hint">Rotate the 16‑cell in a chosen 4D plane at fixed viewpoint <b>Q = (0,0,0,6.0)</b>. XY/XZ/YZ look like ordinary 3D spin; XW/YW/ZW turn through the fourth dimension.</div>
+        <div class="hint">Rotate the 16‑cell in a chosen 4D plane at fixed viewpoint. XY/XZ/YZ look like ordinary 3D spin; XW/YW/ZW turn through the fourth dimension.</div>
       </div>
     </div>
 
@@ -456,9 +551,8 @@
     </div>
 
     <div class="legend">
-      <div class="item"><span class="sw" style="background:var(--orange)"></span> inner tetrahedron</div>
-      <div class="item"><span class="sw" style="background:var(--purple)"></span> outer tetrahedron</div>
-      <div class="item"><span class="sw" style="background:var(--gray-edge)"></span> connectors</div>
+      <div class="item"><span class="sw" style="background:var(--focus)"></span> highlighted cell</div>
+      <div class="item"><span class="sw" style="background:var(--gray-edge)"></span> other tetrahedra</div>
     </div>
   </aside>
 
@@ -466,17 +560,35 @@
     <div class="brand">
       <a class="eyebrow" href="./#projections" title="Back to Projections" id="back-link">&#9664; PlanckPlay · Hypercube of Physics</a>
       <h1>Hexadecachoron Projections</h1>
-      <p>16‑cell polytope, dual of the tesseract — each tetrahedra is one of the 16 on/off combinations of G, c&#x207B;&#xB9;, h and k<sub style="font-size:.7em">B</sub>.</p>
+      <p>16‑cell polytope, dual of the tesseract — click on the highlighted tetrahedra to explore on/off combinations of G, c&#x207B;&#xB9;, h and k<sub style="font-size:.7em">B</sub>.</p>
     </div>
     <div class="canvas-wrap">
       <svg id="stage-svg" viewBox="0 0 640 640"></svg>
     </div>
-    <div class="title-block">
-      <div class="main" id="title-main">Viewpoint distance = 6.00</div>
-      <div class="sub" id="title-sub"></div>
+    <div class="cell-toggles" id="cell-toggles">
+      <button class="cell-toggle-btn" data-const="G">G</button>
+      <button class="cell-toggle-btn" data-const="C">c<sup>-1</sup></button>
+      <button class="cell-toggle-btn" data-const="H">h</button>
+      <button class="cell-toggle-btn" data-const="K">k<sub>B</sub></button>
     </div>
+    <div class="cell-theory-name" id="cell-theory-name"></div>
   </main>
 
+</div>
+
+<div class="theory-overlay" id="theory-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="theory-modal">
+    <button class="theory-close" id="theory-close" aria-label="Close">&times;</button>
+    <div class="theory-thumb-wrap"><img id="theory-img" src="" alt=""></div>
+    <div class="theory-body">
+      <div class="theory-name" id="theory-name"></div>
+      <p class="theory-blurb" id="theory-blurb"></p>
+      <div class="theory-detail">
+        <p id="theory-detail-p"></p>
+        <p class="theory-visual-note" id="theory-visual-note"></p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -505,21 +617,21 @@
   const coordsOrdered = inner.concat(outer);
   const VERT4D = coordsOrdered.map(c => c.map(v => (v*2 - 1) * A));
 
-  // edges + colors, replicating the antipodal-skip logic
+  // edges, replicating the antipodal-skip logic. Colors are no longer
+  // static (orange=inner/purple=outer) — every edge is now colored per
+  // frame as gold (part of the currently highlighted cell) or gray
+  // (everything else), see CELL_TOGGLE_VERTICES + render() below.
   const EDGES = [];
-  const EDGE_COLORS = [];
   for(let i=0;i<8;i++){
     for(let j=i+1;j<8;j++){
       const vi = VERT4D[i], vj = VERT4D[j];
       const antipodal = vi.every((val,k) => Math.abs(val + vj[k]) < 1e-9);
       if(antipodal) continue;
       EDGES.push([i,j]);
-      if(i<4 && j<4) EDGE_COLORS.push('orange');
-      else if(i>=4 && j>=4) EDGE_COLORS.push('purple');
-      else EDGE_COLORS.push('gray');
     }
   }
-  const EDGE_CSS = { orange:'#ffa500', purple:'#9b30b0', gray:'#808080' };
+  const GOLD = '#e8b96a'; // mirrors CSS var(--focus)
+  const GRAY_EDGE = '#808080';
 
   // Labels: exactly as in the two notebook cells — each labels only HALF
   // the 8 vertices, the other half left blank on purpose. Left as-is; the
@@ -535,6 +647,107 @@
   ];
   function labelSetForMode(mode){
     return mode === 'rotation' ? LABELS_ROTATION : LABELS_VIEWPOINT;
+  }
+
+  // ---------------------------------------------------------------------
+  // 1b. TETRAHEDRAL CELLS  (the 16-cell's 16 tetrahedra, one per G/c^-1/h/k_B
+  // combination)
+  // ---------------------------------------------------------------------
+  // The 8 vertices form 4 antipodal pairs. Every tetrahedral cell of the
+  // 16-cell is formed by picking exactly one vertex from each pair — 2^4 =
+  // 16 combinations, each a valid tetrahedron (only same-pair vertices are
+  // non-edges, and this always picks different-pair vertices).
+  // Each pair here is anchored to the vertex already carrying that
+  // constant's label (G=6, c^-1=5, h=7, k_B=4); its antipodal partner is
+  // the "off" choice. All-off (0000) => the inner tetrahedron (indices
+  // 0-3, Newtonian Mechanics). All-on (1111) => the outer tetrahedron
+  // (indices 4-7, TORE).
+  const CELL_TOGGLE_VERTICES = {
+    G: { on:6, off:1 },
+    C: { on:5, off:2 }, // c^-1
+    H: { on:7, off:0 },
+    K: { on:4, off:3 }, // k_B
+  };
+  function activeVertexIndices(toggles){
+    return [
+      toggles.G ? CELL_TOGGLE_VERTICES.G.on : CELL_TOGGLE_VERTICES.G.off,
+      toggles.C ? CELL_TOGGLE_VERTICES.C.on : CELL_TOGGLE_VERTICES.C.off,
+      toggles.H ? CELL_TOGGLE_VERTICES.H.on : CELL_TOGGLE_VERTICES.H.off,
+      toggles.K ? CELL_TOGGLE_VERTICES.K.on : CELL_TOGGLE_VERTICES.K.off,
+    ];
+  }
+
+  // The 16 theories, keyed by an explicit "GCHK" bit string (not array
+  // position) to avoid the ordering mix-ups from earlier in this project.
+  // Content matches the Theories section of index.html / index_de.html.
+  const THEORY_BY_BITS = {
+    "0000": { name:"Newtonian Mechanics", img:"01-newtonian-mechanics.png",
+      blurb:"No gravity. No light-speed limit. No quantum effects. No temperature. The motion of objects under forces — F = ma — where modern science began.",
+      detail:"Everything else in this puzzle is a correction to this starting point. It still works perfectly for everyday speeds and scales.",
+      visual:"The complex equilibrium of forces of a surfer." },
+    "0010": { name:"Quantum Mechanics", img:"07-quantum-mechanics.png",
+      blurb:"Particles don't have definite positions until measured. Energy comes in discrete packets. Planck's constant h sets the scale at which this strangeness kicks in.",
+      detail:"The 1920s formulations of Schrödinger and Heisenberg transformed physics. Einstein protested: \u201CGod does not play dice.\u201D The dice disagree.",
+      visual:"Entanglement of particles — their state cannot be described independently anymore." },
+    "0100": { name:"Special Relativity & Electrodynamics", img:"05-special-relativity-electrodynamics.png",
+      blurb:"Nothing travels faster than light. Einstein's 1905 theory derived E = mc\u00B2, time dilation, and unified electricity and magnetism.",
+      detail:"The constant that matters is c\u207B\u00B9 — as c \u2192 \u221E, special relativity collapses back to Newton. Maxwell's equations live here too.",
+      visual:"The twin paradox — a classic thought experiment in special relativity." },
+    "0110": { name:"Quantum Field Theory", img:"11-quantum-field-theory.png",
+      blurb:"The Standard Model of particle physics. Every particle is an excitation of a field. QFT predicts the electron's magnetic moment to twelve decimal places.",
+      detail:"The most precisely tested theory in science. Gravity is stubbornly absent: including G turns this into the elusive Theory of Everything.",
+      visual:"Feynman diagrams — particles as excitations of quantum fields." },
+    "1000": { name:"Newtonian Gravity", img:"03-newtonian-gravity.png",
+      blurb:"Every mass in the universe pulls on every other. Newton's constant G governs falling apples and orbiting planets with the same equation.",
+      detail:"G is the only one of Planck's four constants still not measured to full precision — experiments to nail it down are ongoing today.",
+      visual:"Mercury, Venus, Earth (with moon) and Mars elipses around the Sun." },
+    "1010": { name:"Non-Relativistic Quantum Gravity", img:"13-nonrelativistic-quantum-gravity.png",
+      blurb:"In 1975, the COW experiment showed that a neutron beam splits and recombines with a measurable phase shift caused purely by Earth's gravity.",
+      detail:"Quantum and gravitational effects, no relativity needed. A quiet but profound confirmation that h and G do overlap.",
+      visual:"Neutron interferometer in Earth's gravitational field." },
+    "1100": { name:"General Relativity", img:"09-general-relativity.png",
+      blurb:"Mass curves spacetime. Objects follow that curvature — gravity is not a force, but geometry. Einstein's 1915 equations predicted black holes, gravitational waves, and the expanding universe.",
+      detail:"All later confirmed. The image shows space curved by a massive body — not a force pulling things down, but a shape guiding them.",
+      visual:"Space-time geometry is curved due to the mass." },
+    "1110": { name:"Theory of Everything (TOE)", img:"15-theory-of-everything.png",
+      blurb:"The holy grail: a single theory uniting quantum field theory and general relativity. Superstring theory and loop quantum gravity are the leading candidates.",
+      detail:"Neither has been experimentally confirmed. The Planck length (~10\u207B\u00B3\u2075 m), where quantum gravity must matter, is 10\u00B2\u2070 times smaller than a proton. Progress is slow, but the question is real.",
+      visual:"String theory — one vision of the Theory of Everything." },
+    "0001": { name:"Classical Statistical Mechanics", img:"02-classical-statistical-mechanics.png",
+      blurb:"A gas is trillions of colliding particles. Boltzmann's constant k_B connects a particle's average energy to the temperature of the whole gas.",
+      detail:"With it, heat, entropy, and pressure emerge from statistics. Boltzmann's tombstone in Vienna reads simply: S = k_B log W.",
+      visual:"Terms such as \u201Chot\u201D and \u201Ccold\u201D depend on the activation energy." },
+    "0011": { name:"Quantum Statistical Mechanics", img:"08-quantum-statistical-mechanics.png",
+      blurb:"Truly identical particles can all pile into the same state (bosons) or refuse to share one (fermions). This gives us superconductors and Bose\u2013Einstein condensates.",
+      detail:"Planck's 1900 black-body law — the first quantum formula — lives here too.",
+      visual:"A noisy qubit — the environment \u201Cleaks\u201D information out of the qubit system." },
+    "0101": { name:"Special Relativity & Statistical Mechanics", img:"06-special-relativity-statistical-mechanics.png",
+      blurb:"What temperature does a moving body have? This question has been debated since 1907 and remains unresolved.",
+      detail:"Planck, Einstein, and others proposed different answers — and all may be correct, depending on how you define temperature for a moving system. A rare case of a theory that is more puzzle than solution.",
+      visual:"What is the temperature of a moving body?" },
+    "0111": { name:"Quantum Field Theory & Temperature", img:"12-qft-temperature.png",
+      blurb:"Planck's 1900 black-body formula was the first equation to combine c\u207B\u00B9, h, and k_B — it launched quantum physics.",
+      detail:"The Unruh effect predicts that an accelerating detector in empty space will measure a nonzero temperature. Hot vacuum: still unconfirmed experimentally, but theoretically compelling.",
+      visual:"Three constants, the first quantum formula, and a glowing black-body." },
+    "1001": { name:"Statistical Mechanics & Newtonian Gravity", img:"04-statistical-mechanics-newtonian-gravity.png",
+      blurb:"When gravity and thermodynamics meet, stars are born. A gas cloud collapses when gravitational energy outweighs thermal pressure — the Jeans mass.",
+      detail:"No relativity, no quantum mechanics needed. The universe builds stars with just G and k_B.",
+      visual:"Star formation — simplest astrophysics." },
+    "1011": { name:"Non-Relativistic Quantum Gravity & Temperature", img:"14-nonrelativistic-quantum-gravity-temperature.png",
+      blurb:"Ultracold neutrons bounce off surfaces like billiard balls and occupy discrete quantum states in Earth's gravity. Their measured lifetime gives two different answers depending on method.",
+      detail:"The ~9-second discrepancy between \u201Cbottle\u201D and \u201Cbeam\u201D experiments remains an open puzzle in physics today.",
+      visual:"Quantum states in a gravitational bottle." },
+    "1101": { name:"General Relativity & Statistical Mechanics", img:"10-general-relativity-statistical-mechanics.png",
+      blurb:"The Big Bang started hot. The universe has been cooling for 13.8 billion years. Today the cosmic microwave background reaches us at just 2.7 K.",
+      detail:"Cosmology lives at this intersection of curved spacetime and thermodynamics, though quantum effects are never truly absent.",
+      visual:"Cosmic microwave background radiation. The expanding universe is cooling down." },
+    "1111": { name:"Theory of Really Everything (TORE)", img:"16-theory-of-really-everything.png",
+      blurb:"Black holes radiate. Hawking's 1974 discovery that black holes emit thermal radiation is the clearest hint that all four constants must eventually unite.",
+      detail:"The Bekenstein\u2013Hawking entropy links the thermodynamics of a black hole to the area of its horizon. TORE is not yet found, but black holes are already pointing the way.",
+      visual:"This outermost piece contains all others. The assembled puzzle is TORE." },
+  };
+  function toggleBitsKey(t){
+    return (t.G?'1':'0') + (t.C?'1':'0') + (t.H?'1':'0') + (t.K?'1':'0');
   }
 
   // ---------------------------------------------------------------------
@@ -641,7 +854,7 @@
 
   const lineEls = EDGES.map((e,k) => {
     const l = document.createElementNS(svgNS,'line');
-    l.setAttribute('stroke', EDGE_CSS[EDGE_COLORS[k]]);
+    l.setAttribute('stroke', GRAY_EDGE);
     l.setAttribute('stroke-width', 1.6);
     l.setAttribute('stroke-opacity', 0.85);
     l.setAttribute('stroke-linecap','round');
@@ -655,6 +868,32 @@
     c.setAttribute('fill', '#f2efe9');
     c.setAttribute('filter','url(#glow)');
     gPoints.appendChild(c);
+    return c;
+  });
+
+  // Generous invisible hit targets, one per vertex — clicking one while
+  // paused opens the theory modal for whichever cell is currently
+  // highlighted (only meaningful when that vertex is part of it).
+  const gHits = document.createElementNS(svgNS,'g');
+  svg.appendChild(gHits);
+  const hitEls = VERT4D.map((v, i) => {
+    const c = document.createElementNS(svgNS,'circle');
+    c.setAttribute('r', 16);
+    c.setAttribute('fill', 'transparent');
+    c.setAttribute('class', 'vertex-hit');
+    c.addEventListener('click', (e) => {
+      if(!state.playing){
+        const active = new Set(activeVertexIndices(state.toggles));
+        if(active.has(i)){
+          e.stopPropagation();
+          openTheoryModal();
+        }
+        // clicking a non-active vertex while paused: let it bubble to
+        // canvas-wrap -> resume playback, same as tapping empty canvas
+      }
+      // while playing, let the click bubble up to canvas-wrap -> pause
+    });
+    gHits.appendChild(c);
     return c;
   });
 
@@ -701,8 +940,7 @@
   // ---------------------------------------------------------------------
   // 5. RENDER
   // ---------------------------------------------------------------------
-  const titleMain = document.getElementById('title-main');
-  const titleSub = document.getElementById('title-sub');
+  const theoryNameEl = document.getElementById('cell-theory-name');
 
   const FIT_SCALE = 0.8; // shrink the projected scene so it sits comfortably inside the canvas
   function worldToScreen(sx, sy, lim){
@@ -713,14 +951,13 @@
   function render(){
     const mode = state.mode;
     let vertsFor3D = VERT4D;
-    let t2, axis, lim, thetaDeg=0, plane=state.plane;
+    let t2, axis, lim, plane=state.plane;
 
     if(mode === 'rotation'){
       const theta = ANGLES[state.frame] * Math.PI/180;
       const R = rotation4D(theta, plane);
       vertsFor3D = VERT4D.map(v => applyRotation(v, R));
       t2 = ROTATION_T2; axis = 'W'; lim = LIM_ROTATION;
-      thetaDeg = ANGLES[state.frame];
     } else {
       t2 = T_VALUES[state.frame]; axis = state.axis; lim = LIM_VIEWPOINT;
     }
@@ -729,12 +966,18 @@
     const cam = proj3.map(camera3Dto2D);
     const screen = cam.map(p => worldToScreen(p.sx, p.sy, lim));
 
+    const active = new Set(activeVertexIndices(state.toggles));
+
     EDGES.forEach((e,k) => {
       const [i,j] = e;
       lineEls[k].setAttribute('x1', screen[i].px);
       lineEls[k].setAttribute('y1', screen[i].py);
       lineEls[k].setAttribute('x2', screen[j].px);
       lineEls[k].setAttribute('y2', screen[j].py);
+      const isActive = active.has(i) && active.has(j);
+      lineEls[k].setAttribute('stroke', isActive ? GOLD : GRAY_EDGE);
+      lineEls[k].setAttribute('stroke-opacity', isActive ? 0.95 : 0.35);
+      lineEls[k].setAttribute('stroke-width', isActive ? 2.2 : 1.4);
     });
 
     const depths = cam.map(c => c.depth);
@@ -745,8 +988,13 @@
       pointEls[i].setAttribute('cx', s.px);
       pointEls[i].setAttribute('cy', s.py);
       const t = (depths[i]-dMin)/dRange; // 0 far .. 1 near
-      pointEls[i].setAttribute('r', 3.5 + t*0.45);
+      const isActive = active.has(i);
+      pointEls[i].setAttribute('r', (isActive ? 4.2 : 3.5) + t*0.45);
       pointEls[i].setAttribute('fill-opacity', 0.55 + t*0.45);
+      pointEls[i].setAttribute('fill', isActive ? GOLD : '#f2efe9');
+
+      hitEls[i].setAttribute('cx', s.px);
+      hitEls[i].setAttribute('cy', s.py);
 
       const off = 12;
       labelEls[i].setAttribute('x', s.px + off);
@@ -754,13 +1002,12 @@
       labelEls[i].style.display = (labelHasContent[i] && state.showLabels) ? '' : 'none';
     });
 
-    if(mode === 'rotation'){
-      titleMain.textContent = `Rotation around ${plane}, θ = ${thetaDeg.toFixed(1)}°`;
-      //titleSub.textContent = `Viewpoint = (0, 0, 0, ${t2.toFixed(1)})`;
-    } else {
-      titleMain.textContent = `Viewpoint distance = ${t2.toFixed(2)}  (Q along ${axis})`;
-      titleSub.textContent = '';
-    }
+    // toggle buttons + theory name readout
+    document.querySelectorAll('.cell-toggle-btn').forEach(btn => {
+      btn.classList.toggle('active', !!state.toggles[btn.dataset.const]);
+    });
+    const theory = THEORY_BY_BITS[toggleBitsKey(state.toggles)];
+    theoryNameEl.textContent = theory ? theory.name : '';
   }
 
   // ---------------------------------------------------------------------
@@ -774,18 +1021,38 @@
     playing: false,
     speed: 200,
     showLabels: true,
+    toggles: { G:false, C:false, H:false, K:false }, // starts at 0000 = Newtonian Mechanics
   };
+
 
   let timer = null;
   let direction = 1; // for back-and-forth ping-pong playback
+  let cycleTimer = null;
+  const CYCLE_INTERVAL = 2500; // ms between auto-advancing to the next G/c^-1/h/k_B combination
 
   function frameCount(){
     return state.mode === 'rotation' ? ANGLES.length : T_VALUES.length;
   }
 
+  function toggleBitsToInt(t){ return (t.G?8:0) + (t.C?4:0) + (t.H?2:0) + (t.K?1:0); }
+  function intToToggleBits(n){ return { G:!!(n&8), C:!!(n&4), H:!!(n&2), K:!!(n&1) }; }
+
+  function stopCycle(){
+    if(cycleTimer){ clearInterval(cycleTimer); cycleTimer = null; }
+  }
+  function startCycle(){
+    stopCycle();
+    cycleTimer = setInterval(() => {
+      const n = (toggleBitsToInt(state.toggles) + 1) % 16;
+      state.toggles = intToToggleBits(n);
+      render();
+    }, CYCLE_INTERVAL);
+  }
+
   function stopPlayback(){
     state.playing = false;
     if(timer){ clearInterval(timer); timer = null; }
+    stopCycle();
     document.getElementById('play-label').textContent = 'Play';
     document.getElementById('play-icon').innerHTML = '<path d="M4 2l10 6-10 6z"/>';
   }
@@ -804,6 +1071,7 @@
       syncScrubber();
       render();
     }, state.speed);
+ //   startCycle(); uncomment to activate the auto-iteration every time Play is pressed:
   }
 
   function togglePlay(){
@@ -863,9 +1131,59 @@
   document.getElementById('btn-play').addEventListener('click', togglePlay);
 
   // Tap/click anywhere on the canvas toggles play/pause — works the same
-  // for touch (tap) and desktop (mouse click), since browsers fire a
-  // click event for both.
+  // for touch (tap) and desktop (mouse click). Vertex hit targets
+  // stopPropagation when paused and part of the active cell (see gHits
+  // above), so clicking one opens the theory modal instead of resuming.
   document.querySelector('.canvas-wrap').addEventListener('click', togglePlay);
+
+  // Manual G/c^-1/h/k_B toggle — takes over from auto-cycling immediately,
+  // regardless of play/pause state.
+  document.getElementById('cell-toggles').addEventListener('click', e => {
+    const btn = e.target.closest('.cell-toggle-btn');
+    if(!btn) return;
+    stopCycle();
+    const key = btn.dataset.const;
+    state.toggles[key] = !state.toggles[key];
+    render();
+  });
+
+  // ---------------------------------------------------------------------
+  // Theory modal
+  // ---------------------------------------------------------------------
+  const theoryOverlay = document.getElementById('theory-overlay');
+  const theoryImg = document.getElementById('theory-img');
+  const theoryNameField = document.getElementById('theory-name');
+  const theoryBlurb = document.getElementById('theory-blurb');
+  const theoryDetailP = document.getElementById('theory-detail-p');
+  const theoryVisualNote = document.getElementById('theory-visual-note');
+
+  function formatSubscripts(str){
+    return str.replace(/k_B/g, 'k<sub>B</sub>');
+  }
+
+  function openTheoryModal(){
+    const t = THEORY_BY_BITS[toggleBitsKey(state.toggles)];
+    if(!t) return;
+    theoryImg.src = `images/${t.img}`;
+    theoryImg.alt = t.name;
+    theoryNameField.innerHTML = formatSubscripts(t.name);
+    theoryBlurb.innerHTML = formatSubscripts(t.blurb);
+    theoryDetailP.innerHTML = formatSubscripts(t.detail);
+    theoryVisualNote.innerHTML = `Visual: ${formatSubscripts(t.visual)}`;
+    theoryOverlay.classList.add('open');
+    theoryOverlay.setAttribute('aria-hidden', 'false');
+  }
+  function closeTheoryModal(){
+    theoryOverlay.classList.remove('open');
+    theoryOverlay.setAttribute('aria-hidden', 'true');
+  }
+  document.getElementById('theory-close').addEventListener('click', closeTheoryModal);
+  theoryOverlay.addEventListener('click', e => {
+    if(e.target === theoryOverlay) closeTheoryModal();
+  });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && theoryOverlay.classList.contains('open')) closeTheoryModal();
+  });
 
   document.getElementById('btn-prev').addEventListener('click', () => {
     stopPlayback();
@@ -896,19 +1214,12 @@
     render();
   });
 
-  document.getElementById('back-link').addEventListener('click', function(e){
-  if (document.referrer && document.referrer.includes(location.hostname)) {
-    e.preventDefault();
-    history.back();
-  }
-  });
-
   // init — land directly in Rotation/XY, already animating
   applyLabelSet(state.mode);
   syncScrubber();
   render();
   startPlayback();
-
+  startCycle(); // comment to activate auto-iteration feature every time a toggle is clicked
 })();
 </script>
 </body>
