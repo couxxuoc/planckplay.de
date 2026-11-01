@@ -4,16 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hypercube of Physics — Planck's Hexadecachoron</title>
-  <meta name="description" content="A geometrical (meta)model that classifies theories of physics, based on Planck's four fundamental constants and represented as a four-dimensional polytope: the hexadecachoron." />
+  <meta name="description" content="A geometric model of the sixteen areas of physics, based on Planck's four fundamental constants and the hexadecachoron." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
-    @font-face{
-      font-family:'DejaVu Serif';
-      src: url('https://cdn.jsdelivr.net/npm/dejavu-fonts-ttf@2.37.3/ttf/DejaVuSerif.ttf') format('truetype');
-      font-weight:normal; font-style:normal; font-display:swap;
-    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -121,10 +116,10 @@
       font-weight: 400;
       line-height: 1.05;
       letter-spacing: -0.01em;
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.5rem;
     }
     .hero-left h1 em { font-style: italic; }
-    .hero-left p { font-size: 16px; line-height: 1.8; color: var(--ink-muted); max-width: 38ch; margin-bottom: 2.5rem; }
+    .hero-left p { font-size: 14px; line-height: 1.8; color: var(--ink-muted); max-width: 38ch; }
     .hero-left .hero-sub { margin-top: 1.5rem; font-size: 12px; color: var(--ink-faint); }
     .hero-right {
       aspect-ratio: 1 / 1;
@@ -325,15 +320,7 @@
       gap: 1px;
       background: rgba(255,255,255,0.08);
     }
-    .proj-card {
-      background: var(--ink);
-      padding: 2.5rem 2rem;
-      display: block;
-      text-decoration: none;
-      color: inherit;
-      transition: background 0.15s ease;
-    }
-    .proj-card:hover { background: #232320; }
+    .proj-card { background: var(--ink); padding: 2.5rem 2rem; }
     .proj-card h3 {
       font-family: var(--serif);
       font-size: 1.3rem;
@@ -344,44 +331,15 @@
     .proj-card p { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.8; }
     .proj-visual {
       width: 100%;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 16 / 9;
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 1px;
       margin-top: 1.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      overflow: hidden;
-      background: #1a1a18;
     }
     .proj-visual svg { width: 60%; height: 60%; opacity: 0.4; }
-    .proj-visual svg.static-render {
-      width: 100%;
-      height: 100%;
-      opacity: 1;
-    }
-    .vlabel-static {
-      font-family: 'DejaVu Serif', 'EB Garamond', serif;
-      font-style: italic;
-      fill: #f2efe9;
-      font-size: 20px;
-      paint-order: stroke;
-      stroke: #1a1a18;
-      stroke-width: 3px;
-      stroke-linejoin: round;
-    }
-    .proj-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 1.2rem;
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.6);
-    }
-    .proj-card:hover .proj-link { color: #fff; }
 
     /* ── XR ── */
     .xr-section { background: var(--accent-light); padding: 5rem 3rem; }
@@ -717,11 +675,50 @@
       .coming-soon-card { border-right: none; border-bottom: 1px solid var(--rule); }
       .coming-soon-card:last-child { border-bottom: none; }
     }
+  
+    /* ── EVENT BANNER + EVENTS ── */
+    .event-banner { background: var(--ink); color: #fff; font-size: 12px; line-height: 1.5; padding: 0.6rem 3rem; display: flex; align-items: center; justify-content: center; gap: 1rem; position: relative; }
+    .event-banner a { color: #fff; text-decoration: none; }
+    .event-banner a:hover { text-decoration: underline; }
+    .event-banner .eb-tag { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.55); white-space: nowrap; }
+    .event-banner .eb-close { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255,255,255,0.6); font-size: 18px; cursor: pointer; line-height: 1; padding: 0.2rem 0.4rem; }
+    .event-banner .eb-close:hover { color: #fff; }
+    .events-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 1.2rem; }
+    .events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3.5rem; }
+    .event-card { border: 1px solid var(--rule); border-left: 2px solid var(--accent); border-radius: 2px; padding: 1.2rem 1.3rem; display: flex; flex-direction: column; }
+    .event-date { font-family: var(--serif); font-size: 13px; color: var(--accent); margin-bottom: 0.5rem; }
+    .event-card h3 { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; line-height: 1.3; margin-bottom: 0.4rem; }
+    .event-card p { font-size: 12px; color: var(--ink-muted); line-height: 1.7; margin-bottom: 0.4rem; }
+    .event-card .model-link { margin-top: auto; padding-top: 0.6rem; }
+    @media (max-width: 900px) {
+      .event-banner { padding: 0.6rem 2.5rem 0.6rem 1rem; flex-direction: column; gap: 0.2rem; text-align: center; }
+      .events-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 
 <!-- ── NAV ── -->
+<!-- ── EVENT BANNER (auto-hides after 7 Nov 2026) ── -->
+<div class="event-banner" id="event-banner">
+  <span class="eb-tag">Berlin Science Week</span>
+  <a href="#media">Fri 6 Nov, 19:30 &middot; Science Slam &nbsp;|&nbsp; Sat 7 Nov, 18:45 &middot; Inspiration Stage talk &nbsp;Details &rarr;</a>
+  <button class="eb-close" aria-label="Close" onclick="dismissBanner()">&times;</button>
+</div>
+<script>
+  (function () {
+    var b = document.getElementById('event-banner');
+    var expired = new Date() > new Date('2026-11-08T00:00:00+01:00');
+    var dismissed = false;
+    try { dismissed = sessionStorage.getItem('bannerDismissed') === '1'; } catch (e) {}
+    if (expired || dismissed) b.style.display = 'none';
+    window.dismissBanner = function () {
+      b.style.display = 'none';
+      try { sessionStorage.setItem('bannerDismissed', '1'); } catch (e) {}
+    };
+  })();
+</script>
+
 <nav>
   <a class="nav-logo" href="#">
     <img src="images/logo.png" alt="Hypercube of Physics" style="height:40px;width:auto;vertical-align:middle;margin-right:10px;">
@@ -747,8 +744,8 @@
   <div class="hero">
     <div class="hero-left">
       <h1>Mapping Physics<br><em>in Four<br>Dimensions</em></h1>
-      <p>A geometrical (meta)model of theories of physics, based on Planck's four fundamental constants and represented as a four-dimensional polytope: the hexadecachoron.</p>
-      <!-- <p class="hero-sub">Cluster of Excellence Matters of Activity &middot;<br>Humboldt-Universit&auml;t zu Berlin</p> -->
+      <p>A geometric model of the sixteen theories of physics, based on Planck's four fundamental constants and represented as a four-dimensional polytope: the hexadecachoron.</p>
+      <p class="hero-sub">Cluster of Excellence Matters of Activity &middot;<br>Humboldt-Universit&auml;t zu Berlin</p>
     </div>
     <div class="hero-right">
       <img src="images/hexadecachoron.gif" alt="Viewpoint perspective of Planck's hexadecachoron"
@@ -822,7 +819,7 @@
       <div class="model-card">
         <p class="model-num">03 &mdash; Paper craft</p>
         <div class="model-icon">
-          <img src="images/planckplay_paper.png" alt="Pieces of the paper crafted PlanckPlay model" style="width:100%;height:100%;object-fit:cover;border-radius:1px;">
+          <img src="images/planckplay_paper.jpg" alt="Pieces of the paper crafted PlanckPlay model" style="width:100%;height:100%;object-fit:cover;border-radius:1px;">
         </div>
         <h3>Handcraft edition</h3>
         <p>Printable net for scissors-and-glue assembly. Designed for classrooms and workshops &mdash; each face labelled with its physics theory and Planck constant coordinates.</p>
@@ -851,10 +848,10 @@
         <div class="theory-thumb">
           <img src="images/01-newtonian-mechanics.png" alt="Newtonian Mechanics" style="width:100%;height:100%;object-fit:cover;">
         </div>
-        <p class="theory-blurb">No gravity. No light-speed limit. No quantum effects. No temperature. The motion of objects under forces — <em>&sum; F<sub>i</sub> = ma</em> — where modern science began.</p>
+        <p class="theory-blurb">No gravity. No light-speed limit. No quantum effects. No temperature. The motion of objects under forces — <em>F = ma</em> — where modern science began.</p>
         <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
         <div class="theory-detail">
-          <p>Every other piece in this puzzle gets its position from this starting point. It still works perfectly for everyday speeds and scales.</p>
+          <p>Everything else in this puzzle is a correction to this starting point. It still works perfectly for everyday speeds and scales.</p>
           <p class="theory-visual-note">Visual: The complex equilibrium of forces of a surfer.</p>
         </div>
       </div>
@@ -990,7 +987,7 @@
         <button class="theory-toggle" onclick="toggleTheory(this)">More &darr;</button>
         <div class="theory-detail">
           <p>Cosmology lives at this intersection of curved spacetime and thermodynamics, though quantum effects are never truly absent.</p>
-          <p class="theory-visual-note">Visual: Cosmic microwave background radiation. The expanding universe is cooling down.</p>
+          <p class="theory-visual-note">Visual: The expanding universe is cooling down.</p>
         </div>
       </div>
 
@@ -1097,22 +1094,37 @@
       <p>The hexadecachoron and the tesseract cannot be perceived directly. We make them visible through projections &mdash; reductions to lower-dimensional representations that preserve the key structural relationships between theories.</p>
     </div>
     <div class="proj-grid">
-      <a class="proj-card" href="tesseract_explorer.html">
-        <h3>Tesseract projections</h3>
-        <p>The four-dimensional hypercube, unfolded into rotating 3D projections. Its 16 vertices mark the 16 theories of physics. Click any vertex to step inside that theory.</p>
-        <div class="proj-visual">
-          <svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Static tesseract projection" class="static-render"><defs><filter id="tsglow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><line x1="338.10" y1="396.59" x2="338.10" y2="310.95" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="338.10" y1="396.59" x2="252.46" y2="371.87" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="338.10" y1="396.59" x2="387.54" y2="353.77" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="338.10" y1="396.59" x2="383.34" y2="588.07" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="338.10" y1="310.95" x2="252.46" y2="286.23" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="338.10" y1="310.95" x2="387.54" y2="268.13" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="338.10" y1="310.95" x2="383.34" y2="288.33" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="252.46" y1="371.87" x2="252.46" y2="286.23" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="252.46" y1="371.87" x2="301.90" y2="329.05" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="252.46" y1="371.87" x2="83.61" y2="501.54" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="252.46" y1="286.23" x2="301.90" y2="243.41" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="252.46" y1="286.23" x2="83.61" y2="201.80" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="387.54" y1="353.77" x2="387.54" y2="268.13" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="387.54" y1="353.77" x2="301.90" y2="329.05" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="387.54" y1="353.77" x2="556.39" y2="438.20" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="387.54" y1="268.13" x2="301.90" y2="243.41" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="387.54" y1="268.13" x2="556.39" y2="138.46" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="301.90" y1="329.05" x2="301.90" y2="243.41" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="301.90" y1="329.05" x2="256.66" y2="351.67" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="301.90" y1="243.41" x2="256.66" y2="51.93" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="383.34" y1="588.07" x2="383.34" y2="288.33" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="383.34" y1="588.07" x2="83.61" y2="501.54" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="383.34" y1="588.07" x2="556.39" y2="438.20" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="383.34" y1="288.33" x2="83.61" y2="201.80" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="383.34" y1="288.33" x2="556.39" y2="138.46" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="83.61" y1="501.54" x2="83.61" y2="201.80" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="83.61" y1="501.54" x2="256.66" y2="351.67" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="83.61" y1="201.80" x2="256.66" y2="51.93" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="556.39" y1="438.20" x2="556.39" y2="138.46" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="556.39" y1="438.20" x2="256.66" y2="351.67" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="556.39" y1="138.46" x2="256.66" y2="51.93" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="256.66" y1="351.67" x2="256.66" y2="51.93" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><circle cx="338.10" cy="396.59" r="3.70" fill="#f2efe9" fill-opacity="0.75" filter="url(#tsglow)"/><circle cx="338.10" cy="310.95" r="3.66" fill="#f2efe9" fill-opacity="0.71" filter="url(#tsglow)"/><circle cx="252.46" cy="371.87" r="3.73" fill="#f2efe9" fill-opacity="0.78" filter="url(#tsglow)"/><circle cx="252.46" cy="286.23" r="3.69" fill="#f2efe9" fill-opacity="0.74" filter="url(#tsglow)"/><circle cx="387.54" cy="353.77" r="3.76" fill="#f2efe9" fill-opacity="0.81" filter="url(#tsglow)"/><circle cx="387.54" cy="268.13" r="3.72" fill="#f2efe9" fill-opacity="0.77" filter="url(#tsglow)"/><circle cx="301.90" cy="329.05" r="3.79" fill="#f2efe9" fill-opacity="0.84" filter="url(#tsglow)"/><circle cx="301.90" cy="243.41" r="3.75" fill="#f2efe9" fill-opacity="0.80" filter="url(#tsglow)"/><circle cx="383.34" cy="588.07" r="3.63" fill="#f2efe9" fill-opacity="0.68" filter="url(#tsglow)"/><circle cx="383.34" cy="288.33" r="3.50" fill="#f2efe9" fill-opacity="0.55" filter="url(#tsglow)"/><circle cx="83.61" cy="501.54" r="3.75" fill="#f2efe9" fill-opacity="0.80" filter="url(#tsglow)"/><circle cx="83.61" cy="201.80" r="3.62" fill="#f2efe9" fill-opacity="0.67" filter="url(#tsglow)"/><circle cx="556.39" cy="438.20" r="3.83" fill="#f2efe9" fill-opacity="0.88" filter="url(#tsglow)"/><circle cx="556.39" cy="138.46" r="3.70" fill="#f2efe9" fill-opacity="0.75" filter="url(#tsglow)"/><circle cx="256.66" cy="351.67" r="3.95" fill="#f2efe9" fill-opacity="1.00" filter="url(#tsglow)"/><circle cx="256.66" cy="51.93" r="3.82" fill="#f2efe9" fill-opacity="0.87" filter="url(#tsglow)"/></svg>
-        </div>
-        <span class="proj-link">Open the explorer &rarr;</span>
-      </a>
-      <a class="proj-card" href="hexadecachoron_explorer.html">
+      <div class="proj-card">
         <h3>Hexadecachoron projections</h3>
         <p>The dual polytope of the tesseract, bounded by 16 tetrahedra. Different projection angles reveal the nested tetrahedral structure underlying Planck's model of physics.</p>
         <div class="proj-visual">
-          <svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Static hexadecachoron projection" class="static-render"><defs><filter id="hxglow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><line x1="259.59" y1="370.44" x2="320.00" y2="244.49" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="259.59" y1="370.44" x2="396.60" y2="357.21" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="259.59" y1="370.44" x2="303.81" y2="307.86" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="259.59" y1="370.44" x2="376.65" y2="362.49" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="259.59" y1="370.44" x2="51.91" y2="189.75" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="259.59" y1="370.44" x2="320.00" y2="584.30" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="320.00" y1="244.49" x2="396.60" y2="357.21" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="320.00" y1="244.49" x2="303.81" y2="307.86" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="320.00" y1="244.49" x2="376.65" y2="362.49" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="320.00" y1="244.49" x2="51.91" y2="189.75" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="320.00" y1="244.49" x2="531.44" y2="143.46" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="396.60" y1="357.21" x2="303.81" y2="307.86" stroke="#ffa500" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="396.60" y1="357.21" x2="376.65" y2="362.49" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="396.60" y1="357.21" x2="320.00" y2="584.30" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="396.60" y1="357.21" x2="531.44" y2="143.46" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="303.81" y1="307.86" x2="51.91" y2="189.75" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="303.81" y1="307.86" x2="320.00" y2="584.30" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="303.81" y1="307.86" x2="531.44" y2="143.46" stroke="#808080" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="376.65" y1="362.49" x2="51.91" y2="189.75" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="376.65" y1="362.49" x2="320.00" y2="584.30" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="376.65" y1="362.49" x2="531.44" y2="143.46" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="51.91" y1="189.75" x2="320.00" y2="584.30" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="51.91" y1="189.75" x2="531.44" y2="143.46" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><line x1="320.00" y1="584.30" x2="531.44" y2="143.46" stroke="#9b30b0" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/><circle cx="259.59" cy="370.44" r="3.77" fill="#f2efe9" fill-opacity="0.82" filter="url(#hxglow)"/><circle cx="320.00" cy="244.49" r="3.76" fill="#f2efe9" fill-opacity="0.81" filter="url(#hxglow)"/><circle cx="396.60" cy="357.21" r="3.79" fill="#f2efe9" fill-opacity="0.84" filter="url(#hxglow)"/><circle cx="303.81" cy="307.86" r="3.89" fill="#f2efe9" fill-opacity="0.94" filter="url(#hxglow)"/><circle cx="376.65" cy="362.49" r="3.50" fill="#f2efe9" fill-opacity="0.55" filter="url(#hxglow)"/><circle cx="51.91" cy="189.75" r="3.84" fill="#f2efe9" fill-opacity="0.89" filter="url(#hxglow)"/><circle cx="320.00" cy="584.30" r="3.95" fill="#f2efe9" fill-opacity="1.00" filter="url(#hxglow)"/><circle cx="531.44" cy="143.46" r="3.93" fill="#f2efe9" fill-opacity="0.98" filter="url(#hxglow)"/></svg>
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g stroke="#fff" stroke-width="0.7" fill="none">
+              <polygon points="100,20 170,150 30,150"/>
+              <polygon points="100,50 145,135 55,135" opacity="0.7"/>
+              <polygon points="100,70 130,125 70,125" opacity="0.5"/>
+              <line x1="30" y1="150" x2="170" y2="150" opacity="0.3"/>
+              <line x1="100" y1="20" x2="100" y2="150" opacity="0.3"/>
+            </g>
+          </svg>
         </div>
-        <span class="proj-link">Open the explorer &rarr;</span>
-      </a>
+      </div>
+      <div class="proj-card">
+        <h3>Tesseract projections</h3>
+        <p>The four-dimensional hypercube, projected onto 3D and 2D. The Bronstein&ndash;Zelmanov cube of physics is a 3D shadow of this structure when the k<sub>B</sub> axis is removed.</p>
+        <div class="proj-visual">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g stroke="#fff" stroke-width="0.7" fill="none">
+              <rect x="60" y="60" width="80" height="80"/>
+              <rect x="40" y="40" width="80" height="80" opacity="0.5"/>
+              <line x1="40" y1="40" x2="60" y2="60" opacity="0.4"/>
+              <line x1="120" y1="40" x2="140" y2="60" opacity="0.4"/>
+              <line x1="40" y1="120" x2="60" y2="140" opacity="0.4"/>
+              <line x1="120" y1="120" x2="140" y2="140" opacity="0.4"/>
+            </g>
+          </svg>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -1125,6 +1137,28 @@
       <h2 style="font-family:var(--serif);font-size:2rem;font-weight:400;line-height:1.2;">In the<br>public eye</h2>
       <p style="font-size:14px;line-height:1.9;color:var(--ink-muted);">From science communication contests to public outreach events, PlanckPlay has been present where physics meets people.</p>
     </div>
+    <p class="events-label">Berlin Science Week 2026 &mdash; upcoming</p>
+    <div class="events-grid">
+      <div class="event-card">
+        <p class="event-date">Mon 2 &amp; Tue 3 Nov &middot; 16:00&ndash;18:00</p>
+        <h3>PlanckPlay workshop</h3>
+        <p>Wissen zwischen B&uuml;chern &mdash; Janusz-Korczak-Bibliothek, Berliner Str. 120&ndash;121, 13187 Berlin (Pankow). Open to the public.</p>
+        <a class="model-link" href="https://www.wissen-zwischen-buechern.de/" target="_blank" rel="noopener">Programme &rarr;</a>
+      </div>
+      <div class="event-card">
+        <p class="event-date">Fri 6 Nov &middot; 19:30&ndash;22:00</p>
+        <h3>Science Slam of the Berlin Clusters of Excellence</h3>
+        <p>Representing Matters of Activity. Roadrunner&rsquo;s Paradise Club, Saarbr&uuml;cker Str. 24, 10405 Berlin. Free entry, no registration.</p>
+        <a class="model-link" href="https://berlinscienceweek.com/programme/clear-stage-science-science-slam-berlin-clusters-excellence-1" target="_blank" rel="noopener">Event page &rarr;</a>
+      </div>
+      <div class="event-card">
+        <p class="event-date">Sat 7 Nov &middot; 18:45&ndash;19:00</p>
+        <h3>Trust the process: Anholonomy of my journey</h3>
+        <p>Talk at the Inspiration Stage &ldquo;Lessons from the Body&rdquo;. HKW, Angie Stardust Foyer, John-Foster-Dulles-Allee 10, 10557 Berlin. Free; requires the free 3-Day Festival Centre Pass.</p>
+        <a class="model-link" href="https://berlinscienceweek.com/programme/inspiration-stage-lessons-body" target="_blank" rel="noopener">Event page &rarr;</a>
+      </div>
+    </div>
+    <p class="events-label">Selected appearances</p>
     <div class="media-grid">
 
       <!-- YouTube -->
@@ -1172,7 +1206,7 @@
         <span class="xr-badge" style="margin-bottom:1.2rem;display:inline-flex;">&#9679; In development</span>
         <h3>XR application</h3>
         <p>Navigate the hexadecachoron in three-dimensional space. Enter each theory, understand its physical significance, and visualise its relationship to neighbouring theories through immersive environments.</p>
-        <p>Being developed as part of a Teaching Portfolio for secondary school physics education.</p>
+        <p>Being developed as part of a Teaching Portfolio for secondary school physics education, validated through the ProValid programme at IBB Business Team Berlin.</p>
         <a class="model-link" href="mailto:contact@planckplay.de">Register for early access &rarr;</a>
       </div>
 
