@@ -736,6 +736,8 @@
       .event-banner { padding: 0.6rem 2.5rem 0.6rem 1rem; flex-direction: column; gap: 0.2rem; text-align: center; }
       .events-grid { grid-template-columns: 1fr; }
     }
+    .play-intro { display:grid; grid-template-columns:1fr 2fr; gap:4rem; margin-bottom:3rem; }
+    @media (max-width: 768px) { .play-intro { grid-template-columns:1fr; gap:1rem; } }
   </style>
 </head>
 <body>
@@ -772,7 +774,7 @@
     <a href="#models">Models</a>
     <a href="#projections">Projections</a>
     <a href="#media">Media</a>
-    <a href="#xr">XR &amp; Play</a>
+    <a href="#xr">Play &amp; XR</a>
     <a href="#surveys">Surveys</a>
     <a href="#contact">Contact</a>
   </div>
@@ -1219,30 +1221,32 @@
   </div>
 </div>
 
-<!-- ── XR & INTERACTIVE ENVIRONMENTS ── -->
+<!-- ── PLAY & XR ── -->
 <div class="section-border" id="xr">
   <div class="section">
-    <p class="section-label">Coming soon</p>
-    <div style="display:grid;grid-template-columns:1fr 2fr;gap:4rem;margin-bottom:3rem;">
-      <h2 style="font-family:var(--serif);font-size:2rem;font-weight:400;line-height:1.2;">What&rsquo;s<br>next</h2>
-      <p style="font-size:14px;line-height:1.9;color:var(--ink-muted);">Two complementary experiences are in development: an extended reality application for navigating the hexadecachoron in space, and a series of interactive environments where the sixteen theories become playable.</p>
+    <p class="section-label">Play &amp; XR</p>
+    <div class="play-intro">
+      <h2 style="font-family:var(--serif);font-size:2rem;font-weight:400;line-height:1.2;">Try it,<br>build it</h2>
+      <p style="font-size:14px;line-height:1.9;color:var(--ink-muted);">The first playable version of PlanckPlay is online. Extended reality and further interactive environments are still ahead &mdash; and we are looking for people to build them with us.</p>
     </div>
     <div class="coming-soon-grid">
 
       <div class="coming-soon-card">
-        <span class="xr-badge" style="margin-bottom:1.2rem;display:inline-flex;">&#9679; In development</span>
-        <h3>XR application</h3>
-        <p>Navigate the hexadecachoron in three-dimensional space. Enter each theory, understand its physical significance, and visualise its relationship to neighbouring theories through immersive environments.</p>
-        <p>Being developed as part of a Teaching Portfolio for secondary school physics education.</p>
-        <a class="model-link" href="mailto:contact@planckplay.de">Register for early access &rarr;</a>
+        <span class="xr-badge" style="margin-bottom:1.2rem;display:inline-flex;">&#9679; Early version (MVP)</span>
+        <h3>PlanckPlay App</h3>
+        <p>Fifteen pieces build a sixteenth: the structure of the hexadecachoron. Turn the puzzle in 4D, take it apart, and play through dimensions, shadows and partners.</p>
+        <p>Runs in the browser on computers, tablets and phones. Available in English, German and Spanish. The app itself does not collect any data.</p>
+        <a class="survey-link-btn" style="margin:0.5rem 0 1rem;" href="https://play.jcojal.workers.dev/?lang=en" target="_blank" rel="noopener">Play the MVP &rarr;</a>
+        <p style="font-size:12px;color:var(--ink-faint);">An XR version is planned. <a href="mailto:contact@planckplay.de?subject=XR%20early%20access" style="color:var(--accent);">Register for early access</a></p>
       </div>
 
       <div class="coming-soon-card">
-        <span class="xr-badge" style="margin-bottom:1.2rem;display:inline-flex;">&#9679; In development</span>
-        <h3>Interactive environments</h3>
-        <p>Each environment explores one or more of the sixteen theories through play. Navigate phenomena normally invisible &mdash; from quantum superposition to relativistic time dilation &mdash; as spatial, embodied experiences.</p>
-        <p><strong style="font-size:13px;color:var(--ink);">Finding your star</strong> &mdash; a stellar map of the night sky. Interact with constellations, galaxies, and planets, tracing the physics that governs each from Newtonian orbits to relativistic light-bending.</p>
-        <span class="model-link" style="color:var(--ink-faint);cursor:default;">More environments to follow &rarr;</span>
+        <span class="xr-badge" style="margin-bottom:1.2rem;display:inline-flex;">&#9679; Open to collaboration</span>
+        <h3>Ideas for collaboration</h3>
+        <p>The MVP is a starting point. We are looking for developers, designers, educators, museums and scientists who want to build immersive and visualisation experiences for the other theories of the hexadecachoron.</p>
+        <p><strong style="font-size:13px;color:var(--ink);">Finding your star</strong> &mdash; a playable stellar map of the night sky &mdash; is one idea. XR environments and games that make a single theory tangible are others. Bring your own.</p>
+        <p>Terms and rights are agreed project by project, depending on the funding available.</p>
+        <a class="model-link" href="mailto:contact@planckplay.de?subject=Collaboration%20idea%20for%20PlanckPlay">Get in touch &rarr;</a>
       </div>
 
     </div>
@@ -1344,7 +1348,7 @@
       <a href="#theories">Theories</a>
       <a href="#projections">Projections</a>
       <a href="#media">Press &amp; Media</a>
-      <a href="#xr">XR &amp; Interactive</a>
+      <a href="#xr">Play &amp; XR</a>
       <a href="#surveys">Surveys</a>
     </div>
     <div>

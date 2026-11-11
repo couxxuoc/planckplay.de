@@ -300,6 +300,8 @@
       .event-banner { padding: 0.6rem 2.5rem 0.6rem 1rem; flex-direction: column; gap: 0.2rem; text-align: center; }
       .events-grid { grid-template-columns: 1fr; }
     }
+    .play-intro { display:grid; grid-template-columns:1fr 2fr; gap:4rem; margin-bottom:3rem; }
+    @media (max-width: 768px) { .play-intro { grid-template-columns:1fr; gap:1rem; } }
   </style>
 </head>
 <body>
@@ -336,7 +338,7 @@
     <a href="#modelle">Modelle</a>
     <a href="#projektionen">Projektionen</a>
     <a href="#medien">Medien</a>
-    <a href="#xr">XR &amp; Spiel</a>
+    <a href="#xr">Spielen &amp; XR</a>
     <a href="#umfragen">Umfragen</a>
     <a href="#kontakt">Kontakt</a>
   </div>
@@ -779,30 +781,32 @@
   </div>
 </div>
 
-<!-- ── XR & INTERAKTIVE BEREICHE ── -->
+<!-- ── SPIELEN & XR ── -->
 <div class="section-border" id="xr">
   <div class="section">
-    <p class="section-label">Demnächst</p>
-    <div style="display:grid;grid-template-columns:1fr 2fr;gap:4rem;margin-bottom:3rem;">
-      <h2 style="font-family:var(--serif);font-size:2rem;font-weight:400;line-height:1.2;">Was<br>kommt</h2>
-      <p style="font-size:14px;line-height:1.9;color:var(--ink-muted);">Zwei erg&auml;nzende Erlebnisse sind in Entwicklung: eine XR-Anwendung zur Navigation des Hexadekachors im Raum und eine Reihe interaktiver Umgebungen, in denen die sechzehn Theorien spielbar werden.</p>
+    <p class="section-label">Spielen &amp; XR</p>
+    <div class="play-intro">
+      <h2 style="font-family:var(--serif);font-size:2rem;font-weight:400;line-height:1.2;">Ausprobieren,<br>mitgestalten</h2>
+      <p style="font-size:14px;line-height:1.9;color:var(--ink-muted);">Die erste spielbare Version von PlanckPlay ist online. Extended Reality und weitere interaktive Umgebungen liegen noch vor uns &mdash; und wir suchen Menschen, die sie mit uns entwickeln.</p>
     </div>
     <div class="coming-soon-grid">
 
       <div class="coming-soon-card">
-        <span class="xr-badge" style="margin-bottom:1.2rem;display:inline-flex;">&#9679; In Entwicklung</span>
-        <h3>XR-Anwendung</h3>
-        <p>Navigieren Sie das Hexadekachor im dreidimensionalen Raum. Tauchen Sie in jede Theorie ein, verstehen Sie ihre physikalische Bedeutung und visualisieren Sie ihre Beziehung zu benachbarten Theorien.</p>
-        <p>Wird als Teil eines Lehrportfolios f&uuml;r den Physikunterricht an weiterf&uuml;hrenden Schulen entwickelt.</p>
-        <a class="model-link" href="mailto:contact@planckplay.de">F&uuml;r Vorabzugang registrieren &rarr;</a>
+        <span class="xr-badge" style="margin-bottom:1.2rem;display:inline-flex;">&#9679; Fr&uuml;he Version (MVP)</span>
+        <h3>PlanckPlay-App</h3>
+        <p>15 Teile bauen ein 16.: die Struktur des Hexadekachors. Drehen Sie das Puzzle in 4D, nehmen Sie es auseinander und spielen Sie sich durch Dimensionen, Schatten und Partner.</p>
+        <p>L&auml;uft im Browser auf Computern, Tablets und Smartphones. Verf&uuml;gbar auf Deutsch, Englisch und Spanisch. Die App selbst erhebt keine Daten.</p>
+        <a class="survey-link-btn" style="margin:0.5rem 0 1rem;" href="https://play.jcojal.workers.dev/?lang=de" target="_blank" rel="noopener">MVP spielen &rarr;</a>
+        <p style="font-size:12px;color:var(--ink-faint);">Eine XR-Version ist geplant. <a href="mailto:contact@planckplay.de?subject=XR%20Vorabzugang" style="color:var(--accent);">F&uuml;r Vorabzugang registrieren</a></p>
       </div>
 
       <div class="coming-soon-card">
-        <span class="xr-badge" style="margin-bottom:1.2rem;display:inline-flex;">&#9679; In Entwicklung</span>
-        <h3>Interaktive Bereiche</h3>
-        <p>Jeder Bereich erkundet eine oder mehrere der sechzehn Theorien spielerisch. Navigieren Sie durch normalerweise unsichtbare Ph&auml;nomene &mdash; von der Quantensuperposition bis zur relativistischen Zeitdilatation.</p>
-        <p><strong style="font-size:13px;color:var(--ink);">Finde deinen Stern</strong> &mdash; eine Sternenkarte des Nachthimmels. Interagieren Sie mit Sternbildern, Galaxien und Planeten und verfolgen Sie die Physik, die jedes einzelne davon beherrscht.</p>
-        <span class="model-link" style="color:var(--ink-faint);cursor:default;">Weitere Bereiche folgen &rarr;</span>
+        <span class="xr-badge" style="margin-bottom:1.2rem;display:inline-flex;">&#9679; Offen f&uuml;r Zusammenarbeit</span>
+        <h3>Ideen f&uuml;r Zusammenarbeit</h3>
+        <p>Das MVP ist ein Anfang. Wir suchen Entwickler:innen, Designer:innen, Lehrende, Museen und Wissenschaftler:innen, die immersive und visuelle Erlebnisse f&uuml;r die &uuml;brigen Theorien des Hexadekachors entwickeln m&ouml;chten.</p>
+        <p><strong style="font-size:13px;color:var(--ink);">Finde deinen Stern</strong> &mdash; eine spielbare Sternenkarte des Nachthimmels &mdash; ist eine Idee. XR-Umgebungen und Spiele, die eine einzelne Theorie greifbar machen, sind weitere. Bringen Sie Ihre eigene mit.</p>
+        <p>Bedingungen und Rechte werden projektweise vereinbart, abh&auml;ngig von der verf&uuml;gbaren F&ouml;rderung.</p>
+        <a class="model-link" href="mailto:contact@planckplay.de?subject=Idee%20f%C3%BCr%20Zusammenarbeit%20mit%20PlanckPlay">Kontakt aufnehmen &rarr;</a>
       </div>
 
     </div>
@@ -909,7 +913,7 @@
       <a href="#theorien">Theorien</a>
       <a href="#projektionen">Projektionen</a>
       <a href="#medien">Presse &amp; Medien</a>
-      <a href="#xr">XR &amp; Interaktiv</a>
+      <a href="#xr">Spielen &amp; XR</a>
       <a href="#umfragen">Umfragen</a>
     </div>
     <div>
