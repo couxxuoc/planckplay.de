@@ -185,6 +185,9 @@ details.staff summary { cursor: pointer; font-weight: 600; color: var(--muted); 
     <input class="text-input" id="workshop-id" placeholder="z. B. MoA-2026-11-13" oninput="saveWorkshopId()">
     <div class="stats-grid" id="stats-grid"></div>
     <button class="btn-export" onclick="exportCSV()">📊 CSV exportieren</button>
+    <button class="btn-reset" onclick="showCSV()">📋 CSV als Text anzeigen (ältere iPads)</button>
+    <textarea id="csv-out" readonly style="display:none;min-height:160px;font-size:11px;"></textarea>
+    <a id="csv-mail" class="btn-reset" style="display:none;text-align:center;text-decoration:none;">✉️ Per E-Mail senden</a>
     <button class="btn-reset" onclick="openDeleteModal()">🗑 Alle Daten löschen</button>
     <p class="small-note" id="response-count"></p>
     <p class="small-note">Die CSV-Datei landet im Download-Ordner des Browsers. Daten bleiben nur auf diesem Gerät gespeichert, bis sie exportiert und gelöscht werden.</p>
@@ -207,7 +210,7 @@ details.staff summary { cursor: pointer; font-weight: 600; color: var(--muted); 
 <script>
 const STORAGE_KEY = 'planckplay_jugend_responses';
 const WORKSHOP_KEY = 'planckplay_jugend_workshop_id';
-const DELETE_PIN = '6699';
+const DELETE_PIN = '1234';
 
 // ---------- Questions ----------
 // No age, gender or other identifying questions: the parent information promises this.
@@ -405,9 +408,9 @@ function updateStats() {
 
 // ---------- CSV export ----------
 const BARRIER_KEYS = ['formeln','vorstellen','abstrakt','tempo','sinn','nichts'];
-function exportCSV() {
+function buildCSV() {
   const rs = getResponses();
-  if (rs.length === 0) { alert('Noch keine Daten vorhanden.'); return; }
+  if (rs.length === 0) return null;
   const headers = ['Zeitstempel','Workshop',
     'Q1_Physik_1bis5','Q2_Barrieren',
     ...BARRIER_KEYS.map(k => 'Q2_' + k),
@@ -425,7 +428,23 @@ function exportCSV() {
       dv.I1_physik_positiv, dv.I3_verstaendnisgewinn, dv.I4_mehr_engagiert, dv.I5_ausdauernd,
       dv.I6_cocreation_interesse, dv.I7_hinweis_statt_loesung, dv.I9_app_hilfreich];
   });
-  const csv = [headers, ...rows].map(row => row.map(v => `"${String(v === undefined ? '' : v).replace(/"/g, '""')}"`).join(',')).join('\n');
+  return [headers, ...rows].map(row => row.map(v => `"${String(v === undefined ? '' : v).replace(/"/g, '""')}"`).join(',')).join('\n');
+}
+function showCSV() {
+  const csv = buildCSV();
+  if (!csv) { alert('Noch keine Daten vorhanden.'); return; }
+  const ta = document.getElementById('csv-out');
+  ta.value = csv; ta.style.display = 'block'; ta.focus(); ta.select();
+  try { ta.setSelectionRange(0, csv.length); } catch (e) {}
+  const m = document.getElementById('csv-mail');
+  m.href = 'mailto:?subject=' + encodeURIComponent('PlanckPlay Umfrage ' + (getWorkshopId() || '')) + '&body=' + encodeURIComponent(csv);
+  m.style.display = 'block';
+}
+function exportCSV() {
+  const csv = buildCSV();
+  if (!csv) { alert('Noch keine Daten vorhanden.'); return; }
+  // Old iOS Safari cannot download blobs: show the text instead
+  if (/iP(hone|ad|od)/.test(navigator.userAgent) && !('download' in document.createElement('a'))) { showCSV(); return; }
   const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
